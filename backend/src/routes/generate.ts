@@ -94,9 +94,6 @@ function buildSalesPrompt({
   previousMessage,
   followUpType,
 }: BuildSalesPromptInput): string {
-  const channelLimit =
-    channel === "Cold DM" ? "under 55 words" : channel === "Email" ? "under 110 words" : "under 75 words";
-
   if (previousMessage?.trim() || followUpType?.trim()) {
     return `Write one finished cold outreach follow-up message.
 
@@ -116,6 +113,9 @@ Core task:
 - The message must connect the target audience and offer directly.
 
 Rules:
+- Hard limit: maximum 60 words.
+- Maximum 3 to 4 sentences.
+- If your draft is over 80 words, rewrite it internally before answering.
 - Do not invent unrelated products.
 - Do not invent unrelated industries.
 - Do not assume the sender sells something different from the offer.
@@ -123,9 +123,10 @@ Rules:
 - Avoid "just following up".
 - No guilt-tripping.
 - No pushy language.
-- Keep it under 70 words.
 - Use simple English.
 - Sound like a real person wrote it.
+- Keep it human and slightly informal, even when tone is professional.
+- No corporate language.
 - Avoid vague phrases: "enhance", "optimize", "drive growth", "online presence", "user engagement", "solutions", "let's discuss how we can help".
 - Do not use emojis.
 - Do not use bullet points.
@@ -143,33 +144,38 @@ Tone: ${tone}
 Channel: ${channel}
 
 Core task:
+- Hard limit: maximum 60 words. Never exceed this.
+- Maximum 3 to 4 sentences.
 - The message must connect the target audience and offer directly.
 - Treat the offer as the sender's actual product or service.
 - Do not sell anything except the offer.
 - If the target or offer is vague, make the best realistic interpretation, but never drift away from the offer.
 
-Message flow:
-- Start with "Hi there," unless a real person's name is clearly provided.
-- Add a specific observation about the target.
-- Name a pain or problem related to the offer.
-- Explain simply how the offer helps with that problem.
-- End with a soft CTA.
+Required structure:
+- Sentence 1: greeting plus specific observation that explicitly mentions the target.
+- Sentence 2: concrete problem the target has that is directly related to the offer.
+- Sentence 3: explain the offer in simple terms and how it helps.
+- Sentence 4: simple, low-friction CTA.
 
 Tone guidance:
-- friendly = casual, warm, confident.
-- professional = polished, clear, not stiff.
+- friendly = casual, warm, confident, and sharp.
+- professional = polished and clear, but still slightly informal.
 - direct = short, specific, no fluff.
 
-Channel length:
-- LinkedIn DM: under 75 words.
-- Cold DM: under 55 words.
-- Email: under 110 words.
-- This request is ${channel}, so keep it ${channelLimit}.
+CTA examples:
+- Want me to show you?
+- Open to a quick look?
+- Should I send a couple examples?
 
 Strict rules:
+- If your draft is over 80 words, rewrite it internally before answering.
+- Mention the target explicitly.
+- Connect directly to the offer.
+- Use concrete wording; no abstract benefits.
 - Do not invent unrelated products.
 - Do not invent unrelated industries.
 - Do not assume the sender sells something different from the offer.
+- Remove long intros, storytelling, generic phrases, and filler words.
 - Use simple English.
 - Sound like a real person wrote it.
 - Avoid corporate tone and all buzzwords.
@@ -193,13 +199,7 @@ Example good:
 Target: early-stage SaaS founders
 Offer: conversion-focused web design
 Good output:
-Hi there,
-
-A lot of early-stage SaaS teams have a strong product, but the landing page does not make the value clear fast enough.
-
-I help improve that with small design changes that make the offer easier to understand and act on.
-
-Would you be open to a quick look at your landing page?
+Hi there, early-stage SaaS founders often have a strong product, but the landing page does not make the value clear fast enough. That usually means visitors leave before understanding why it matters. I help fix that with conversion-focused web design. Open to a quick look?
 
 Do not copy the example. Do not use placeholders. Do not explain. Return only the final message.`;
 }
