@@ -94,87 +94,114 @@ function buildSalesPrompt({
   previousMessage,
   followUpType,
 }: BuildSalesPromptInput): string {
+  const channelLimit =
+    channel === "Cold DM" ? "under 55 words" : channel === "Email" ? "under 110 words" : "under 75 words";
+
   if (previousMessage?.trim() || followUpType?.trim()) {
-    return `Generate a short follow-up message.
+    return `Write one finished cold outreach follow-up message.
 
 Inputs:
-Target: ${target}
-Offer: ${offer}
+Target audience, meaning who we are writing to: ${target}
+Offer, meaning exactly what the sender sells: ${offer}
 Tone: ${tone}
 Channel: ${channel}
 Follow-up type: ${followUpType || "polite reminder"}
 Previous message:
 ${previousMessage || ""}
 
+Core task:
+- Generate a follow-up, not a new first message.
+- Reference the previous message naturally.
+- Add one new useful angle connected directly to the offer.
+- The message must connect the target audience and offer directly.
+
 Rules:
-- Reference the previous message naturally, without repeating it.
+- Do not invent unrelated products.
+- Do not invent unrelated industries.
+- Do not assume the sender sells something different from the offer.
+- If the input is vague, make the best realistic interpretation, but never drift away from the offer.
+- Avoid "just following up".
 - No guilt-tripping.
 - No pushy language.
-- Avoid the phrase "just following up" if possible.
 - Keep it under 70 words.
 - Use simple English.
 - Sound like a real person wrote it.
+- Avoid vague phrases: "enhance", "optimize", "drive growth", "online presence", "user engagement", "solutions", "let's discuss how we can help".
 - Do not use emojis.
 - Do not use bullet points.
 - Do not use placeholders or square brackets.
+- Do not explain your reasoning.
 - Return only the final message.`;
   }
 
-  return `Write one finished cold outreach message for the selected channel.
+  return `Write one finished cold outreach message for LeadFlow.
 
 Inputs:
-Target audience: ${target}
-Offer: ${offer}
+Target audience, meaning who we are writing to: ${target}
+Offer, meaning exactly what the sender sells: ${offer}
 Tone: ${tone}
 Channel: ${channel}
 
-If the target or offer is vague, infer a realistic business context and write for that context. Do not repeat vague wording back if it makes the message generic.
+Core task:
+- The message must connect the target audience and offer directly.
+- Treat the offer as the sender's actual product or service.
+- Do not sell anything except the offer.
+- If the target or offer is vague, make the best realistic interpretation, but never drift away from the offer.
 
 Message flow:
 - Start with "Hi there," unless a real person's name is clearly provided.
-- Open with a natural observation about this exact target audience.
-- Mention one specific pain that realistically comes from the target audience and context.
-- Connect the offer to one specific, practical benefit.
-- End with a soft CTA that sounds natural, not salesy.
+- Add a specific observation about the target.
+- Name a pain or problem related to the offer.
+- Explain simply how the offer helps with that problem.
+- End with a soft CTA.
 
 Tone guidance:
-- friendly = casual, warm, human, confident, and direct.
-- professional = clear and polished, but not stiff.
-- direct = short, sharp, and straight to the point.
+- friendly = casual, warm, confident.
+- professional = polished, clear, not stiff.
+- direct = short, specific, no fluff.
 
-Channel guidance:
-- LinkedIn DM = short and conversational.
-- Email = slightly more complete, but still concise.
-- Cold DM = very short, casual, and direct.
+Channel length:
+- LinkedIn DM: under 75 words.
+- Cold DM: under 55 words.
+- Email: under 110 words.
+- This request is ${channel}, so keep it ${channelLimit}.
 
-Rules:
-- Keep it under 80 words.
+Strict rules:
+- Do not invent unrelated products.
+- Do not invent unrelated industries.
+- Do not assume the sender sells something different from the offer.
 - Use simple English.
 - Sound like a real person wrote it.
 - Avoid corporate tone and all buzzwords.
-- Avoid vague phrases like "user engagement", "online presence", "enhance", "optimize", "drive growth", and "let's discuss how we can help".
-- Do not write generic claims like "many SaaS companies struggle with user engagement".
-- Use specific pain based on the target.
-- Use specific benefit based on the offer.
-- Do not sound like mass outreach.
-- Do not use emojis.
-- Do not use bullet points.
+- Do not use vague phrases: "enhance", "optimize", "drive growth", "online presence", "user engagement", "solutions", "let's discuss how we can help".
+- Do not use generic claims like "many companies struggle with user engagement".
 - Do not use placeholders or square brackets.
 - Do not include [Name], [Company], [Target Audience], [Offer], or [Benefit].
+- Do not use emojis.
+- Do not use bullet points.
+- Do not explain your reasoning.
 - Return only the final message.
 
-Style examples, do not copy:
-Example 1:
+Few-shot examples:
+Example bad:
+Target: teenagers who use iPhones
+Offer: soft
+Bad output: Hi there, I noticed teens using iPhones are always looking for better drinks. Our soft drink helps them stay refreshed throughout the day. Want to try it?
+Why bad: it invented an unrelated product and guessed an unrelated industry instead of staying grounded in the offer.
+
+Example good:
+Target: early-stage SaaS founders
+Offer: conversion-focused web design
+Good output:
 Hi there,
 
-I noticed early-stage SaaS teams often get decent landing page traffic, but the page does not make the product value clear fast enough. I help tighten the message and layout so more visitors understand the offer and sign up. Open to a quick look?
+A lot of early-stage SaaS teams have a strong product, but the landing page does not make the value clear fast enough.
 
-Example 2:
-Hi there,
+I help improve that with small design changes that make the offer easier to understand and act on.
 
-A lot of agencies lose time rewriting the same outreach for different niches. I help build simple message systems so each campaign feels more specific without starting from scratch. Worth testing on one campaign?
+Would you be open to a quick look at your landing page?
 
-Do not copy the examples. Do not use placeholders. Do not explain. Return only the final message.`;
+Do not copy the example. Do not use placeholders. Do not explain. Return only the final message.`;
 }
 
 async function generateWithGemini(prompt: string): Promise<string> {
