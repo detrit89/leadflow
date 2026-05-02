@@ -60,6 +60,18 @@ type LeadInsert = {
   user_id: string;
 };
 
+type PasswordHintRow = {
+  id: string;
+  email: string;
+  hint: string;
+  created_at: string;
+};
+
+type PasswordHintInsert = {
+  email: string;
+  hint: string;
+};
+
 type Database = {
   public: {
     Tables: {
@@ -99,6 +111,12 @@ type Database = {
         Row: LeadRow;
         Insert: LeadInsert;
         Update: Partial<LeadInsert>;
+        Relationships: [];
+      };
+      password_hints: {
+        Row: PasswordHintRow;
+        Insert: PasswordHintInsert;
+        Update: Partial<PasswordHintInsert>;
         Relationships: [];
       };
     };

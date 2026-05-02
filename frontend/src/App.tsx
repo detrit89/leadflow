@@ -137,7 +137,7 @@ type SaveGeneratedMessageInput = {
 
 type AutoSaveStatus = "idle" | "saving" | "saved" | "failed";
 type ThemeSetting = "light" | "dark" | "system";
-type AuthMode = "login" | "signup" | "forgot" | "reset";
+type AuthMode = "login" | "signup";
 
 type AppSettings = {
   autoSave: boolean;
@@ -2331,36 +2331,26 @@ function AppLoadingScreen({ isReady }: { isReady: boolean }) {
 function AuthPage({
   initialMode = "login",
   onBack,
-  onPasswordUpdated,
 }: {
   initialMode?: AuthMode;
   onBack: () => void;
-  onPasswordUpdated?: () => void;
 }) {
   const [mode, setMode] = useState<AuthMode>(initialMode);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordHint, setPasswordHint] = useState("");
+  const [shownPasswordHint, setShownPasswordHint] = useState("");
   const [authError, setAuthError] = useState("");
   const [authSuccess, setAuthSuccess] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [resetCooldown, setResetCooldown] = useState(0);
-
-  useEffect(() => {
-    if (resetCooldown <= 0) return;
-
-    const timeoutId = window.setTimeout(() => {
-      setResetCooldown((current) => Math.max(0, current - 1));
-    }, 1000);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [resetCooldown]);
 
   useEffect(() => {
     setMode(initialMode);
     setAuthError("");
     setAuthSuccess("");
+    setPasswordHint("");
+    setShownPasswordHint("");
   }, [initialMode]);
 
   function changeMode(nextMode: AuthMode) {
@@ -2368,7 +2358,8 @@ function AuthPage({
     setAuthError("");
     setAuthSuccess("");
     setPassword("");
-    setConfirmPassword("");
+    setPasswordHint("");
+    setShownPasswordHint("");
   }
 
   async function handleAuth(event: FormEvent<HTMLFormElement>) {
@@ -2382,37 +2373,8 @@ function AuthPage({
         throw new Error("Supabase is not configured. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
       }
 
-      if (mode === "forgot") {
-        const trimmedEmail = email.trim();
-
-        if (resetCooldown > 0) return;
-        if (!trimmedEmail) throw new Error("Email is required.");
-
-        const { error } = await supabase.auth.resetPasswordForEmail(trimmedEmail, {
-          redirectTo: window.location.origin,
-        });
-
-        if (error) throw error;
-        setResetCooldown(60);
-        setAuthSuccess("Password reset link sent. Check your email.");
-        return;
-      }
-
-      if (mode === "reset") {
-        if (password.length < 6) throw new Error("Password must be at least 6 characters.");
-        if (password !== confirmPassword) throw new Error("Passwords do not match.");
-
-        const { error } = await supabase.auth.updateUser({ password });
-
-        if (error) throw error;
-        setPassword("");
-        setConfirmPassword("");
-        setAuthSuccess("Password updated successfully. You can log in now.");
-        return;
-      }
-
       const credentials = {
-        email: email.trim(),
+        email: email.trim().toLowerCase(),
         password,
       };
 
@@ -2426,9 +2388,24 @@ function AuthPage({
 
       if (error) throw error;
 
+      const trimmedPasswordHint = passwordHint.trim().slice(0, 120);
+
+      if (trimmedPasswordHint) {
+        const { error: hintError } = await supabase.from("password_hints").upsert(
+          {
+            email: credentials.email,
+            hint: trimmedPasswordHint,
+          },
+          { onConflict: "email" },
+        );
+
+        if (hintError) throw hintError;
+      }
+
       if (!data.session) {
         setSignupEmail(credentials.email);
         setPassword("");
+        setPasswordHint("");
         setAuthSuccess(
           `Check your email to confirm your account before continuing${
             credentials.email ? `: ${credentials.email}` : "."
@@ -2436,46 +2413,44 @@ function AuthPage({
         );
       }
     } catch (error) {
-      const message = getErrorMessage(error);
-      const normalizedMessage = message.toLowerCase();
-
-      setAuthError(
-        normalizedMessage.includes("email rate limit exceeded") ||
-          normalizedMessage.includes("rate limit")
-          ? "Too many attempts. Please wait a moment and try again."
-          : message,
-      );
+      setAuthError(getErrorMessage(error));
     } finally {
       setIsSubmitting(false);
     }
   }
 
-  const title =
-    mode === "login"
-      ? "Log in"
-      : mode === "signup"
-        ? "Create account"
-        : mode === "forgot"
-          ? "Reset password"
-          : "Update password";
-  const description =
-    mode === "forgot"
-      ? "Enter your email and we will send a reset link."
-      : mode === "reset"
-        ? "Choose a new password for your LeadFlow account."
-        : "Use email and password to access your sales workspace.";
-  const submitLabel =
-    mode === "login"
-      ? "Login"
-      : mode === "signup"
-        ? "Sign up"
-        : mode === "forgot"
-          ? "Send reset link"
-          : "Update password";
-  const showModeTabs = mode === "login" || mode === "signup";
-  const showEmailField = mode !== "reset";
-  const showPasswordField = mode !== "forgot";
-  const isResetRequestBlocked = mode === "forgot" && resetCooldown > 0;
+  async function showPasswordHint() {
+    setAuthError("");
+    setAuthSuccess("");
+    setShownPasswordHint("");
+
+    try {
+      if (!supabase) {
+        throw new Error("Supabase is not configured. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+      }
+
+      const normalizedEmail = email.trim().toLowerCase();
+
+      if (!normalizedEmail) {
+        throw new Error("Enter your email first.");
+      }
+
+      const { data, error } = await supabase
+        .from("password_hints")
+        .select("hint")
+        .eq("email", normalizedEmail)
+        .maybeSingle();
+
+      if (error) throw error;
+      setShownPasswordHint(data?.hint ?? "No hint found for this email.");
+    } catch (error) {
+      setAuthError(getErrorMessage(error));
+    }
+  }
+
+  const title = mode === "login" ? "Log in" : "Create account";
+  const description = "Use email and password to access your sales workspace.";
+  const submitLabel = mode === "login" ? "Login" : "Sign up";
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 py-10 text-slate-950 dark:text-slate-100">
@@ -2499,69 +2474,68 @@ function AuthPage({
           </p>
         </div>
 
-        {showModeTabs ? (
-          <div className="mt-6 grid grid-cols-2 rounded-2xl bg-slate-100 dark:bg-slate-800 p-1 text-sm font-semibold">
-            <button
-              type="button"
-              onClick={() => changeMode("login")}
-              className={`rounded-xl px-3 py-2 transition ${
-                mode === "login" ? "bg-white dark:bg-slate-900 text-slate-950 dark:text-slate-100 shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-800"
-              }`}
-            >
-              Login
-            </button>
-            <button
-              type="button"
-              onClick={() => changeMode("signup")}
-              className={`rounded-xl px-3 py-2 transition ${
-                mode === "signup" ? "bg-white dark:bg-slate-900 text-slate-950 dark:text-slate-100 shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-800"
-              }`}
-            >
-              Signup
-            </button>
-          </div>
-        ) : null}
+        <div className="mt-6 grid grid-cols-2 rounded-2xl bg-slate-100 dark:bg-slate-800 p-1 text-sm font-semibold">
+          <button
+            type="button"
+            onClick={() => changeMode("login")}
+            className={`rounded-xl px-3 py-2 transition ${
+              mode === "login" ? "bg-white dark:bg-slate-900 text-slate-950 dark:text-slate-100 shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
+            }`}
+          >
+            Login
+          </button>
+          <button
+            type="button"
+            onClick={() => changeMode("signup")}
+            className={`rounded-xl px-3 py-2 transition ${
+              mode === "signup" ? "bg-white dark:bg-slate-900 text-slate-950 dark:text-slate-100 shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
+            }`}
+          >
+            Signup
+          </button>
+        </div>
 
         <form onSubmit={handleAuth} className="mt-6 space-y-4">
-          {showEmailField ? (
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+            Email
+            <input
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              required
+              className="mt-2 w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-950 dark:text-slate-100 outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100 dark:focus:ring-sky-900/40"
+              placeholder="you@company.com"
+            />
+          </label>
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+            Password
+            <input
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
+              minLength={6}
+              className="mt-2 w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-950 dark:text-slate-100 outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100 dark:focus:ring-sky-900/40"
+              placeholder="Minimum 6 characters"
+            />
+          </label>
+          {mode === "signup" ? (
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-200">
-              Email
+              Password hint
               <input
-                type="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                required
-                className="mt-2 w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-950 dark:text-slate-100 outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
-                placeholder="you@company.com"
+                type="text"
+                value={passwordHint}
+                onChange={(event) => setPasswordHint(event.target.value.slice(0, 120))}
+                maxLength={120}
+                className="mt-2 w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-950 dark:text-slate-100 outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100 dark:focus:ring-sky-900/40"
+                placeholder="e.g. my old laptop name"
               />
-            </label>
-          ) : null}
-          {showPasswordField ? (
-            <label className="block text-sm font-medium text-slate-700 dark:text-slate-200">
-              {mode === "reset" ? "New password" : "Password"}
-              <input
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                required
-                minLength={6}
-                className="mt-2 w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-950 dark:text-slate-100 outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
-                placeholder="Minimum 6 characters"
-              />
-            </label>
-          ) : null}
-          {mode === "reset" ? (
-            <label className="block text-sm font-medium text-slate-700 dark:text-slate-200">
-              Confirm password
-              <input
-                type="password"
-                value={confirmPassword}
-                onChange={(event) => setConfirmPassword(event.target.value)}
-                required
-                minLength={6}
-                className="mt-2 w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-950 dark:text-slate-100 outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
-                placeholder="Repeat new password"
-              />
+              <p className="mt-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+                Do not write your actual password.
+              </p>
+              <p className="mt-1 text-xs font-medium text-slate-500 dark:text-slate-400">
+                This is only a hint. Never store your real password here.
+              </p>
             </label>
           ) : null}
 
@@ -2578,40 +2552,31 @@ function AuthPage({
 
           <button
             type="submit"
-            disabled={isSubmitting || isResetRequestBlocked}
+            disabled={isSubmitting}
             className="w-full rounded-2xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-xl shadow-blue-600/25 transition hover:-translate-y-0.5 hover:bg-blue-700 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isSubmitting
-              ? "Please wait..."
-              : isResetRequestBlocked
-                ? `You can resend in ${resetCooldown}s`
-                : submitLabel}
+            {isSubmitting ? "Please wait..." : submitLabel}
           </button>
-          {isResetRequestBlocked ? (
-            <p className="text-center text-sm font-medium text-slate-500 dark:text-slate-400">
-              You can resend in {resetCooldown}s
-            </p>
-          ) : null}
         </form>
 
         {mode === "login" ? (
-          <button
-            type="button"
-            onClick={() => changeMode("forgot")}
-            className="mt-4 text-sm font-semibold text-blue-600 transition hover:text-blue-700"
-          >
-            Forgot password?
-          </button>
-        ) : null}
-
-        {mode === "forgot" ? (
-          <button
-            type="button"
-            onClick={() => changeMode("login")}
-            className="mt-4 text-sm font-semibold text-slate-500 transition hover:text-slate-950 dark:text-slate-400 dark:hover:text-slate-100"
-          >
-            Back to login
-          </button>
+          <div className="mt-4 space-y-3">
+            <button
+              type="button"
+              onClick={() => void showPasswordHint()}
+              className="text-sm font-semibold text-blue-600 transition hover:text-blue-700"
+            >
+              Show password hint
+            </button>
+            <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
+              This is only a hint. Never store your real password here.
+            </p>
+            {shownPasswordHint ? (
+              <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-700 dark:text-slate-200">
+                {shownPasswordHint}
+              </div>
+            ) : null}
+          </div>
         ) : null}
 
         {mode === "signup" && authSuccess ? (
@@ -2627,18 +2592,6 @@ function AuthPage({
           </button>
         ) : null}
 
-        {mode === "reset" && authSuccess ? (
-          <button
-            type="button"
-            onClick={async () => {
-              await supabase?.auth.signOut();
-              onPasswordUpdated?.();
-            }}
-            className="mt-4 text-sm font-semibold text-blue-600 transition hover:text-blue-700"
-          >
-            Back to login
-          </button>
-        ) : null}
       </section>
     </main>
   );
@@ -2653,7 +2606,6 @@ export default function App() {
   const [hasStartupTimedOut, setHasStartupTimedOut] = useState(false);
   const [showAuthPage, setShowAuthPage] = useState(false);
   const [authInitialMode, setAuthInitialMode] = useState<AuthMode>("signup");
-  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
   const [settings, setSettings] = useState<AppSettings>(() => readStoredSettings());
   const [activeView, setActiveView] = useState<NavView>("Dashboard");
   const [target, setTarget] = useState("");
@@ -2820,17 +2772,9 @@ export default function App() {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setCurrentUser(session?.user ?? null);
       setIsAuthLoading(false);
-      if (event === "PASSWORD_RECOVERY") {
-        setIsPasswordRecovery(true);
-        setShowAuthPage(true);
-        setAuthInitialMode("reset");
-      }
-      if (event === "SIGNED_OUT") {
-        setIsPasswordRecovery(false);
-      }
       if (!session?.user) clearWorkspaceData();
     });
 
@@ -4022,30 +3966,6 @@ export default function App() {
   const isAppStartupReady =
     hasStartupTimedOut ||
     (hasMinimumStartupElapsed && isThemeReady && !isAuthLoading && isInitialDataReady);
-
-  if (isPasswordRecovery) {
-    return (
-      <>
-        <AppLoadingScreen isReady={isAppStartupReady} />
-        {isAppStartupReady ? (
-          <AuthPage
-            initialMode="reset"
-            onBack={async () => {
-              await supabase?.auth.signOut();
-              setIsPasswordRecovery(false);
-              setShowAuthPage(true);
-              setAuthInitialMode("login");
-            }}
-            onPasswordUpdated={() => {
-              setIsPasswordRecovery(false);
-              setShowAuthPage(true);
-              setAuthInitialMode("login");
-            }}
-          />
-        ) : null}
-      </>
-    );
-  }
 
   if (!currentUser) {
     if (showAuthPage) {
