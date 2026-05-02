@@ -2649,6 +2649,7 @@ export default function App() {
   const [isAuthLoading, setIsAuthLoading] = useState(true);
   const [isThemeReady, setIsThemeReady] = useState(false);
   const [isInitialDataReady, setIsInitialDataReady] = useState(false);
+  const [hasMinimumStartupElapsed, setHasMinimumStartupElapsed] = useState(false);
   const [hasStartupTimedOut, setHasStartupTimedOut] = useState(false);
   const [showAuthPage, setShowAuthPage] = useState(false);
   const [authInitialMode, setAuthInitialMode] = useState<AuthMode>("signup");
@@ -2784,11 +2785,17 @@ export default function App() {
   }
 
   useEffect(() => {
-    const timeoutId = window.setTimeout(() => {
+    const minimumTimeoutId = window.setTimeout(() => {
+      setHasMinimumStartupElapsed(true);
+    }, 5000);
+    const safetyTimeoutId = window.setTimeout(() => {
       setHasStartupTimedOut(true);
-    }, 3000);
+    }, 7000);
 
-    return () => window.clearTimeout(timeoutId);
+    return () => {
+      window.clearTimeout(minimumTimeoutId);
+      window.clearTimeout(safetyTimeoutId);
+    };
   }, []);
 
   useEffect(() => {
@@ -4013,7 +4020,8 @@ export default function App() {
   }
 
   const isAppStartupReady =
-    isThemeReady && !isAuthLoading && (isInitialDataReady || hasStartupTimedOut);
+    hasStartupTimedOut ||
+    (hasMinimumStartupElapsed && isThemeReady && !isAuthLoading && isInitialDataReady);
 
   if (isPasswordRecovery) {
     return (
