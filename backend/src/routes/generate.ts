@@ -160,8 +160,8 @@ Core task:
 
 Required structure:
 - Sentence 1: greeting plus a specific, non-obvious observation that explicitly mentions the target.
-- Sentence 2: concrete problem the target has that is directly related to the offer.
-- Sentence 3: explain the offer in simple terms and how it helps.
+- Sentence 2: short impact line showing the consequence.
+- Sentence 3: concrete problem plus offer in simple terms.
 - Sentence 4: simple, low-friction CTA.
 
 Opening hook rules:
@@ -174,6 +174,16 @@ Opening hook rules:
 - Bad: "Businesses need websites"
 - Good: "A lot of SaaS sites don’t explain the product fast enough"
 - Good: "Most landing pages lose people before the value clicks"
+
+Impact line rules:
+- Sentence 2 must be 3 to 7 words.
+- Sentence 2 must show business or emotional consequence.
+- Sentence 2 must be punchy.
+- Sentence 2 must not use commas.
+- Examples: "People leave before they get it."
+- Examples: "That usually kills conversions."
+- Examples: "Most visitors drop off there."
+- Examples: "Signups never happen."
 
 Tone guidance:
 - friendly = casual, warm, confident, and sharp.
@@ -247,13 +257,13 @@ Example good:
 Target: iPhone users
 Offer: grippy phone cases
 Good output:
-Hi there, iPhone users pull their phone out everywhere. Slick cases make drops way too easy. I sell grippy cases that feel easier to hold. Want me to send a couple examples?
+Hi there, iPhone users pull their phone out everywhere. Drops happen fast. I sell grippy cases that make the phone easier to hold. Want me to send a couple examples?
 
 Example good:
 Target: early-stage SaaS founders
 Offer: conversion-focused web design
 Good output:
-Hi there, a lot of SaaS sites explain the product too late. That makes visitors leave before the value clicks. I design pages that make the offer clear faster. Open to a quick look?
+Hi there, a lot of SaaS sites explain the product too late. People leave before they get it. I design pages that make the offer clear faster. Open to a quick look?
 
 Do not copy the example. Do not use placeholders. Do not explain. Return only the final message.`;
 }
