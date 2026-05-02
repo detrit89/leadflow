@@ -7,6 +7,7 @@ type GenerateMessageRequest = {
   offer?: string;
   tone?: string;
   channel?: string;
+  language?: string;
   previousMessage?: string;
   followUpType?: string;
 };
@@ -26,6 +27,7 @@ type BuildSalesPromptInput = {
   offer: string;
   tone: string;
   channel: string;
+  language: "english" | "russian";
   previousMessage?: string;
   followUpType?: string;
 };
@@ -91,9 +93,125 @@ function buildSalesPrompt({
   offer,
   tone,
   channel,
+  language,
   previousMessage,
   followUpType,
 }: BuildSalesPromptInput): string {
+  if (language === "russian") {
+    if (previousMessage?.trim() || followUpType?.trim()) {
+      return `Напиши одно готовое follow-up сообщение для холодного outreach.
+
+Входные данные:
+Кому пишем: ${target}
+Что продает отправитель: ${offer}
+Тон: ${tone}
+Канал: ${channel}
+Тип follow-up: ${followUpType || "polite reminder"}
+Предыдущее сообщение:
+${previousMessage || ""}
+
+Задача:
+- Напиши follow-up, а не первое сообщение.
+- Естественно оттолкнись от прошлого сообщения.
+- Добавь один новый полезный угол, напрямую связанный с оффером.
+- Все сообщение должно быть на русском.
+- Должно звучать как короткое сообщение в Telegram или DM.
+
+Правила:
+- Максимум 60 слов.
+- Максимум 3-4 коротких предложения.
+- Не используй "просто напоминаю" и похожие фразы.
+- Не дави на чувство вины.
+- Не звучать навязчиво.
+- Используй простой живой русский.
+- Не звучать как корпоративный скрипт.
+- Не используй роботские фразы: "повысить эффективность", "оптимизировать процессы", "инновационные решения", "давайте обсудим сотрудничество".
+- Не используй англицизмы без необходимости.
+- Если тон friendly или direct, можно использовать "ты".
+- Если тон professional, используй "вы".
+- Не используй эмодзи.
+- Не используй списки.
+- Не используй плейсхолдеры или квадратные скобки.
+- Не объясняй.
+- Верни только финальное сообщение.`;
+    }
+
+    return `Напиши одно готовое холодное сообщение для LeadFlow.
+
+Входные данные:
+Кому пишем: ${target}
+Что продает отправитель: ${offer}
+Тон: ${tone}
+Канал: ${channel}
+
+Задача:
+- Все сообщение должно быть на русском.
+- Оно должно звучать естественно для Telegram или DM outreach.
+- Сообщение должно напрямую связывать аудиторию и оффер.
+- Продавай только то, что указано в оффере.
+- Если аудитория или оффер размытые, сделай реалистичную интерпретацию, но не уходи от оффера.
+
+Жесткие ограничения:
+- Максимум 60 слов. Никогда не превышай.
+- Максимум 3-4 коротких предложения.
+- 1 предложение: приветствие и конкретное наблюдение про ${target}.
+- 2 предложение: короткое последствие проблемы, 3-7 слов.
+- 3 предложение: конкретная проблема и как ${offer} помогает.
+- 4 предложение: простой мягкий CTA.
+
+Стиль:
+- Как основатель пишет другому человеку.
+- Просто, коротко, без рекламного лоска.
+- Немного живой и несовершенный язык — это нормально.
+- Без корпоративного русского.
+- Без маркетингового агентского тона.
+- Если тон friendly: тепло, уверенно, на "ты".
+- Если тон direct: коротко, уверенно, можно на "ты".
+- Если тон professional: спокойно, ясно, на "вы".
+
+CTA примеры, не копируй дословно:
+- Показать пару примеров?
+- Открыты к короткому взгляду?
+- Скинуть, как это может выглядеть?
+
+Запрещенные фразы:
+- "повысить эффективность"
+- "оптимизировать процессы"
+- "инновационные решения"
+- "давайте обсудим сотрудничество"
+- "комплексные решения"
+- "улучшить клиентский опыт"
+- "развивать бизнес"
+- "увеличить присутствие"
+
+Правила конкретики:
+- Упомяни аудиторию явно.
+- Свяжи проблему прямо с оффером.
+- Используй реальные ситуации и поведение.
+- Не пиши абстрактные выгоды.
+- Не выдумывай другой продукт.
+- Не выдумывай другую индустрию.
+- Не используй плейсхолдеры.
+- Не используй эмодзи.
+- Не используй списки.
+- Не объясняй.
+- Верни только финальное сообщение.
+
+Пример плохой:
+ЦА: владельцы интернет-магазинов
+Оффер: дизайн карточек товара
+Плохо: Поможем оптимизировать процессы и повысить эффективность продаж.
+Почему плохо: звучит роботски и не говорит о реальной проблеме.
+
+Пример хороший:
+ЦА: SaaS founders
+Оффер: landing page design
+Хорошо:
+Привет, часто SaaS-страницы слишком поздно объясняют продукт. Люди уходят раньше. Я делаю лендинги, где ценность понятна быстрее. Показать пару примеров?
+
+Не копируй пример. Верни только финальное сообщение.`;
+  }
+
   if (previousMessage?.trim() || followUpType?.trim()) {
     return `Write one finished cold outreach follow-up message.
 
@@ -323,9 +441,22 @@ function createMockMessage(
   target: string,
   offer: string,
   tone: string,
+  language: "english" | "russian",
   previousMessage?: string,
   followUpType?: string,
 ): string {
+  if (language === "russian") {
+    if (previousMessage || followUpType) {
+      return tone === "professional"
+        ? `Здравствуйте, хотел добавить к прошлому сообщению одну мысль. Для ${target} часто проще проверить ${offer} на одном маленьком участке, без больших изменений. Открыты к короткому взгляду?`
+        : `Привет, добавлю к прошлому сообщению одну мысль. Для ${target} ${offer} проще проверить на одном маленьком участке, без больших изменений. Показать, как это может выглядеть?`;
+    }
+
+    return tone === "professional"
+      ? `Здравствуйте, у ${target} часто теряется смысл оффера в первых строках. Люди уходят раньше. ${offer} помогает сделать сообщение понятнее без лишнего шума. Открыты к короткому взгляду?`
+      : `Привет, у ${target} часто теряется смысл оффера в первых строках. Люди уходят раньше. ${offer} помогает сделать сообщение понятнее без лишнего шума. Показать пару примеров?`;
+  }
+
   if (previousMessage || followUpType) {
     return `Hi there,
 
@@ -354,7 +485,7 @@ router.post(
     req: Request<object, GenerateMessageResponse | ErrorResponse, GenerateMessageRequest>,
     res: Response<GenerateMessageResponse | ErrorResponse>,
   ) => {
-    const { target, offer, tone, channel, previousMessage, followUpType } = req.body;
+    const { target, offer, tone, channel, language, previousMessage, followUpType } = req.body;
 
     if (!target || !offer || !tone) {
       return res.status(400).json({ error: "Missing required fields." });
@@ -376,6 +507,10 @@ router.post(
     const trimmedTone = tone.trim();
     const trimmedChannel =
       typeof channel === "string" && channel.trim() ? channel.trim() : "LinkedIn DM";
+    const normalizedLanguage =
+      typeof language === "string" && language.trim().toLowerCase() === "russian"
+        ? "russian"
+        : "english";
     const trimmedPreviousMessage =
       typeof previousMessage === "string" ? previousMessage.trim() : undefined;
     const trimmedFollowUpType =
@@ -388,6 +523,7 @@ router.post(
           trimmedTarget,
           trimmedOffer,
           trimmedTone,
+          normalizedLanguage,
           trimmedPreviousMessage,
           trimmedFollowUpType,
         ),
@@ -399,6 +535,7 @@ router.post(
       offer: trimmedOffer,
       tone: trimmedTone,
       channel: trimmedChannel,
+      language: normalizedLanguage,
       previousMessage: trimmedPreviousMessage,
       followUpType: trimmedFollowUpType,
     });

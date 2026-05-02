@@ -7,6 +7,7 @@ type NavView = "Dashboard" | "Campaigns" | "Leads" | "Messages" | "Settings";
 type Tone = "Friendly" | "Professional" | "Direct";
 type ApiTone = "friendly" | "professional" | "direct";
 type Channel = "Email" | "LinkedIn DM" | "Cold DM";
+type Language = "english" | "russian";
 type LeadStatus = "new" | "contacted" | "replied" | "interested";
 
 type GenerateMessageResponse = {
@@ -64,6 +65,7 @@ type FollowUpType = "polite reminder" | "value add" | "final check-in";
 type FollowUpFormState = {
   followUpType: FollowUpType;
   tone: ApiTone;
+  language: Language;
 };
 
 type CampaignMessageLink = {
@@ -106,6 +108,7 @@ type BulkGenerateFormState = {
   offer: string;
   tone: ApiTone;
   channel: Channel;
+  language: Language;
 };
 
 type BulkGenerateProgress = {
@@ -143,6 +146,7 @@ type AppSettings = {
   autoSave: boolean;
   defaultTone: ApiTone;
   defaultChannel: Channel;
+  defaultLanguage: Language;
   confirmDelete: boolean;
   compactMode: boolean;
   theme: ThemeSetting;
@@ -153,6 +157,10 @@ type SettingKey = keyof AppSettings;
 const navItems: NavView[] = ["Dashboard", "Campaigns", "Leads", "Messages", "Settings"];
 const tones: Tone[] = ["Friendly", "Professional", "Direct"];
 const channels: Channel[] = ["Email", "LinkedIn DM", "Cold DM"];
+const languages: { value: Language; label: string }[] = [
+  { value: "english", label: "English" },
+  { value: "russian", label: "Russian" },
+];
 const leadStatuses: LeadStatus[] = ["new", "contacted", "replied", "interested"];
 const followUpTypes: FollowUpType[] = ["polite reminder", "value add", "final check-in"];
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
@@ -166,6 +174,7 @@ const settingKeys: SettingKey[] = [
   "autoSave",
   "defaultTone",
   "defaultChannel",
+  "defaultLanguage",
   "confirmDelete",
   "compactMode",
   "theme",
@@ -175,6 +184,7 @@ const defaultSettings: AppSettings = {
   autoSave: true,
   defaultTone: "friendly",
   defaultChannel: "LinkedIn DM",
+  defaultLanguage: "english",
   confirmDelete: true,
   compactMode: false,
   theme: "system",
@@ -296,6 +306,14 @@ function toDashboardChannel(value: string): Channel {
   return "LinkedIn DM";
 }
 
+function toLanguage(value: string | null | undefined): Language {
+  return value === "russian" ? "russian" : "english";
+}
+
+function detectMessageLanguage(content: string, fallback: Language): Language {
+  return /[А-Яа-яЁё]/.test(content) ? "russian" : fallback;
+}
+
 function toThemeSetting(value: string | null): ThemeSetting {
   if (value === "light" || value === "dark" || value === "system") return value;
   return "system";
@@ -317,6 +335,7 @@ function readStoredSettings(): AppSettings {
 
   const storedTone = window.localStorage.getItem("defaultTone");
   const storedChannel = window.localStorage.getItem("defaultChannel");
+  const storedLanguage = window.localStorage.getItem("defaultLanguage");
   const storedTheme = window.localStorage.getItem("theme");
 
   return {
@@ -326,6 +345,7 @@ function readStoredSettings(): AppSettings {
         ? storedTone
         : defaultSettings.defaultTone,
     defaultChannel: toDashboardChannel(storedChannel ?? defaultSettings.defaultChannel),
+    defaultLanguage: toLanguage(storedLanguage),
     confirmDelete: window.localStorage.getItem("confirmDelete") !== "false",
     compactMode: window.localStorage.getItem("compactMode") === "true",
     theme: toThemeSetting(storedTheme),
@@ -472,24 +492,28 @@ function Generator({
   offer,
   tone,
   channel,
+  language,
   selectedLead,
   isLoading,
   onTargetChange,
   onOfferChange,
   onToneChange,
   onChannelChange,
+  onLanguageChange,
   onGenerate,
 }: {
   target: string;
   offer: string;
   tone: Tone;
   channel: Channel;
+  language: Language;
   selectedLead: SelectedLead | null;
   isLoading: boolean;
   onTargetChange: (value: string) => void;
   onOfferChange: (value: string) => void;
   onToneChange: (value: Tone) => void;
   onChannelChange: (value: Channel) => void;
+  onLanguageChange: (value: Language) => void;
   onGenerate: () => void;
 }) {
   const canGenerate = Boolean(target.trim() && offer.trim()) && !isLoading;
@@ -519,7 +543,7 @@ function Generator({
           ) : null}
         </div>
         <span className="w-fit rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-1 text-xs font-semibold text-slate-600 dark:text-slate-300 shadow-sm">
-          {channel}
+          {channel} · {language === "russian" ? "Russian" : "English"}
         </span>
       </div>
 
@@ -546,7 +570,7 @@ function Generator({
           </label>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 lg:grid-cols-3">
           <label className="space-y-2">
             <FieldLabel>Tone</FieldLabel>
             <select
@@ -569,6 +593,21 @@ function Generator({
             >
               {channels.map((channelOption) => (
                 <option key={channelOption}>{channelOption}</option>
+              ))}
+            </select>
+          </label>
+
+          <label className="space-y-2">
+            <FieldLabel>Language</FieldLabel>
+            <select
+              value={language}
+              onChange={(event) => onLanguageChange(event.target.value as Language)}
+              className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 shadow-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+            >
+              {languages.map((languageOption) => (
+                <option key={languageOption.value} value={languageOption.value}>
+                  {languageOption.label}
+                </option>
               ))}
             </select>
           </label>
@@ -1335,6 +1374,21 @@ function LeadsPage({
                     ))}
                   </select>
                 </label>
+
+                <label className="space-y-2 sm:col-span-2">
+                  <FieldLabel>Language</FieldLabel>
+                  <select
+                    value={bulkForm.language}
+                    onChange={(event) => onBulkFormChange("language", event.target.value)}
+                    className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                  >
+                    {languages.map((languageOption) => (
+                      <option key={languageOption.value} value={languageOption.value}>
+                        {languageOption.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
               </div>
             </div>
 
@@ -1742,7 +1796,7 @@ function MessagesPage({
               </button>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-3">
               <label className="space-y-2">
                 <FieldLabel>Follow-up type</FieldLabel>
                 <select
@@ -1768,6 +1822,21 @@ function MessagesPage({
                   <option value="friendly">friendly</option>
                   <option value="professional">professional</option>
                   <option value="direct">direct</option>
+                </select>
+              </label>
+
+              <label className="space-y-2">
+                <FieldLabel>Language</FieldLabel>
+                <select
+                  value={followUpForm.language}
+                  onChange={(event) => onFollowUpFormChange("language", event.target.value)}
+                  className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                >
+                  {languages.map((languageOption) => (
+                    <option key={languageOption.value} value={languageOption.value}>
+                      {languageOption.label}
+                    </option>
+                  ))}
                 </select>
               </label>
             </div>
@@ -2076,6 +2145,7 @@ function SettingsPage({
   onToggle,
   onDefaultToneChange,
   onDefaultChannelChange,
+  onDefaultLanguageChange,
   onThemeChange,
   onReset,
 }: {
@@ -2083,6 +2153,7 @@ function SettingsPage({
   onToggle: (key: "autoSave" | "confirmDelete" | "compactMode", value: boolean) => void;
   onDefaultToneChange: (value: ApiTone) => void;
   onDefaultChannelChange: (value: Channel) => void;
+  onDefaultLanguageChange: (value: Language) => void;
   onThemeChange: (value: ThemeSetting) => void;
   onReset: () => void;
 }) {
@@ -2160,6 +2231,21 @@ function SettingsPage({
                 {channels.map((channelOption) => (
                   <option key={channelOption} value={channelOption}>
                     {channelOption}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="space-y-2 sm:col-span-2">
+              <FieldLabel>Default language</FieldLabel>
+              <select
+                value={settings.defaultLanguage}
+                onChange={(event) => onDefaultLanguageChange(event.target.value as Language)}
+                className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+              >
+                {languages.map((languageOption) => (
+                  <option key={languageOption.value} value={languageOption.value}>
+                    {languageOption.label}
                   </option>
                 ))}
               </select>
@@ -2612,6 +2698,7 @@ export default function App() {
   const [offer, setOffer] = useState("");
   const [tone, setTone] = useState<Tone>(() => toDashboardTone(readStoredSettings().defaultTone));
   const [channel, setChannel] = useState<Channel>(() => readStoredSettings().defaultChannel);
+  const [language, setLanguage] = useState<Language>(() => readStoredSettings().defaultLanguage);
   const [generatedMessage, setGeneratedMessage] = useState("");
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
   const [selectedLeadName, setSelectedLeadName] = useState("");
@@ -2643,6 +2730,7 @@ export default function App() {
     offer: "",
     tone: settings.defaultTone,
     channel: settings.defaultChannel,
+    language: settings.defaultLanguage,
   });
   const [isBulkGenerating, setIsBulkGenerating] = useState(false);
   const [bulkGenerateProgress, setBulkGenerateProgress] = useState<BulkGenerateProgress>({
@@ -2664,6 +2752,7 @@ export default function App() {
   const [followUpForm, setFollowUpForm] = useState<FollowUpFormState>({
     followUpType: "polite reminder",
     tone: settings.defaultTone,
+    language: settings.defaultLanguage,
   });
   const [isFollowUpOpen, setIsFollowUpOpen] = useState(false);
   const [isGeneratingFollowUp, setIsGeneratingFollowUp] = useState(false);
@@ -3110,6 +3199,7 @@ export default function App() {
     offerValue: string = offer,
     toneValue: Tone = tone,
     channelValue: Channel = channel,
+    languageValue: Language = language,
     leadValue: SelectedLead | null = selectedLead,
   ) {
     const safeTarget = String(targetValue ?? "").trim();
@@ -3137,6 +3227,7 @@ export default function App() {
           offer: safeOffer,
           tone: safeTone,
           channel: channelValue,
+          language: languageValue,
         }),
       });
 
@@ -3234,7 +3325,7 @@ export default function App() {
     setSelectedLeadWebsite(nextSelectedLead.website);
     setSelectedLeadEmail(nextSelectedLead.email ?? "");
     setTarget(leadTarget);
-    void handleGenerateMessage(leadTarget, offer, tone, channel, nextSelectedLead);
+    void handleGenerateMessage(leadTarget, offer, tone, channel, language, nextSelectedLead);
   }
 
   function toggleLeadSelection(leadId: string) {
@@ -3264,6 +3355,7 @@ export default function App() {
       offer,
       tone: toneApiValues[tone] ?? settings.defaultTone,
       channel,
+      language: settings.defaultLanguage,
     });
     setBulkGenerateError("");
     setBulkGenerateSuccess("");
@@ -3316,6 +3408,7 @@ export default function App() {
             offer: safeOffer,
             tone: bulkGenerateForm.tone,
             channel: bulkGenerateForm.channel,
+            language: bulkGenerateForm.language,
           }),
         });
 
@@ -3698,6 +3791,7 @@ export default function App() {
     setFollowUpForm({
       followUpType: "polite reminder",
       tone: settings.defaultTone,
+      language: detectMessageLanguage(message.content, settings.defaultLanguage),
     });
     setFollowUpError("");
     setIsFollowUpOpen(true);
@@ -3741,6 +3835,7 @@ export default function App() {
           offer: followUpOffer,
           tone: followUpForm.tone,
           channel: followUpChannel,
+          language: followUpForm.language,
           previousMessage: followUpMessage.content,
           followUpType: followUpForm.followUpType,
         }),
@@ -3949,6 +4044,12 @@ export default function App() {
     setChannel(value);
   }
 
+  function updateDefaultLanguage(value: Language) {
+    setSettings((current) => ({ ...current, defaultLanguage: value }));
+    persistSetting("defaultLanguage", value);
+    setLanguage(value);
+  }
+
   function updateTheme(value: ThemeSetting) {
     setSettings((current) => ({ ...current, theme: value }));
     persistSetting("theme", value);
@@ -3960,6 +4061,7 @@ export default function App() {
     setSettings(defaultSettings);
     setTone(toDashboardTone(defaultSettings.defaultTone));
     setChannel(defaultSettings.defaultChannel);
+    setLanguage(defaultSettings.defaultLanguage);
     applyTheme(defaultSettings.theme);
   }
 
@@ -4012,12 +4114,14 @@ export default function App() {
           offer={offer}
           tone={tone}
           channel={channel}
+          language={language}
           selectedLead={selectedLead}
           isLoading={isLoading}
           onTargetChange={setTarget}
           onOfferChange={setOffer}
           onToneChange={setTone}
           onChannelChange={setChannel}
+          onLanguageChange={setLanguage}
           onGenerate={() => {
             void handleGenerateMessage();
           }}
@@ -4178,6 +4282,8 @@ export default function App() {
 	                    [field]:
 	                      field === "channel"
 	                        ? toDashboardChannel(value)
+	                        : field === "language"
+	                          ? toLanguage(value)
 	                        : field === "tone" &&
 	                            (value === "friendly" || value === "professional" || value === "direct")
 	                          ? value
@@ -4235,6 +4341,8 @@ export default function App() {
 	                      field === "tone" &&
 	                      (value === "friendly" || value === "professional" || value === "direct")
 	                        ? value
+	                        : field === "language"
+	                          ? toLanguage(value)
 	                        : field === "followUpType" &&
 	                            (value === "polite reminder" ||
 	                              value === "value add" ||
@@ -4259,6 +4367,7 @@ export default function App() {
 	                onToggle={updateBooleanSetting}
 	                onDefaultToneChange={updateDefaultTone}
 	                onDefaultChannelChange={updateDefaultChannel}
+	                onDefaultLanguageChange={updateDefaultLanguage}
 	                onThemeChange={updateTheme}
 	                onReset={resetSettings}
 	              />
