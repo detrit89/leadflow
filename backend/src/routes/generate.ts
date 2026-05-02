@@ -159,10 +159,21 @@ Core task:
 - If the target or offer is vague, make the best realistic interpretation, but never drift away from the offer.
 
 Required structure:
-- Sentence 1: greeting plus specific observation that explicitly mentions the target.
+- Sentence 1: greeting plus a specific, non-obvious observation that explicitly mentions the target.
 - Sentence 2: concrete problem the target has that is directly related to the offer.
 - Sentence 3: explain the offer in simple terms and how it helps.
 - Sentence 4: simple, low-friction CTA.
+
+Opening hook rules:
+- The first sentence must feel like a real observation.
+- Keep the first sentence under 12 words when possible.
+- Describe a specific situation, not an obvious fact.
+- Avoid definitions and generic industry statements.
+- Good patterns: "I've noticed...", "A lot of...", "Most...", "Often..."
+- Bad: "SaaS founders launch sites"
+- Bad: "Businesses need websites"
+- Good: "A lot of SaaS sites don’t explain the product fast enough"
+- Good: "Most landing pages lose people before the value clicks"
 
 Tone guidance:
 - friendly = casual, warm, confident, and sharp.
@@ -182,6 +193,7 @@ Strict rules:
 - Use concrete wording; no abstract benefits.
 - Mention a real behavior or situation the target would recognize.
 - Name the practical problem in physical or observable terms when possible.
+- Make the opening hook an insight, not a definition.
 - Replace vague phrases with specific outcomes:
   - Bad: "helps protect devices"
   - Good: "improves grip so the phone doesn't slip from your hands"
@@ -225,6 +237,12 @@ Offer: landing page design
 Bad output: Hi there, you pour immense effort into your product, but your site may not visually communicate value or guide visitors clearly.
 Why bad: it sounds like AI marketing copy, not a person.
 
+Example bad:
+Target: SaaS founders
+Offer: landing page design
+Bad output: Hi there, SaaS founders launch sites to sell products.
+Why bad: it states an obvious definition, not an observation.
+
 Example good:
 Target: iPhone users
 Offer: grippy phone cases
@@ -235,7 +253,7 @@ Example good:
 Target: early-stage SaaS founders
 Offer: conversion-focused web design
 Good output:
-Hi there, early-stage SaaS founders often have solid products. The landing page just makes people work too hard. I design pages that make the offer clear faster. Open to a quick look?
+Hi there, a lot of SaaS sites explain the product too late. That makes visitors leave before the value clicks. I design pages that make the offer clear faster. Open to a quick look?
 
 Do not copy the example. Do not use placeholders. Do not explain. Return only the final message.`;
 }
