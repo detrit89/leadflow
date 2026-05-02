@@ -127,7 +127,9 @@ Rules:
 - Sound like a real person wrote it.
 - Keep it human and slightly informal, even when tone is professional.
 - No corporate language.
-- Avoid vague phrases: "enhance", "optimize", "drive growth", "online presence", "user engagement", "solutions", "let's discuss how we can help".
+- Avoid vague phrases: "help protect", "improve experience", "enhance", "optimize", "drive growth", "online presence", "user engagement", "solutions", "let's discuss how we can help".
+- Replace vague offer wording with one concrete situation, behavior, or problem.
+- Prefer real-world outcomes over abstract benefits.
 - Do not use emojis.
 - Do not use bullet points.
 - Do not use placeholders or square brackets.
@@ -172,6 +174,13 @@ Strict rules:
 - Mention the target explicitly.
 - Connect directly to the offer.
 - Use concrete wording; no abstract benefits.
+- Mention a real behavior or situation the target would recognize.
+- Name the practical problem in physical or observable terms when possible.
+- Replace vague phrases with specific outcomes:
+  - Bad: "helps protect devices"
+  - Good: "improves grip so the phone doesn't slip from your hands"
+  - Bad: "improve experience"
+  - Good: "cuts the steps between landing on the page and booking a demo"
 - Do not invent unrelated products.
 - Do not invent unrelated industries.
 - Do not assume the sender sells something different from the offer.
@@ -179,7 +188,7 @@ Strict rules:
 - Use simple English.
 - Sound like a real person wrote it.
 - Avoid corporate tone and all buzzwords.
-- Do not use vague phrases: "enhance", "optimize", "drive growth", "online presence", "user engagement", "solutions", "let's discuss how we can help".
+- Do not use vague phrases: "help protect", "helps protect", "improve experience", "enhance", "optimize", "drive growth", "online presence", "user engagement", "solutions", "let's discuss how we can help".
 - Do not use generic claims like "many companies struggle with user engagement".
 - Do not use placeholders or square brackets.
 - Do not include [Name], [Company], [Target Audience], [Offer], or [Benefit].
@@ -194,6 +203,18 @@ Target: teenagers who use iPhones
 Offer: soft
 Bad output: Hi there, I noticed teens using iPhones are always looking for better drinks. Our soft drink helps them stay refreshed throughout the day. Want to try it?
 Why bad: it invented an unrelated product and guessed an unrelated industry instead of staying grounded in the offer.
+
+Example bad:
+Target: iPhone users
+Offer: phone cases
+Bad output: Hi there, iPhone users need products that help protect devices and improve the experience. My cases are great solutions for daily use. Want to see them?
+Why bad: it uses vague phrases instead of real behavior and concrete problems.
+
+Example good:
+Target: iPhone users
+Offer: grippy phone cases
+Good output:
+Hi there, iPhone users are always pulling their phone out while walking, commuting, or carrying coffee. That is when slick cases make drops more likely. I sell grippy phone cases that make the phone easier to hold without adding bulk. Want me to send a couple examples?
 
 Example good:
 Target: early-stage SaaS founders
