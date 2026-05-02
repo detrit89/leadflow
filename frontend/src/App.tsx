@@ -2302,6 +2302,32 @@ function LandingPage({
   );
 }
 
+function AppLoadingScreen({ isReady }: { isReady: boolean }) {
+  return (
+    <main
+      className={`fixed inset-0 z-50 flex min-h-screen items-center justify-center bg-slate-950 px-6 text-white transition-opacity duration-500 dark:bg-slate-950 ${
+        isReady ? "pointer-events-none opacity-0" : "opacity-100"
+      }`}
+    >
+      <section className="text-center">
+        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl border border-white/10 bg-white/10 text-2xl font-semibold shadow-2xl shadow-blue-950/50 backdrop-blur">
+          LF
+        </div>
+        <h1 className="mt-6 text-3xl font-semibold tracking-tight">LeadFlow</h1>
+        <p className="mt-2 text-sm font-medium text-slate-400">Preparing your workspace</p>
+        <div className="mx-auto mt-8 h-1.5 w-56 overflow-hidden rounded-full bg-white/10">
+          <div className="h-full w-1/2 animate-pulse rounded-full bg-blue-500 shadow-[0_0_28px_rgba(59,130,246,0.8)]" />
+        </div>
+        <div className="mt-5 flex justify-center gap-2">
+          <span className="h-2 w-2 animate-bounce rounded-full bg-blue-400" />
+          <span className="h-2 w-2 animate-bounce rounded-full bg-blue-400 [animation-delay:120ms]" />
+          <span className="h-2 w-2 animate-bounce rounded-full bg-blue-400 [animation-delay:240ms]" />
+        </div>
+      </section>
+    </main>
+  );
+}
+
 function AuthPage({
   initialMode = "login",
   onBack,
@@ -2621,6 +2647,9 @@ function AuthPage({
 export default function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
+  const [isThemeReady, setIsThemeReady] = useState(false);
+  const [isInitialDataReady, setIsInitialDataReady] = useState(false);
+  const [hasStartupTimedOut, setHasStartupTimedOut] = useState(false);
   const [showAuthPage, setShowAuthPage] = useState(false);
   const [authInitialMode, setAuthInitialMode] = useState<AuthMode>("signup");
   const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
@@ -2755,6 +2784,20 @@ export default function App() {
   }
 
   useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      setHasStartupTimedOut(true);
+    }, 3000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, []);
+
+  useEffect(() => {
+    if (!isAuthLoading && !currentUser) {
+      setIsInitialDataReady(true);
+    }
+  }, [currentUser, isAuthLoading]);
+
+  useEffect(() => {
     if (!supabase) {
       setIsAuthLoading(false);
       return;
@@ -2792,6 +2835,7 @@ export default function App() {
 
   useEffect(() => {
     applyTheme(settings.theme);
+    setIsThemeReady(true);
 
     if (settings.theme !== "system") return;
 
@@ -2832,9 +2876,12 @@ export default function App() {
 
   useEffect(() => {
     if (!currentUser) return;
-    void fetchLeads();
-    void fetchMessages();
-    void fetchCampaigns();
+
+    setIsInitialDataReady(false);
+
+    Promise.allSettled([fetchLeads(), fetchMessages(), fetchCampaigns()]).finally(() => {
+      setIsInitialDataReady(true);
+    });
   }, [currentUser?.id]);
 
   async function fetchMessages() {
@@ -3965,57 +4012,67 @@ export default function App() {
     applyTheme(defaultSettings.theme);
   }
 
-  if (isAuthLoading) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950 text-sm font-semibold text-slate-500 dark:text-slate-400">
-        Loading workspace...
-      </main>
-    );
-  }
+  const isAppStartupReady =
+    isThemeReady && !isAuthLoading && (isInitialDataReady || hasStartupTimedOut);
 
   if (isPasswordRecovery) {
     return (
-      <AuthPage
-        initialMode="reset"
-        onBack={async () => {
-          await supabase?.auth.signOut();
-          setIsPasswordRecovery(false);
-          setShowAuthPage(true);
-          setAuthInitialMode("login");
-        }}
-        onPasswordUpdated={() => {
-          setIsPasswordRecovery(false);
-          setShowAuthPage(true);
-          setAuthInitialMode("login");
-        }}
-      />
+      <>
+        <AppLoadingScreen isReady={isAppStartupReady} />
+        {isAppStartupReady ? (
+          <AuthPage
+            initialMode="reset"
+            onBack={async () => {
+              await supabase?.auth.signOut();
+              setIsPasswordRecovery(false);
+              setShowAuthPage(true);
+              setAuthInitialMode("login");
+            }}
+            onPasswordUpdated={() => {
+              setIsPasswordRecovery(false);
+              setShowAuthPage(true);
+              setAuthInitialMode("login");
+            }}
+          />
+        ) : null}
+      </>
     );
   }
 
   if (!currentUser) {
     if (showAuthPage) {
       return (
-        <AuthPage
-          initialMode={authInitialMode}
-          onBack={() => {
-            setShowAuthPage(false);
-            setAuthInitialMode("signup");
-          }}
-        />
+        <>
+          <AppLoadingScreen isReady={isAppStartupReady} />
+          {isAppStartupReady ? (
+            <AuthPage
+              initialMode={authInitialMode}
+              onBack={() => {
+                setShowAuthPage(false);
+                setAuthInitialMode("signup");
+              }}
+            />
+          ) : null}
+        </>
       );
     }
 
     return (
-      <LandingPage
-        onStart={() => {
-          setAuthInitialMode("signup");
-          setShowAuthPage(true);
-        }}
-        onLogin={() => {
-          setAuthInitialMode("login");
-          setShowAuthPage(true);
-        }}
-      />
+      <>
+        <AppLoadingScreen isReady={isAppStartupReady} />
+        {isAppStartupReady ? (
+          <LandingPage
+            onStart={() => {
+              setAuthInitialMode("signup");
+              setShowAuthPage(true);
+            }}
+            onLogin={() => {
+              setAuthInitialMode("login");
+              setShowAuthPage(true);
+            }}
+          />
+        ) : null}
+      </>
     );
   }
 
@@ -4082,6 +4139,9 @@ export default function App() {
   );
 
   return (
+    <>
+      <AppLoadingScreen isReady={isAppStartupReady} />
+      {isAppStartupReady ? (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-950 dark:text-slate-100 antialiased">
       <MobileTopBar activeView={activeView} onNavigate={setActiveView} />
       <div className="flex min-h-screen">
@@ -4279,5 +4339,7 @@ export default function App() {
         </main>
       </div>
     </div>
+      ) : null}
+    </>
   );
 }
