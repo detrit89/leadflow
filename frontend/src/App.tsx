@@ -2319,6 +2319,17 @@ function AuthPage({
   const [authSuccess, setAuthSuccess] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [resetCooldown, setResetCooldown] = useState(0);
+
+  useEffect(() => {
+    if (resetCooldown <= 0) return;
+
+    const timeoutId = window.setTimeout(() => {
+      setResetCooldown((current) => Math.max(0, current - 1));
+    }, 1000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [resetCooldown]);
 
   useEffect(() => {
     setMode(initialMode);
@@ -2348,6 +2359,7 @@ function AuthPage({
       if (mode === "forgot") {
         const trimmedEmail = email.trim();
 
+        if (resetCooldown > 0) return;
         if (!trimmedEmail) throw new Error("Email is required.");
 
         const { error } = await supabase.auth.resetPasswordForEmail(trimmedEmail, {
@@ -2355,6 +2367,7 @@ function AuthPage({
         });
 
         if (error) throw error;
+        setResetCooldown(60);
         setAuthSuccess("Password reset link sent. Check your email.");
         return;
       }
@@ -2397,7 +2410,15 @@ function AuthPage({
         );
       }
     } catch (error) {
-      setAuthError(getErrorMessage(error));
+      const message = getErrorMessage(error);
+      const normalizedMessage = message.toLowerCase();
+
+      setAuthError(
+        normalizedMessage.includes("email rate limit exceeded") ||
+          normalizedMessage.includes("rate limit")
+          ? "Too many attempts. Please wait a moment and try again."
+          : message,
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -2428,6 +2449,7 @@ function AuthPage({
   const showModeTabs = mode === "login" || mode === "signup";
   const showEmailField = mode !== "reset";
   const showPasswordField = mode !== "forgot";
+  const isResetRequestBlocked = mode === "forgot" && resetCooldown > 0;
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 py-10 text-slate-950 dark:text-slate-100">
@@ -2530,11 +2552,20 @@ function AuthPage({
 
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isResetRequestBlocked}
             className="w-full rounded-2xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-xl shadow-blue-600/25 transition hover:-translate-y-0.5 hover:bg-blue-700 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isSubmitting ? "Please wait..." : submitLabel}
+            {isSubmitting
+              ? "Please wait..."
+              : isResetRequestBlocked
+                ? `You can resend in ${resetCooldown}s`
+                : submitLabel}
           </button>
+          {isResetRequestBlocked ? (
+            <p className="text-center text-sm font-medium text-slate-500 dark:text-slate-400">
+              You can resend in {resetCooldown}s
+            </p>
+          ) : null}
         </form>
 
         {mode === "login" ? (
