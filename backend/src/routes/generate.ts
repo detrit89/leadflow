@@ -125,8 +125,12 @@ Rules:
 - No pushy language.
 - Use simple English.
 - Sound like a real person wrote it.
+- Write like a founder texting another founder.
+- Use short sentences, ideally 5 to 12 words each.
+- Let the phrasing be a little plain or imperfect.
 - Keep it human and slightly informal, even when tone is professional.
-- No corporate language.
+- No corporate language and no marketing agency voice.
+- Avoid polished AI phrases: "you pour immense effort", "visually communicate value", "showcase", "guides visitors".
 - Avoid vague phrases: "help protect", "improve experience", "enhance", "optimize", "drive growth", "online presence", "user engagement", "solutions", "let's discuss how we can help".
 - Replace vague offer wording with one concrete situation, behavior, or problem.
 - Prefer real-world outcomes over abstract benefits.
@@ -148,6 +152,7 @@ Channel: ${channel}
 Core task:
 - Hard limit: maximum 60 words. Never exceed this.
 - Maximum 3 to 4 sentences.
+- Each sentence should be 5 to 12 words when possible.
 - The message must connect the target audience and offer directly.
 - Treat the offer as the sender's actual product or service.
 - Do not sell anything except the offer.
@@ -161,8 +166,9 @@ Required structure:
 
 Tone guidance:
 - friendly = casual, warm, confident, and sharp.
-- professional = polished and clear, but still slightly informal.
+- professional = clear, but still slightly informal.
 - direct = short, specific, no fluff.
+- Overall tone = like a founder texting another founder, not a marketing agency.
 
 CTA examples:
 - Want me to show you?
@@ -187,8 +193,11 @@ Strict rules:
 - Remove long intros, storytelling, generic phrases, and filler words.
 - Use simple English.
 - Sound like a real person wrote it.
-- Avoid corporate tone and all buzzwords.
-- Do not use vague phrases: "help protect", "helps protect", "improve experience", "enhance", "optimize", "drive growth", "online presence", "user engagement", "solutions", "let's discuss how we can help".
+- Use everyday words.
+- Let the phrasing be slightly imperfect and human.
+- Avoid overly polished structure.
+- Avoid corporate tone, AI tone, and all buzzwords.
+- Do not use these phrases: "you pour immense effort", "visually communicate value", "showcase", "guides visitors", "help protect", "helps protect", "improve experience", "enhance", "optimize", "drive growth", "online presence", "user engagement", "solutions", "let's discuss how we can help".
 - Do not use generic claims like "many companies struggle with user engagement".
 - Do not use placeholders or square brackets.
 - Do not include [Name], [Company], [Target Audience], [Offer], or [Benefit].
@@ -210,17 +219,23 @@ Offer: phone cases
 Bad output: Hi there, iPhone users need products that help protect devices and improve the experience. My cases are great solutions for daily use. Want to see them?
 Why bad: it uses vague phrases instead of real behavior and concrete problems.
 
+Example bad:
+Target: SaaS founders
+Offer: landing page design
+Bad output: Hi there, you pour immense effort into your product, but your site may not visually communicate value or guide visitors clearly.
+Why bad: it sounds like AI marketing copy, not a person.
+
 Example good:
 Target: iPhone users
 Offer: grippy phone cases
 Good output:
-Hi there, iPhone users are always pulling their phone out while walking, commuting, or carrying coffee. That is when slick cases make drops more likely. I sell grippy phone cases that make the phone easier to hold without adding bulk. Want me to send a couple examples?
+Hi there, iPhone users pull their phone out everywhere. Slick cases make drops way too easy. I sell grippy cases that feel easier to hold. Want me to send a couple examples?
 
 Example good:
 Target: early-stage SaaS founders
 Offer: conversion-focused web design
 Good output:
-Hi there, early-stage SaaS founders often have a strong product, but the landing page does not make the value clear fast enough. That usually means visitors leave before understanding why it matters. I help fix that with conversion-focused web design. Open to a quick look?
+Hi there, early-stage SaaS founders often have solid products. The landing page just makes people work too hard. I design pages that make the offer clear faster. Open to a quick look?
 
 Do not copy the example. Do not use placeholders. Do not explain. Return only the final message.`;
 }
