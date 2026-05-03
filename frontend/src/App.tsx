@@ -961,6 +961,24 @@ function LeadsPage({
   const allVisibleSelected =
     leads.length > 0 && leads.every((lead) => selectedLeadIdSet.has(lead.id));
   const hasSelectedLeads = selectedLeadIds.length > 0;
+  const hasVisibleLeads = leads.length > 0;
+
+  function exportVisibleLeads() {
+    if (!hasVisibleLeads) return;
+
+    downloadCsv(
+      "leadflow_leads_export.csv",
+      leads.map((lead) => ({
+        name: lead.name,
+        company: lead.company,
+        role: lead.role,
+        website: lead.website,
+        email: lead.email ?? "",
+        status: lead.status,
+        created_at: lead.created_at,
+      })),
+    );
+  }
 
   return (
     <section className="space-y-6">
@@ -986,6 +1004,14 @@ function LeadsPage({
             className="w-fit rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-100"
           >
             Import CSV
+          </button>
+          <button
+            type="button"
+            onClick={exportVisibleLeads}
+            disabled={!hasVisibleLeads || isLoading}
+            className="w-fit rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950 disabled:translate-y-0 disabled:cursor-not-allowed disabled:text-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-700 dark:hover:bg-white/5 dark:hover:text-slate-100 dark:disabled:text-slate-600"
+          >
+            Export CSV
           </button>
           <button
             type="button"
