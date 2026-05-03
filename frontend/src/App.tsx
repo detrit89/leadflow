@@ -223,6 +223,15 @@ const statusBadgeStyles: Record<LeadStatus, string> = {
   interested: "border-violet-100 bg-violet-50 text-violet-700 dark:border-violet-400/15 dark:bg-violet-400/10 dark:text-violet-300",
 };
 
+const glassPanel =
+  "relative overflow-hidden rounded-2xl border border-white/20 bg-white/10 shadow-lg shadow-black/30 backdrop-blur-xl before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-20 before:bg-gradient-to-b before:from-white/20 before:to-transparent dark:border-white/10 dark:bg-white/5";
+const glassButton =
+  "rounded-2xl border border-white/20 bg-white/10 px-4 py-2 font-semibold text-slate-700 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20 hover:text-slate-950 dark:border-white/10 dark:bg-white/5 dark:text-white/80 dark:hover:bg-white/10 dark:hover:text-white/90";
+const glassInput =
+  "w-full rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm text-slate-900 shadow-sm outline-none backdrop-blur transition placeholder:text-slate-500 hover:bg-white/20 focus:border-blue-400/60 focus:bg-white/20 focus:ring-2 focus:ring-blue-400/40 dark:border-white/10 dark:bg-white/5 dark:text-white/90 dark:placeholder:text-white/35 dark:hover:bg-white/10 dark:focus:bg-white/10";
+const primaryButton =
+  "rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:-translate-y-0.5 hover:from-blue-400 hover:to-indigo-400 hover:shadow-blue-500/30 active:translate-y-0 disabled:translate-y-0 disabled:cursor-not-allowed disabled:from-slate-400 disabled:to-slate-400 disabled:shadow-none dark:disabled:from-slate-700 dark:disabled:to-slate-700";
+
 function Spinner() {
   return (
     <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/40 border-t-white" />
@@ -373,10 +382,10 @@ function Sidebar({
   onNavigate: (view: NavView) => void;
 }) {
   return (
-    <aside className="hidden min-h-screen w-72 shrink-0 border-r border-slate-200 bg-white px-4 py-5 shadow-[12px_0_40px_rgba(15,23,42,0.03)] backdrop-blur lg:block dark:border-white/[0.06] dark:bg-[#0F172A]/80 dark:shadow-lg dark:shadow-black/30">
-      <div className="mb-8 rounded-3xl border border-slate-200 bg-slate-50 p-3 dark:border-white/[0.06] dark:bg-white/[0.04] dark:bg-gradient-to-b dark:from-white/[0.06] dark:to-transparent">
+    <aside className="hidden min-h-screen w-72 shrink-0 border-r border-white/20 bg-white/20 px-4 py-5 shadow-lg shadow-black/10 backdrop-blur-xl lg:block dark:border-white/10 dark:bg-white/5 dark:shadow-black/30">
+      <div className="mb-8 rounded-3xl border border-white/20 bg-white/10 p-3 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5 dark:bg-gradient-to-b dark:from-white/10 dark:to-transparent">
         <div className="flex items-center gap-3">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-sm font-semibold text-white shadow-lg shadow-slate-300/70 dark:shadow-black/30">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 text-sm font-semibold text-white shadow-lg shadow-blue-500/20">
           LF
         </div>
         <div>
@@ -393,15 +402,15 @@ function Sidebar({
             onClick={() => onNavigate(item)}
             className={`group flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm font-medium transition duration-200 ${
               item === activeView
-                ? "bg-slate-950 text-white shadow-lg shadow-slate-300/70 dark:bg-gradient-to-r dark:from-blue-500/90 dark:to-indigo-500/90 dark:shadow-blue-500/20"
-                : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-950 dark:text-gray-400 dark:hover:bg-white/[0.05] dark:hover:text-gray-100"
+                ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-500/20"
+                : "text-slate-600 hover:bg-white/20 hover:text-slate-950 dark:text-white/60 dark:hover:bg-white/10 dark:hover:text-white/90"
             }`}
           >
             <span
               className={`flex h-8 w-8 items-center justify-center rounded-xl text-xs font-semibold transition ${
                 item === activeView
                   ? "bg-white/15 text-white"
-                  : "bg-white text-slate-500 ring-1 ring-slate-200 group-hover:text-slate-950 dark:bg-white/[0.04] dark:text-gray-500 dark:ring-white/[0.06] dark:group-hover:text-gray-100"
+                  : "bg-white/20 text-slate-500 ring-1 ring-white/20 group-hover:text-slate-950 dark:bg-white/5 dark:text-white/40 dark:ring-white/10 dark:group-hover:text-white/90"
               }`}
             >
               {navIconLabels[item]}
@@ -422,9 +431,9 @@ function MobileTopBar({
   onNavigate: (view: NavView) => void;
 }) {
   return (
-    <header className="sticky top-0 z-20 border-b border-slate-200 bg-white px-4 py-4 shadow-sm backdrop-blur lg:hidden dark:border-white/[0.06] dark:bg-[#0F172A]/85 dark:shadow-lg dark:shadow-black/30">
+    <header className="sticky top-0 z-20 border-b border-white/20 bg-white/20 px-4 py-4 shadow-lg shadow-black/10 backdrop-blur-xl lg:hidden dark:border-white/10 dark:bg-white/5 dark:shadow-black/30">
       <div className="flex items-center gap-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-950 text-xs font-semibold text-white shadow-sm">
+        <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 text-xs font-semibold text-white shadow-sm shadow-blue-500/20">
           LF
         </div>
         <div className="text-base font-semibold tracking-tight text-slate-950 dark:text-gray-200">LeadFlow</div>
@@ -436,8 +445,8 @@ function MobileTopBar({
             onClick={() => onNavigate(item)}
             className={`shrink-0 rounded-2xl px-3 py-2 text-sm font-medium transition ${
               item === activeView
-                ? "bg-slate-950 text-white shadow-sm dark:bg-gradient-to-r dark:from-blue-500 dark:to-indigo-500 dark:shadow-blue-500/20"
-                : "bg-slate-100 text-slate-600 hover:bg-slate-200/80 hover:text-slate-950 dark:bg-white/[0.04] dark:text-gray-400 dark:hover:bg-white/[0.08] dark:hover:text-gray-100"
+                ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-sm shadow-blue-500/20"
+                : "bg-white/10 text-slate-600 hover:bg-white/20 hover:text-slate-950 dark:bg-white/5 dark:text-white/60 dark:hover:bg-white/10 dark:hover:text-white/90"
             }`}
           >
             {item}
@@ -450,16 +459,16 @@ function MobileTopBar({
 
 function StatCard({ label, value, trend }: { label: string; value: string; trend: string }) {
   return (
-    <article className="rounded-3xl border border-slate-200 bg-white p-4 shadow-[0_14px_40px_rgba(15,23,42,0.05)] transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_20px_60px_rgba(15,23,42,0.08)] dark:border-white/[0.06] dark:bg-[#111827]/80 dark:bg-gradient-to-b dark:from-white/[0.06] dark:to-white/[0.02] dark:shadow-lg dark:shadow-black/30 dark:hover:border-white/10">
-      <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-gray-500">{label}</div>
-      <div className="mt-3 text-2xl font-semibold tracking-tight text-slate-950 dark:text-gray-200">{value}</div>
-      <div className="mt-1 text-xs font-medium text-slate-500 dark:text-gray-400">{trend}</div>
+    <article className={`${glassPanel} p-4 transition duration-200 hover:-translate-y-0.5 hover:bg-white/20 dark:hover:bg-white/10`}>
+      <div className="relative text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-white/50">{label}</div>
+      <div className="relative mt-3 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white/90">{value}</div>
+      <div className="relative mt-1 text-xs font-medium text-slate-500 dark:text-white/60">{trend}</div>
     </article>
   );
 }
 
 function FieldLabel({ children }: { children: string }) {
-  return <span className="text-sm font-semibold text-slate-700 dark:text-gray-300">{children}</span>;
+  return <span className="text-sm font-semibold text-slate-700 dark:text-white/70">{children}</span>;
 }
 
 function ToggleSwitch({
@@ -525,16 +534,16 @@ function Generator({
   }
 
   return (
-    <section className="rounded-3xl border border-sky-200/80 bg-white p-5 shadow-[0_26px_90px_rgba(14,165,233,0.16)] ring-1 ring-sky-100/60 transition duration-200 hover:shadow-[0_32px_100px_rgba(14,165,233,0.2)] sm:p-6 dark:border-blue-400/15 dark:bg-[#111827]/85 dark:bg-gradient-to-b dark:from-white/[0.07] dark:to-white/[0.025] dark:shadow-lg dark:shadow-black/30 dark:ring-1 dark:ring-white/[0.04] dark:backdrop-blur-xl dark:hover:border-blue-400/25 dark:hover:shadow-blue-950/20">
-      <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+    <section className={`${glassPanel} p-5 transition duration-200 hover:bg-white/20 sm:p-6 dark:hover:bg-white/10`}>
+      <div className="relative mb-6 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <div className="mb-2 w-fit rounded-2xl border border-sky-100 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700 shadow-sm dark:border-blue-400/15 dark:bg-blue-400/10 dark:text-blue-300">
             Message generator
           </div>
-          <h2 className="text-2xl font-semibold tracking-tight text-slate-950 dark:text-gray-200">
+          <h2 className="text-2xl font-semibold tracking-tight text-slate-950 dark:text-white/90">
             Campaign Message
           </h2>
-          <p className="mt-1 text-sm leading-6 text-slate-500 dark:text-gray-400">
+          <p className="mt-1 text-sm leading-6 text-slate-500 dark:text-white/60">
             Build a short outbound draft for a specific audience and offer.
           </p>
           {selectedLead ? (
@@ -543,12 +552,12 @@ function Generator({
             </div>
           ) : null}
         </div>
-        <span className="w-fit rounded-2xl border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm dark:border-white/[0.06] dark:bg-white/[0.04] dark:text-gray-300">
+        <span className="w-fit rounded-2xl border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-white/70">
           {channel} · {language === "russian" ? "Russian" : "English"}
         </span>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} className="relative space-y-5">
         <div className="grid gap-4 xl:grid-cols-2">
           <label className="space-y-2">
             <FieldLabel>Target Audience</FieldLabel>
@@ -556,7 +565,7 @@ function Generator({
               value={target}
               onChange={(event) => onTargetChange(event.target.value)}
               placeholder="e.g. SaaS founders in USA"
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 hover:bg-white focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-gray-200 dark:placeholder:text-gray-500 dark:hover:bg-white/[0.07] dark:focus:border-blue-400/70 dark:focus:bg-white/[0.06] dark:focus:ring-2 dark:focus:ring-blue-500/40"
+              className={glassInput}
             />
           </label>
 
@@ -566,7 +575,7 @@ function Generator({
               value={offer}
               onChange={(event) => onOfferChange(event.target.value)}
               placeholder="e.g. Web design services"
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 hover:bg-white focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-gray-200 dark:placeholder:text-gray-500 dark:hover:bg-white/[0.07] dark:focus:border-blue-400/70 dark:focus:bg-white/[0.06] dark:focus:ring-2 dark:focus:ring-blue-500/40"
+              className={glassInput}
             />
           </label>
         </div>
@@ -577,7 +586,7 @@ function Generator({
             <select
               value={tone}
               onChange={(event) => onToneChange(event.target.value as Tone)}
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition hover:bg-white focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-gray-200 dark:hover:bg-white/[0.07] dark:focus:border-blue-400/70 dark:focus:bg-white/[0.06] dark:focus:ring-2 dark:focus:ring-blue-500/40"
+              className={glassInput}
             >
               {tones.map((toneOption) => (
                 <option key={toneOption}>{toneOption}</option>
@@ -590,7 +599,7 @@ function Generator({
             <select
               value={channel}
               onChange={(event) => onChannelChange(event.target.value as Channel)}
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition hover:bg-white focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-gray-200 dark:hover:bg-white/[0.07] dark:focus:border-blue-400/70 dark:focus:bg-white/[0.06] dark:focus:ring-2 dark:focus:ring-blue-500/40"
+              className={glassInput}
             >
               {channels.map((channelOption) => (
                 <option key={channelOption}>{channelOption}</option>
@@ -603,7 +612,7 @@ function Generator({
             <select
               value={language}
               onChange={(event) => onLanguageChange(event.target.value as Language)}
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition hover:bg-white focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-gray-200 dark:hover:bg-white/[0.07] dark:focus:border-blue-400/70 dark:focus:bg-white/[0.06] dark:focus:ring-2 dark:focus:ring-blue-500/40"
+              className={glassInput}
             >
               {languages.map((languageOption) => (
                 <option key={languageOption.value} value={languageOption.value}>
@@ -617,7 +626,7 @@ function Generator({
         <button
           type="submit"
           disabled={!canGenerate}
-          className="flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4 text-base font-semibold text-white shadow-xl shadow-blue-600/25 transition duration-200 hover:-translate-y-0.5 hover:from-blue-500 hover:to-indigo-500 hover:shadow-2xl hover:shadow-blue-600/30 active:translate-y-0 active:scale-[0.99] active:from-blue-700 active:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-blue-100 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:from-slate-300 disabled:to-slate-300 disabled:shadow-none dark:from-blue-500 dark:to-indigo-500 dark:shadow-lg dark:shadow-blue-500/20 dark:hover:from-blue-400 dark:hover:to-indigo-400 dark:hover:shadow-blue-500/30 dark:focus:ring-2 dark:focus:ring-blue-500/40 dark:disabled:from-slate-700 dark:disabled:to-slate-700"
+          className={`${primaryButton} flex w-full items-center justify-center gap-3 px-6 py-4 text-base`}
         >
           {isLoading ? (
             <>
@@ -687,16 +696,16 @@ function MessagePanel({
 
   return (
     <section
-      className={`rounded-3xl border bg-white p-5 shadow-[0_20px_70px_rgba(15,23,42,0.07)] transition duration-200 sm:p-6 dark:bg-[#111827]/85 dark:bg-gradient-to-b dark:from-white/[0.06] dark:to-white/[0.02] dark:shadow-lg dark:shadow-black/30 dark:backdrop-blur-xl ${
+      className={`${glassPanel} p-5 transition duration-200 sm:p-6 ${
         hasGeneratedMessage
-          ? "border-emerald-200 shadow-[0_26px_90px_rgba(16,185,129,0.16)] ring-1 ring-emerald-100 dark:border-emerald-400/20 dark:ring-emerald-400/10 dark:shadow-emerald-950/20"
-          : "border-slate-200 hover:border-slate-300 dark:border-white/[0.06] dark:hover:border-white/10"
+          ? "border-emerald-300/40 ring-1 ring-emerald-300/20 dark:border-emerald-300/20 dark:ring-emerald-300/10"
+          : "hover:bg-white/20 dark:hover:bg-white/10"
       }`}
     >
-      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="relative mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="flex flex-wrap items-center gap-2">
-            <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-gray-200">
+            <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-white/90">
               Generated Message
             </h2>
             {hasGeneratedMessage ? (
@@ -720,9 +729,9 @@ function MessagePanel({
               </span>
             ) : null}
           </div>
-          <p className="mt-1 text-sm text-slate-500 dark:text-gray-400">Review, copy, or save the latest draft.</p>
+          <p className="mt-1 text-sm text-slate-500 dark:text-white/60">Review, copy, or save the latest draft.</p>
           {selectedLead ? (
-            <p className="mt-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-white/[0.06] dark:bg-white/[0.04] dark:text-gray-300">
+            <p className="mt-2 rounded-2xl border border-white/20 bg-white/10 px-3 py-2 text-sm font-semibold text-slate-700 backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-white/70">
               Generated for: {selectedLead.name} · {selectedLead.role} at{" "}
               {selectedLead.company}
             </p>
@@ -733,7 +742,7 @@ function MessagePanel({
             type="button"
             onClick={onCopy}
             disabled={!message || isLoading}
-            className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950 disabled:translate-y-0 disabled:cursor-not-allowed disabled:text-slate-300 dark:border-white/[0.06] dark:bg-white/[0.04] dark:text-gray-300 dark:shadow-black/20 dark:hover:border-white/10 dark:hover:bg-white/[0.08] dark:hover:text-gray-100"
+            className={`${glassButton} px-3 py-2 text-sm disabled:translate-y-0 disabled:cursor-not-allowed disabled:text-slate-300 dark:disabled:text-white/30`}
           >
             Copy
           </button>
@@ -741,7 +750,7 @@ function MessagePanel({
             type="button"
             onClick={onRegenerate}
             disabled={!message || isLoading}
-            className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950 disabled:translate-y-0 disabled:cursor-not-allowed disabled:text-slate-300 dark:border-white/[0.06] dark:bg-white/[0.04] dark:text-gray-300 dark:shadow-black/20 dark:hover:border-white/10 dark:hover:bg-white/[0.08] dark:hover:text-gray-100"
+            className={`${glassButton} px-3 py-2 text-sm disabled:translate-y-0 disabled:cursor-not-allowed disabled:text-slate-300 dark:disabled:text-white/30`}
           >
             Regenerate
           </button>
@@ -749,7 +758,7 @@ function MessagePanel({
             type="button"
             onClick={onSave}
             disabled={!message || isLoading || isSaving || isCurrentMessageSaved}
-            className="rounded-2xl bg-slate-950 px-3 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-300/70 transition hover:-translate-y-0.5 hover:bg-slate-800 disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none dark:bg-gradient-to-r dark:from-blue-500 dark:to-indigo-500 dark:shadow-blue-500/20 dark:hover:from-blue-400 dark:hover:to-indigo-400 dark:hover:shadow-blue-500/30 dark:disabled:from-slate-700 dark:disabled:to-slate-700"
+            className={`${primaryButton} px-3 py-2 text-sm`}
           >
             {isCurrentMessageSaved ? "Saved" : isSaving ? "Saving..." : "Save Message"}
           </button>
@@ -763,7 +772,7 @@ function MessagePanel({
           visibleMessage ||
           "Your generated message will appear here after you add a target audience and offer."
         }
-        className="min-h-56 w-full resize-none overflow-hidden rounded-3xl border border-slate-200 bg-slate-50 p-5 text-sm leading-6 text-slate-900 shadow-inner outline-none transition dark:border-white/[0.08] dark:bg-[#0B1220]/70 dark:text-gray-200 dark:shadow-inner dark:shadow-black/30"
+        className="relative min-h-56 w-full resize-none overflow-hidden rounded-2xl border border-white/20 bg-white/10 p-5 text-sm leading-6 text-slate-900 shadow-inner outline-none backdrop-blur transition dark:border-white/10 dark:bg-white/5 dark:text-white/90"
       />
       <div className="mt-3 text-right text-xs font-medium text-slate-500 dark:text-gray-500">
         {visibleMessage.length} characters
@@ -797,10 +806,10 @@ function DashboardLeadsTable({
   onGenerateForLead: (lead: SupabaseLead) => void;
 }) {
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_18px_60px_rgba(15,23,42,0.06)] sm:p-6 dark:border-white/[0.06] dark:bg-[#111827]/80 dark:bg-gradient-to-b dark:from-white/[0.05] dark:to-white/[0.02] dark:shadow-lg dark:shadow-black/30 dark:backdrop-blur-xl">
-      <div className="mb-5">
-        <h2 className="text-lg font-semibold tracking-tight text-slate-950 dark:text-gray-200">Leads</h2>
-        <p className="mt-1 text-sm text-slate-500 dark:text-gray-400">Real Supabase leads ready for message generation.</p>
+    <section className={`${glassPanel} p-5 sm:p-6`}>
+      <div className="relative mb-5">
+        <h2 className="text-lg font-semibold tracking-tight text-slate-950 dark:text-white/90">Leads</h2>
+        <p className="mt-1 text-sm text-slate-500 dark:text-white/60">Real Supabase leads ready for message generation.</p>
       </div>
 
       {leadsError ? (
@@ -809,10 +818,10 @@ function DashboardLeadsTable({
         </div>
       ) : null}
 
-      <div className="overflow-x-auto">
+      <div className="relative overflow-x-auto">
         <table className="w-full min-w-[720px] border-separate border-spacing-0 text-left text-sm">
           <thead>
-            <tr className="bg-slate-50 text-slate-500 dark:bg-slate-950/40 dark:text-slate-400">
+            <tr className="bg-white/10 text-slate-500 backdrop-blur dark:bg-white/5 dark:text-white/60">
               {["Name", "Company", "Role", "Website", "Status", "Action"].map((heading) => (
                 <th key={heading} className="border-y border-slate-200 px-4 py-3 font-semibold first:rounded-l-2xl first:border-l last:rounded-r-2xl last:border-r dark:border-slate-800">
                   {heading}
@@ -823,14 +832,14 @@ function DashboardLeadsTable({
           <tbody>
             {isLeadsLoading ? (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-sm text-slate-500 dark:text-slate-400">
+                <td colSpan={6} className="px-4 py-8 text-center text-sm text-slate-500 dark:text-white/60">
                   Loading leads...
                 </td>
               </tr>
             ) : null}
             {!isLeadsLoading && leads.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-sm text-slate-500 dark:text-slate-400">
+                <td colSpan={6} className="px-4 py-8 text-center text-sm text-slate-500 dark:text-white/60">
                   No leads yet. Add a lead from the Leads page to generate a message here.
                 </td>
               </tr>
@@ -840,7 +849,7 @@ function DashboardLeadsTable({
               const cellClass = `border-b px-4 py-4 transition ${
                 isSelected
                   ? "border-sky-100 bg-sky-50 dark:border-blue-400/20 dark:bg-blue-500/10"
-                  : "border-slate-100 bg-transparent group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:group-hover:bg-white/5 dark:group-hover:text-slate-100"
+                  : "border-white/10 bg-transparent group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:group-hover:bg-white/5 dark:group-hover:text-white/90"
               }`;
 
               return (
@@ -849,10 +858,10 @@ function DashboardLeadsTable({
                   onClick={() => onSelectLead(lead)}
                   className="group cursor-pointer"
                 >
-                  <td className={`${cellClass} font-medium text-slate-950 dark:text-slate-100`}>{lead.name}</td>
-                  <td className={`${cellClass} text-slate-700 dark:text-slate-300`}>{lead.company}</td>
-                  <td className={`${cellClass} text-slate-600 dark:text-slate-400`}>{lead.role}</td>
-                  <td className={`${cellClass} text-slate-600 dark:text-slate-400`}>{lead.website}</td>
+                  <td className={`${cellClass} font-medium text-slate-950 dark:text-white/90`}>{lead.name}</td>
+                  <td className={`${cellClass} text-slate-700 dark:text-white/70`}>{lead.company}</td>
+                  <td className={`${cellClass} text-slate-600 dark:text-white/60`}>{lead.role}</td>
+                  <td className={`${cellClass} text-slate-600 dark:text-white/60`}>{lead.website}</td>
                   <td className={cellClass}>
                     <span
                       className={`rounded-2xl border px-3 py-1 text-xs font-semibold ${
@@ -1005,7 +1014,7 @@ function LeadsPage({
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-sm font-medium uppercase tracking-[0.18em] text-sky-600">Leads</p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-white/90">
             Lead database
           </h1>
         </div>
@@ -1014,14 +1023,14 @@ function LeadsPage({
             type="button"
             onClick={onOpenBulkGenerate}
             disabled={!hasSelectedLeads || isBulkGenerating}
-            className="w-fit rounded-2xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-600/25 disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
+            className={`${primaryButton} w-fit px-4 py-2 text-sm`}
           >
             {isBulkGenerating ? "Generating..." : "Generate messages for selected"}
           </button>
           <button
             type="button"
             onClick={onOpenImport}
-            className="w-fit rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-100"
+            className={`${glassButton} w-fit px-4 py-2 text-sm`}
           >
             Import CSV
           </button>
@@ -1029,7 +1038,7 @@ function LeadsPage({
             type="button"
             onClick={exportVisibleLeads}
             disabled={!hasVisibleLeads || isLoading}
-            className="w-fit rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950 disabled:translate-y-0 disabled:cursor-not-allowed disabled:text-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-700 dark:hover:bg-white/5 dark:hover:text-slate-100 dark:disabled:text-slate-600"
+            className={`${glassButton} w-fit px-4 py-2 text-sm disabled:translate-y-0 disabled:cursor-not-allowed disabled:text-slate-300 dark:disabled:text-white/30`}
           >
             Export CSV
           </button>
@@ -1037,7 +1046,7 @@ function LeadsPage({
             <button
               type="button"
               onClick={exportSelectedLeads}
-              className="w-fit rounded-2xl border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-100 hover:text-blue-800 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-300 dark:hover:border-blue-400/30 dark:hover:bg-blue-500/20 dark:hover:text-blue-200"
+              className="w-fit rounded-2xl border border-blue-300/30 bg-blue-500/10 px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:bg-blue-500/20 hover:text-blue-800 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-300 dark:hover:bg-blue-500/20 dark:hover:text-blue-200"
             >
               Export selected
             </button>
@@ -1045,7 +1054,7 @@ function LeadsPage({
           <button
             type="button"
             onClick={onOpenForm}
-            className="w-fit rounded-2xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-300/70 dark:shadow-black/30 transition hover:-translate-y-0.5 hover:bg-slate-800"
+            className={`${primaryButton} w-fit px-4 py-2 text-sm`}
           >
             Add Lead
           </button>
@@ -1068,35 +1077,35 @@ function LeadsPage({
         </div>
       ) : null}
 
-      <section className="rounded-3xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-900 p-5 shadow-[0_18px_60px_rgba(15,23,42,0.06)] sm:p-6">
-        <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="text-sm font-medium text-slate-600 dark:text-slate-300">
+      <section className={`${glassPanel} p-5 sm:p-6`}>
+        <div className="relative mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="text-sm font-medium text-slate-600 dark:text-white/70">
             {selectedLeadIds.length} selected
           </div>
           <button
             type="button"
             onClick={onToggleAllVisible}
             disabled={leads.length === 0 || isLoading}
-            className="w-fit rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:bg-slate-800 disabled:translate-y-0 disabled:cursor-not-allowed disabled:text-slate-300"
+            className={`${glassButton} w-fit px-3 py-2 text-xs disabled:translate-y-0 disabled:cursor-not-allowed disabled:text-slate-300 dark:disabled:text-white/30`}
           >
             {allVisibleSelected ? "Clear visible" : "Select all visible"}
           </button>
         </div>
 
         {isLoading ? (
-          <div className="py-12 text-center text-sm font-medium text-slate-500 dark:text-slate-400">
+          <div className="py-12 text-center text-sm font-medium text-slate-500 dark:text-white/60">
             Loading leads...
           </div>
         ) : leads.length === 0 ? (
-          <div className="py-12 text-center text-sm font-medium text-slate-500 dark:text-slate-400">
+          <div className="py-12 text-center text-sm font-medium text-slate-500 dark:text-white/60">
             No leads yet.
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="relative overflow-x-auto">
             <table className="w-full min-w-[980px] border-separate border-spacing-0 text-left text-sm">
               <thead>
-                <tr className="bg-slate-50 text-slate-500 dark:bg-slate-950/40 dark:text-slate-400">
-                  <th className="border-y border-l border-slate-200 dark:border-slate-800 px-4 py-3 font-semibold first:rounded-l-2xl">
+                <tr className="bg-white/10 text-slate-500 backdrop-blur dark:bg-white/5 dark:text-white/60">
+                  <th className="border-y border-l border-white/20 px-4 py-3 font-semibold first:rounded-l-2xl dark:border-white/10">
                     <input
                       type="checkbox"
                       checked={allVisibleSelected}
@@ -1108,7 +1117,7 @@ function LeadsPage({
                     (heading) => (
                       <th
                         key={heading}
-                        className="border-y border-slate-200 dark:border-slate-800 px-4 py-3 font-semibold last:rounded-r-2xl last:border-r"
+                        className="border-y border-white/20 px-4 py-3 font-semibold last:rounded-r-2xl last:border-r dark:border-white/10"
                       >
                         {heading}
                       </th>
@@ -1122,7 +1131,7 @@ function LeadsPage({
                   const cellClass = `border-b px-4 py-4 transition ${
                     isHighlighted
                       ? "border-sky-100 bg-sky-50 dark:border-blue-400/20 dark:bg-blue-500/10"
-                      : "border-slate-100 bg-transparent group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:group-hover:bg-white/5 dark:group-hover:text-slate-100"
+                      : "border-white/10 bg-transparent group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:group-hover:bg-white/5 dark:group-hover:text-white/90"
                   }`;
 
                   return (
@@ -1135,20 +1144,20 @@ function LeadsPage({
                           className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:checked:border-blue-500 dark:checked:bg-blue-500"
                         />
                       </td>
-                      <td className={`${cellClass} font-medium text-slate-950 dark:text-slate-100`}>
+                      <td className={`${cellClass} font-medium text-slate-950 dark:text-white/90`}>
                         {lead.name}
                       </td>
-                      <td className={`${cellClass} text-slate-700 dark:text-slate-300`}>{lead.company}</td>
-                      <td className={`${cellClass} text-slate-600 dark:text-slate-400`}>{lead.role}</td>
-                      <td className={`${cellClass} text-slate-600 dark:text-slate-400`}>{lead.website}</td>
-                      <td className={`${cellClass} text-slate-600 dark:text-slate-400`}>{lead.email || "-"}</td>
+                      <td className={`${cellClass} text-slate-700 dark:text-white/70`}>{lead.company}</td>
+                      <td className={`${cellClass} text-slate-600 dark:text-white/60`}>{lead.role}</td>
+                      <td className={`${cellClass} text-slate-600 dark:text-white/60`}>{lead.website}</td>
+                      <td className={`${cellClass} text-slate-600 dark:text-white/60`}>{lead.email || "-"}</td>
                       <td className={cellClass}>
                         <select
                           value={lead.status}
                           onChange={(event) =>
                             onStatusChange(lead.id, event.target.value as LeadStatus)
                           }
-                          className={`rounded-2xl border px-3 py-2 text-xs font-semibold outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-100 ${statusBadgeStyles[lead.status]} dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-blue-400 dark:focus:ring-blue-500/30`}
+                          className={`rounded-2xl border px-3 py-2 text-xs font-semibold outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-100 ${statusBadgeStyles[lead.status]} dark:border-slate-700 dark:bg-slate-900 dark:text-white/90 dark:focus:border-blue-400 dark:focus:ring-blue-500/30`}
                         >
                           {leadStatuses.map((status) => (
                             <option key={status} value={status}>
@@ -1157,7 +1166,7 @@ function LeadsPage({
                           ))}
                         </select>
                       </td>
-                      <td className={`${cellClass} text-slate-600 dark:text-slate-400`}>
+                      <td className={`${cellClass} text-slate-600 dark:text-white/60`}>
                         {formatDate(lead.created_at)}
                       </td>
                       <td className={cellClass}>
@@ -1180,31 +1189,28 @@ function LeadsPage({
 
       {isFormOpen ? (
         <div className="fixed inset-0 z-30 flex items-center justify-center bg-slate-950/30 px-4 backdrop-blur-sm">
-          <form
-            onSubmit={onSubmit}
-            className="w-full max-w-xl rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xl shadow-slate-950/10 dark:shadow-black/40"
-          >
-            <div className="mb-5 flex items-start justify-between gap-4">
+          <form onSubmit={onSubmit} className={`${glassPanel} w-full max-w-xl p-6`}>
+            <div className="relative mb-5 flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">Add Lead</h2>
-                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Create a lead in Supabase.</p>
+                <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-white/90">Add Lead</h2>
+                <p className="mt-1 text-sm text-slate-500 dark:text-white/60">Create a lead in Supabase.</p>
               </div>
               <button
                 type="button"
                 onClick={onCloseForm}
-                className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-100"
+                className={`${glassButton} px-3 py-2 text-sm`}
               >
                 Close
               </button>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="relative grid gap-4 sm:grid-cols-2">
               <label className="space-y-2">
                 <FieldLabel>Name</FieldLabel>
                 <input
                   value={form.name}
                   onChange={(event) => onFormChange("name", event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                  className={glassInput}
                 />
               </label>
               <label className="space-y-2">
@@ -1212,7 +1218,7 @@ function LeadsPage({
                 <input
                   value={form.company}
                   onChange={(event) => onFormChange("company", event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                  className={glassInput}
                 />
               </label>
               <label className="space-y-2">
@@ -1220,7 +1226,7 @@ function LeadsPage({
                 <input
                   value={form.role}
                   onChange={(event) => onFormChange("role", event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                  className={glassInput}
                 />
               </label>
               <label className="space-y-2">
@@ -1228,7 +1234,7 @@ function LeadsPage({
                 <input
                   value={form.website}
                   onChange={(event) => onFormChange("website", event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                  className={glassInput}
                 />
               </label>
               <label className="space-y-2">
@@ -1237,7 +1243,7 @@ function LeadsPage({
                   value={form.email}
                   onChange={(event) => onFormChange("email", event.target.value)}
                   placeholder="name@company.com"
-                  className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                  className={glassInput}
                 />
               </label>
               <label className="space-y-2">
@@ -1245,7 +1251,7 @@ function LeadsPage({
                 <select
                   value={form.status}
                   onChange={(event) => onFormChange("status", event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                  className={glassInput}
                 >
                   {leadStatuses.map((status) => (
                     <option key={status} value={status}>
@@ -1259,7 +1265,7 @@ function LeadsPage({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="mt-6 w-full rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700 disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
+              className={`${primaryButton} relative mt-6 w-full px-5 py-3 text-sm`}
             >
               {isSubmitting ? "Saving..." : "Create Lead"}
             </button>
@@ -1269,32 +1275,32 @@ function LeadsPage({
 
       {isImportOpen ? (
         <div className="fixed inset-0 z-30 flex items-center justify-center bg-slate-950/30 px-4 backdrop-blur-sm">
-          <div className="w-full max-w-2xl rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xl shadow-slate-950/10 dark:shadow-black/40">
-            <div className="mb-5 flex items-start justify-between gap-4">
+          <div className={`${glassPanel} w-full max-w-2xl p-6`}>
+            <div className="relative mb-5 flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
+                <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-white/90">
                   Import leads from CSV
                 </h2>
-                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                <p className="mt-1 text-sm text-slate-500 dark:text-white/60">
                   Required columns: name, company. Optional columns: role, website, email, status.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={onCloseImport}
-                className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-100"
+                className={`${glassButton} px-3 py-2 text-sm`}
               >
                 Close
               </button>
             </div>
 
-            <label className="block space-y-2">
+            <label className="relative block space-y-2">
               <FieldLabel>CSV file</FieldLabel>
               <input
                 type="file"
                 accept=".csv,text/csv"
                 onChange={onCsvFileChange}
-                className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 text-sm text-slate-700 dark:text-slate-200 outline-none transition file:mr-4 file:rounded-2xl file:border-0 file:bg-slate-950 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-800 focus:border-sky-400 focus:ring-4 focus:ring-sky-100"
+                className="w-full rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm text-slate-700 shadow-sm outline-none backdrop-blur transition file:mr-4 file:rounded-2xl file:border-0 file:bg-gradient-to-r file:from-blue-500 file:to-indigo-500 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:bg-white/20 hover:file:from-blue-400 hover:file:to-indigo-400 focus:border-blue-400/60 focus:ring-2 focus:ring-blue-400/40 dark:border-white/10 dark:bg-white/5 dark:text-white/80 dark:hover:bg-white/10"
               />
             </label>
 
@@ -1305,31 +1311,31 @@ function LeadsPage({
             ) : null}
 
             {importPreview ? (
-              <div className="mt-5 space-y-4">
+              <div className="relative mt-5 space-y-4">
                 <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 p-4">
-                    <div className="text-xs font-medium uppercase text-slate-400 dark:text-slate-500">File</div>
-                    <div className="mt-1 truncate text-sm font-semibold text-slate-900 dark:text-slate-100">
+                  <div className="rounded-3xl border border-white/20 bg-white/10 p-4 backdrop-blur dark:border-white/10 dark:bg-white/5">
+                    <div className="text-xs font-medium uppercase text-slate-400 dark:text-white/40">File</div>
+                    <div className="mt-1 truncate text-sm font-semibold text-slate-900 dark:text-white/90">
                       {importPreview.fileName}
                     </div>
                   </div>
-                  <div className="rounded-3xl border border-emerald-100 bg-emerald-50 p-4 shadow-sm">
-                    <div className="text-xs font-medium uppercase text-emerald-600">Valid rows</div>
-                    <div className="mt-1 text-2xl font-semibold text-emerald-700">
+                  <div className="rounded-3xl border border-emerald-300/30 bg-emerald-400/10 p-4 shadow-sm backdrop-blur">
+                    <div className="text-xs font-medium uppercase text-emerald-600 dark:text-emerald-300">Valid rows</div>
+                    <div className="mt-1 text-2xl font-semibold text-emerald-700 dark:text-emerald-200">
                       {importPreview.validRows.length}
                     </div>
                   </div>
-                  <div className="rounded-3xl border border-amber-100 bg-amber-50 p-4 shadow-sm">
-                    <div className="text-xs font-medium uppercase text-amber-600">Skipped rows</div>
-                    <div className="mt-1 text-2xl font-semibold text-amber-700">
+                  <div className="rounded-3xl border border-amber-300/30 bg-amber-400/10 p-4 shadow-sm backdrop-blur">
+                    <div className="text-xs font-medium uppercase text-amber-600 dark:text-amber-300">Skipped rows</div>
+                    <div className="mt-1 text-2xl font-semibold text-amber-700 dark:text-amber-200">
                       {importPreview.skippedRows}
                     </div>
                   </div>
                 </div>
 
-                <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
+                <div className="overflow-x-auto rounded-2xl border border-white/20 bg-white/5 backdrop-blur dark:border-white/10">
                   <table className="w-full min-w-[620px] text-left text-sm">
-                    <thead className="bg-slate-50 text-slate-500 dark:bg-slate-950/40 dark:text-slate-400">
+                    <thead className="bg-white/10 text-slate-500 dark:bg-white/5 dark:text-white/60">
                       <tr>
                         {["Name", "Company", "Role", "Website", "Email", "Status"].map((heading) => (
                           <th key={heading} className="px-4 py-3 font-medium">
@@ -1340,13 +1346,13 @@ function LeadsPage({
                     </thead>
                     <tbody>
                       {importPreview.validRows.slice(0, 5).map((row, index) => (
-                        <tr key={`${row.name}-${row.company}-${index}`} className="border-t border-slate-100 bg-transparent transition hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:hover:bg-white/5 dark:hover:text-slate-100">
-                          <td className="px-4 py-3 font-medium text-slate-950 dark:text-slate-100">{row.name}</td>
+                        <tr key={`${row.name}-${row.company}-${index}`} className="border-t border-white/10 bg-transparent transition hover:bg-white/10 dark:hover:bg-white/5 dark:hover:text-white/90">
+                          <td className="px-4 py-3 font-medium text-slate-950 dark:text-white/90">{row.name}</td>
                           <td className="px-4 py-3 text-slate-700 dark:text-slate-200">{row.company}</td>
-                          <td className="px-4 py-3 text-slate-600 dark:text-slate-300">{row.role || "-"}</td>
-                          <td className="px-4 py-3 text-slate-600 dark:text-slate-300">{row.website || "-"}</td>
-                          <td className="px-4 py-3 text-slate-600 dark:text-slate-300">{row.email || "-"}</td>
-                          <td className="px-4 py-3 text-slate-600 dark:text-slate-300">{row.status}</td>
+                          <td className="px-4 py-3 text-slate-600 dark:text-white/70">{row.role || "-"}</td>
+                          <td className="px-4 py-3 text-slate-600 dark:text-white/70">{row.website || "-"}</td>
+                          <td className="px-4 py-3 text-slate-600 dark:text-white/70">{row.email || "-"}</td>
+                          <td className="px-4 py-3 text-slate-600 dark:text-white/70">{row.status}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -1357,7 +1363,7 @@ function LeadsPage({
                   type="button"
                   onClick={onConfirmImport}
                   disabled={isImporting || importPreview.validRows.length === 0}
-                  className="w-full rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700 disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
+                  className={`${primaryButton} w-full px-5 py-3 text-sm`}
                 >
                   {isImporting ? "Importing..." : "Confirm import"}
                 </button>
@@ -1369,13 +1375,13 @@ function LeadsPage({
 
       {isBulkGenerateOpen ? (
         <div className="fixed inset-0 z-30 flex items-center justify-center bg-slate-950/30 px-4 backdrop-blur-sm">
-          <div className="w-full max-w-xl rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xl shadow-slate-950/10 dark:shadow-black/40">
-            <div className="mb-5 flex items-start justify-between gap-4">
+          <div className={`${glassPanel} w-full max-w-xl p-6`}>
+            <div className="relative mb-5 flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
+                <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-white/90">
                   Generate messages
                 </h2>
-                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                <p className="mt-1 text-sm text-slate-500 dark:text-white/60">
                   Create and save messages for {selectedLeadIds.length} selected lead
                   {selectedLeadIds.length === 1 ? "" : "s"}.
                 </p>
@@ -1384,20 +1390,20 @@ function LeadsPage({
                 type="button"
                 onClick={onCloseBulkGenerate}
                 disabled={isBulkGenerating}
-                className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-100 disabled:cursor-not-allowed disabled:text-slate-300"
+                className={`${glassButton} px-3 py-2 text-sm disabled:cursor-not-allowed disabled:text-slate-300`}
               >
                 Close
               </button>
             </div>
 
-            <div className="space-y-4">
+            <div className="relative space-y-4">
               <label className="space-y-2">
                 <FieldLabel>Offer</FieldLabel>
                 <input
                   value={bulkForm.offer}
                   onChange={(event) => onBulkFormChange("offer", event.target.value)}
                   placeholder="e.g. Web design services"
-                  className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                  className={glassInput}
                 />
               </label>
 
@@ -1407,7 +1413,7 @@ function LeadsPage({
                   <select
                     value={bulkForm.tone}
                     onChange={(event) => onBulkFormChange("tone", event.target.value)}
-                    className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                    className={glassInput}
                   >
                     <option value="friendly">friendly</option>
                     <option value="professional">professional</option>
@@ -1420,7 +1426,7 @@ function LeadsPage({
                   <select
                     value={bulkForm.channel}
                     onChange={(event) => onBulkFormChange("channel", event.target.value)}
-                    className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                    className={glassInput}
                   >
                     {channels.map((channelOption) => (
                       <option key={channelOption} value={channelOption}>
@@ -1435,7 +1441,7 @@ function LeadsPage({
                   <select
                     value={bulkForm.language}
                     onChange={(event) => onBulkFormChange("language", event.target.value)}
-                    className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                    className={glassInput}
                   >
                     {languages.map((languageOption) => (
                       <option key={languageOption.value} value={languageOption.value}>
@@ -1454,13 +1460,13 @@ function LeadsPage({
             ) : null}
 
             {isBulkGenerating || bulkProgress.total > 0 ? (
-              <div className="mt-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 p-4">
-                <div className="text-sm font-semibold text-slate-950 dark:text-slate-100">
+              <div className="mt-5 rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur dark:border-white/10 dark:bg-white/5">
+                <div className="text-sm font-semibold text-slate-950 dark:text-white/90">
                   Generating {bulkProgress.completed} / {bulkProgress.total}
                 </div>
-                <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+                <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/20 dark:bg-white/10">
                   <div
-                    className="h-full rounded-full bg-blue-600 transition-all"
+                    className="h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 transition-all"
                     style={{
                       width:
                         bulkProgress.total === 0
@@ -1469,7 +1475,7 @@ function LeadsPage({
                     }}
                   />
                 </div>
-                <div className="mt-3 flex gap-4 text-sm text-slate-600 dark:text-slate-300">
+                <div className="mt-3 flex gap-4 text-sm text-slate-600 dark:text-white/60">
                   <span>Success: {bulkProgress.success}</span>
                   <span>Failed: {bulkProgress.failed}</span>
                 </div>
@@ -1480,7 +1486,7 @@ function LeadsPage({
               type="button"
               onClick={onConfirmBulkGenerate}
               disabled={isBulkGenerating || !bulkForm.offer.trim() || selectedLeadIds.length === 0}
-              className="mt-6 w-full rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700 disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
+              className={`${primaryButton} mt-6 w-full px-5 py-3 text-sm`}
             >
               {isBulkGenerating ? "Generating..." : "Confirm generation"}
             </button>
@@ -1613,7 +1619,7 @@ function MessagesPage({
           <p className="text-sm font-medium uppercase tracking-[0.18em] text-sky-600">
             Messages
           </p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-white/90">
             Saved messages
           </h1>
         </div>
@@ -1621,26 +1627,26 @@ function MessagesPage({
           type="button"
           onClick={exportVisibleMessages}
           disabled={visibleMessagesForExport.length === 0}
-          className="w-fit rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-100 disabled:translate-y-0 disabled:cursor-not-allowed disabled:text-slate-300"
+          className={`${glassButton} w-fit px-4 py-2 text-sm disabled:translate-y-0 disabled:cursor-not-allowed disabled:text-slate-300`}
         >
           Export CSV
         </button>
       </div>
 
-      <section className="rounded-3xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-900 p-5 shadow-[0_18px_60px_rgba(15,23,42,0.06)] sm:p-6">
-        <div className="mb-5 grid gap-3 lg:grid-cols-[minmax(0,1fr)_220px_260px]">
+      <section className={`${glassPanel} p-5 sm:p-6`}>
+        <div className="relative mb-5 grid gap-3 lg:grid-cols-[minmax(0,1fr)_220px_260px]">
           <input
             value={search}
             onChange={(event) => onSearchChange(event.target.value)}
             placeholder="Search messages, leads, companies..."
-            className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+            className={glassInput}
           />
           <select
             value={statusFilter}
             onChange={(event) =>
               onStatusFilterChange(event.target.value as "all" | LeadStatus)
             }
-            className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+            className={glassInput}
           >
             <option value="all">all</option>
             {leadStatuses.map((status) => (
@@ -1652,7 +1658,7 @@ function MessagesPage({
           <select
             value={campaignFilter}
             onChange={(event) => onCampaignFilterChange(event.target.value)}
-            className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+            className={glassInput}
           >
             <option value="all">All campaigns</option>
             {campaigns.map((campaign) => (
@@ -1670,31 +1676,31 @@ function MessagesPage({
         ) : null}
 
         {isLoading ? (
-          <div className="py-12 text-center text-sm font-medium text-slate-500 dark:text-slate-400">
+          <div className="py-12 text-center text-sm font-medium text-slate-500 dark:text-white/60">
             Loading messages...
           </div>
         ) : messages.length === 0 ? (
-          <div className="py-12 text-center text-sm font-medium text-slate-500 dark:text-slate-400">
+          <div className="py-12 text-center text-sm font-medium text-slate-500 dark:text-white/60">
             No saved messages yet. Generate and save your first message from the dashboard.
           </div>
         ) : filteredMessages.length === 0 ? (
-          <div className="py-12 text-center text-sm font-medium text-slate-500 dark:text-slate-400">
+          <div className="py-12 text-center text-sm font-medium text-slate-500 dark:text-white/60">
             No messages match your filters.
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="relative space-y-3">
             {filteredMessages.map((message) => {
               const followUps = followUpsByParent[message.id] ?? [];
 
               return (
               <article
                 key={message.id}
-                className="rounded-3xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-900 p-4 shadow-[0_14px_42px_rgba(15,23,42,0.05)] transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_20px_60px_rgba(15,23,42,0.08)]"
+                className={`${glassPanel} p-4 transition duration-200 hover:-translate-y-0.5 hover:bg-white/20 dark:hover:bg-white/10`}
               >
                 <div className="mb-3 flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
-                      <h2 className="text-sm font-semibold text-slate-950 dark:text-slate-100">
+                      <h2 className="text-sm font-semibold text-slate-950 dark:text-white/90">
                         {message.leads?.name ?? "No linked lead"}
                       </h2>
                       {message.leads && message.lead_id ? (
@@ -1706,7 +1712,7 @@ function MessagesPage({
                               event.target.value as LeadStatus,
                             )
                           }
-                          className={`rounded-2xl border px-2.5 py-1 text-xs font-semibold outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-100 ${statusBadgeStyles[message.leads.status]} dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-blue-400 dark:focus:ring-blue-500/30`}
+                          className={`rounded-2xl border px-2.5 py-1 text-xs font-semibold outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-100 ${statusBadgeStyles[message.leads.status]} dark:border-slate-700 dark:bg-slate-900 dark:text-white/90 dark:focus:border-blue-400 dark:focus:ring-blue-500/30`}
                         >
                           {leadStatuses.map((status) => (
                             <option key={status} value={status}>
@@ -1716,21 +1722,21 @@ function MessagesPage({
                         </select>
                       ) : null}
                     </div>
-                    <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                    <p className="mt-1 text-sm text-slate-500 dark:text-white/60">
                       {message.leads
                         ? `${message.leads.role} at ${message.leads.company}`
                         : "Saved without a lead"}
                     </p>
                   </div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400">{formatDate(message.created_at)}</div>
+                  <div className="text-sm text-slate-500 dark:text-white/60">{formatDate(message.created_at)}</div>
                 </div>
 
-                <p className="whitespace-pre-wrap rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 p-4 text-sm leading-6 text-slate-800 dark:text-slate-200">
+                <p className="whitespace-pre-wrap rounded-2xl border border-white/20 bg-white/10 p-4 text-sm leading-6 text-slate-800 backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-white/80">
                   {message.content}
                 </p>
 
-                <div className="mt-3 flex flex-col gap-3 border-t border-slate-100 dark:border-slate-800 pt-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="text-sm text-slate-500 dark:text-slate-400">
+                <div className="mt-3 flex flex-col gap-3 border-t border-white/10 dark:border-slate-800 pt-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="text-sm text-slate-500 dark:text-white/60">
                     {message.campaigns
                       ? `${message.campaigns.channel} · ${message.campaigns.target} · ${message.campaigns.offer}`
                       : "No linked campaign"}
@@ -1758,7 +1764,7 @@ function MessagesPage({
                         onClick={() => onSendEmail(message)}
                         disabled={!message.leads.email}
                         title={message.leads.email ? "Open email draft" : "No email"}
-                        className="rounded-2xl border border-emerald-100 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700 transition hover:-translate-y-0.5 hover:border-emerald-200 hover:bg-emerald-100 disabled:translate-y-0 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400"
+                        className="rounded-2xl border border-emerald-100 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700 transition hover:-translate-y-0.5 hover:border-emerald-200 hover:bg-emerald-100 disabled:translate-y-0 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-slate-50 disabled:text-slate-400"
                       >
                         {message.leads.email ? "Send Email" : "No email"}
                       </button>
@@ -1766,7 +1772,7 @@ function MessagesPage({
                     <button
                       type="button"
                       onClick={() => onCopy(message)}
-                      className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-100"
+                      className={`${glassButton} px-3 py-2 text-xs`}
                     >
                       {copiedMessageId === message.id ? "Copied" : "Copy"}
                     </button>
@@ -1781,21 +1787,21 @@ function MessagesPage({
                 </div>
 
                 {followUps.length > 0 ? (
-                  <div className="mt-4 space-y-3 border-l-2 border-slate-200 dark:border-slate-800 pl-4">
+                  <div className="mt-4 space-y-3 border-l-2 border-white/20 pl-4 dark:border-white/10">
                     {followUps.map((followUp, index) => (
                       <div
                         key={followUp.id}
-                        className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 p-4"
+                        className="rounded-3xl border border-white/20 bg-white/10 p-4 backdrop-blur dark:border-white/10 dark:bg-white/5"
                       >
                         <div className="mb-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                          <div className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+                          <div className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-white/60">
                             Follow-up {index + 1}
                           </div>
-                          <div className="text-xs text-slate-500 dark:text-slate-400">
+                          <div className="text-xs text-slate-500 dark:text-white/60">
                             {formatDate(followUp.created_at)}
                           </div>
                         </div>
-                        <p className="whitespace-pre-wrap text-sm leading-6 text-slate-800 dark:text-slate-200">
+                        <p className="whitespace-pre-wrap text-sm leading-6 text-slate-800 dark:text-white/80">
                           {followUp.content}
                         </p>
                         <div className="mt-3 flex flex-wrap gap-2">
@@ -1805,7 +1811,7 @@ function MessagesPage({
                               onClick={() => onSendEmail(followUp)}
                               disabled={!followUp.leads.email}
                               title={followUp.leads.email ? "Open email draft" : "No email"}
-                              className="rounded-2xl border border-emerald-100 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700 transition hover:-translate-y-0.5 hover:border-emerald-200 hover:bg-emerald-100 disabled:translate-y-0 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400"
+                              className="rounded-2xl border border-emerald-300/30 bg-emerald-400/10 px-3 py-2 text-xs font-semibold text-emerald-700 backdrop-blur transition hover:-translate-y-0.5 hover:bg-emerald-400/20 disabled:translate-y-0 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/5 disabled:text-slate-400 dark:text-emerald-300"
                             >
                               {followUp.leads.email ? "Send Email" : "No email"}
                             </button>
@@ -1813,7 +1819,7 @@ function MessagesPage({
                           <button
                             type="button"
                             onClick={() => onCopy(followUp)}
-                            className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-100"
+                            className={`${glassButton} px-3 py-2 text-xs`}
                           >
                             {copiedMessageId === followUp.id ? "Copied" : "Copy"}
                           </button>
@@ -1831,13 +1837,13 @@ function MessagesPage({
 
       {isFollowUpOpen && followUpMessage ? (
         <div className="fixed inset-0 z-30 flex items-center justify-center bg-slate-950/30 px-4 backdrop-blur-sm">
-          <div className="w-full max-w-xl rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xl shadow-slate-950/10 dark:shadow-black/40">
-            <div className="mb-5 flex items-start justify-between gap-4">
+          <div className={`${glassPanel} w-full max-w-xl p-6`}>
+            <div className="relative mb-5 flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
+                <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-white/90">
                   Generate follow-up
                 </h2>
-                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                <p className="mt-1 text-sm text-slate-500 dark:text-white/60">
                   Create a short follow-up connected to the original message.
                 </p>
               </div>
@@ -1845,19 +1851,19 @@ function MessagesPage({
                 type="button"
                 onClick={onCloseFollowUp}
                 disabled={isGeneratingFollowUp}
-                className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-100 disabled:cursor-not-allowed disabled:text-slate-300"
+                className={`${glassButton} px-3 py-2 text-sm disabled:cursor-not-allowed disabled:text-slate-300`}
               >
                 Close
               </button>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-3">
+            <div className="relative grid gap-4 sm:grid-cols-3">
               <label className="space-y-2">
                 <FieldLabel>Follow-up type</FieldLabel>
                 <select
                   value={followUpForm.followUpType}
                   onChange={(event) => onFollowUpFormChange("followUpType", event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                  className={glassInput}
                 >
                   {followUpTypes.map((type) => (
                     <option key={type} value={type}>
@@ -1872,7 +1878,7 @@ function MessagesPage({
                 <select
                   value={followUpForm.tone}
                   onChange={(event) => onFollowUpFormChange("tone", event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                  className={glassInput}
                 >
                   <option value="friendly">friendly</option>
                   <option value="professional">professional</option>
@@ -1885,7 +1891,7 @@ function MessagesPage({
                 <select
                   value={followUpForm.language}
                   onChange={(event) => onFollowUpFormChange("language", event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                  className={glassInput}
                 >
                   {languages.map((languageOption) => (
                     <option key={languageOption.value} value={languageOption.value}>
@@ -1896,7 +1902,7 @@ function MessagesPage({
               </label>
             </div>
 
-            <div className="mt-4 rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 p-4 text-sm leading-6 text-slate-700 dark:text-slate-200">
+            <div className="relative mt-4 rounded-3xl border border-white/20 bg-white/10 p-4 text-sm leading-6 text-slate-700 backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-white/80">
               {followUpMessage.content}
             </div>
 
@@ -1910,7 +1916,7 @@ function MessagesPage({
               type="button"
               onClick={onGenerateFollowUp}
               disabled={isGeneratingFollowUp}
-              className="mt-6 w-full rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700 disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
+              className={`${primaryButton} relative mt-6 w-full px-5 py-3 text-sm`}
             >
               {isGeneratingFollowUp ? "Generating..." : "Generate Follow-up"}
             </button>
@@ -1954,37 +1960,37 @@ function EmailServiceModal({
 
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-slate-950/40 px-4 backdrop-blur-sm">
-      <section className="w-full max-w-lg rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/15 dark:border-white/[0.08] dark:bg-[#111827]/95 dark:bg-gradient-to-b dark:from-white/[0.07] dark:to-white/[0.03] dark:shadow-black/40">
-        <div className="mb-5 flex items-start justify-between gap-4">
+      <section className={`${glassPanel} w-full max-w-lg p-6`}>
+        <div className="relative mb-5 flex items-start justify-between gap-4">
           <div>
-            <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
+            <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-white/90">
               Choose email service
             </h2>
-            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            <p className="mt-1 text-sm text-slate-500 dark:text-white/60">
               Send to {email}
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 hover:text-slate-950 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-slate-100"
+            className={`${glassButton} px-3 py-2 text-sm`}
           >
             Close
           </button>
         </div>
 
-        <div className="grid gap-3">
+        <div className="relative grid gap-3">
           {services.map((service) => (
             <button
               key={service.id}
               type="button"
               onClick={() => onChoose(service.id)}
-              className="rounded-3xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50 hover:shadow-lg hover:shadow-blue-600/10 dark:border-white/[0.08] dark:bg-white/[0.04] dark:hover:border-blue-400/30 dark:hover:bg-white/[0.08] dark:hover:shadow-blue-500/10"
+              className="rounded-3xl border border-white/20 bg-white/10 px-4 py-4 text-left shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-blue-300/40 hover:bg-white/20 hover:shadow-lg hover:shadow-blue-600/10 dark:border-white/10 dark:bg-white/5 dark:hover:border-blue-400/30 dark:hover:bg-white/10 dark:hover:shadow-blue-500/10"
             >
-              <div className="text-sm font-semibold text-slate-950 dark:text-slate-100">
+              <div className="text-sm font-semibold text-slate-950 dark:text-white/90">
                 {service.title}
               </div>
-              <div className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              <div className="mt-1 text-sm text-slate-500 dark:text-white/60">
                 {service.description}
               </div>
             </button>
@@ -2046,14 +2052,14 @@ function CampaignsPage({
           <p className="text-sm font-medium uppercase tracking-[0.18em] text-sky-600">
             Campaigns
           </p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-white/90">
             Campaign database
           </h1>
         </div>
         <button
           type="button"
           onClick={onOpenCreate}
-          className="w-fit rounded-2xl bg-slate-950 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-300/70 dark:shadow-black/30 transition hover:-translate-y-0.5 hover:bg-slate-800"
+          className={`${primaryButton} w-fit px-4 py-2 text-sm`}
         >
           Create Campaign
         </button>
@@ -2065,33 +2071,33 @@ function CampaignsPage({
         </div>
       ) : null}
 
-      <section className="rounded-3xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-900 p-5 shadow-[0_18px_60px_rgba(15,23,42,0.06)] sm:p-6">
-        <div className="mb-5">
+      <section className={`${glassPanel} p-5 sm:p-6`}>
+        <div className="relative mb-5">
           <input
             value={search}
             onChange={(event) => onSearchChange(event.target.value)}
             placeholder="Search campaigns by name, target, or offer..."
-            className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+            className={glassInput}
           />
         </div>
 
         {isLoading ? (
-          <div className="py-12 text-center text-sm font-medium text-slate-500 dark:text-slate-400">
+          <div className="py-12 text-center text-sm font-medium text-slate-500 dark:text-white/60">
             Loading campaigns...
           </div>
         ) : campaigns.length === 0 ? (
-          <div className="py-12 text-center text-sm font-medium text-slate-500 dark:text-slate-400">
+          <div className="py-12 text-center text-sm font-medium text-slate-500 dark:text-white/60">
             No campaigns yet. Create your first campaign to start generating messages.
           </div>
         ) : filteredCampaigns.length === 0 ? (
-          <div className="py-12 text-center text-sm font-medium text-slate-500 dark:text-slate-400">
+          <div className="py-12 text-center text-sm font-medium text-slate-500 dark:text-white/60">
             No campaigns match your search.
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="relative overflow-x-auto">
             <table className="w-full min-w-[1080px] border-separate border-spacing-0 text-left text-sm">
               <thead>
-                <tr className="bg-slate-50 text-slate-500 dark:bg-slate-950/40 dark:text-slate-400">
+                <tr className="bg-white/10 text-slate-500 backdrop-blur dark:bg-white/5 dark:text-white/60">
                   {[
                     "Name",
                     "Target",
@@ -2103,7 +2109,7 @@ function CampaignsPage({
                     "Leads",
                     "Actions",
                   ].map((heading) => (
-                    <th key={heading} className="border-y border-slate-200 dark:border-slate-800 px-4 py-3 font-semibold first:rounded-l-2xl first:border-l last:rounded-r-2xl last:border-r">
+                    <th key={heading} className="border-y border-white/20 px-4 py-3 font-semibold first:rounded-l-2xl first:border-l last:rounded-r-2xl last:border-r dark:border-white/10">
                       {heading}
                     </th>
                   ))}
@@ -2120,43 +2126,43 @@ function CampaignsPage({
 
                   return (
                     <tr key={campaign.id} className="group">
-                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 font-medium text-slate-950 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:text-slate-100 dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 font-medium text-slate-950 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/90 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         {campaign.name}
                       </td>
-                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 text-slate-700 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:text-slate-300 dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-700 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/70 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         {campaign.target}
                       </td>
-                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 text-slate-700 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:text-slate-300 dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-700 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/70 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         {campaign.offer}
                       </td>
-                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 text-slate-600 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:text-slate-400 dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-600 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/60 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         {campaign.tone}
                       </td>
-                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 text-slate-600 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:text-slate-400 dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-600 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/60 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         {campaign.channel}
                       </td>
-                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 text-slate-600 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:text-slate-400 dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-600 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/60 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         {formatDate(campaign.created_at)}
                       </td>
-                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 text-slate-700 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:text-slate-300 dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-700 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/70 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         {messageCount}
                       </td>
-                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 text-slate-700 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:text-slate-300 dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-700 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/70 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         {leadCount}
                       </td>
-                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         <div className="flex flex-wrap gap-2">
                           <button
                             type="button"
                             onClick={() => onUseCampaign(campaign)}
-                            className="rounded-2xl bg-slate-950 px-3 py-2 text-xs font-semibold text-white shadow-lg shadow-slate-300/60 dark:shadow-black/30 transition hover:-translate-y-0.5 hover:bg-blue-700"
+                            className={`${primaryButton} px-3 py-2 text-xs`}
                           >
                             Use campaign
                           </button>
                           <button
                             type="button"
                             onClick={() => onOpenEdit(campaign)}
-                            className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-100"
+                            className={`${glassButton} px-3 py-2 text-xs`}
                           >
                             Edit
                           </button>
@@ -2180,35 +2186,32 @@ function CampaignsPage({
 
       {isFormOpen ? (
         <div className="fixed inset-0 z-30 flex items-center justify-center bg-slate-950/30 px-4 backdrop-blur-sm">
-          <form
-            onSubmit={onSubmit}
-            className="w-full max-w-xl rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xl shadow-slate-950/10 dark:shadow-black/40"
-          >
-            <div className="mb-5 flex items-start justify-between gap-4">
+          <form onSubmit={onSubmit} className={`${glassPanel} w-full max-w-xl p-6`}>
+            <div className="relative mb-5 flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
+                <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-white/90">
                   {editingCampaign ? "Edit Campaign" : "Create Campaign"}
                 </h2>
-                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                <p className="mt-1 text-sm text-slate-500 dark:text-white/60">
                   Save reusable campaign context for generation.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={onCloseForm}
-                className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-100"
+                className={`${glassButton} px-3 py-2 text-sm`}
               >
                 Close
               </button>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="relative grid gap-4 sm:grid-cols-2">
               <label className="space-y-2 sm:col-span-2">
                 <FieldLabel>Name</FieldLabel>
                 <input
                   value={form.name}
                   onChange={(event) => onFormChange("name", event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                  className={glassInput}
                 />
               </label>
               <label className="space-y-2">
@@ -2216,7 +2219,7 @@ function CampaignsPage({
                 <input
                   value={form.target}
                   onChange={(event) => onFormChange("target", event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                  className={glassInput}
                 />
               </label>
               <label className="space-y-2">
@@ -2224,7 +2227,7 @@ function CampaignsPage({
                 <input
                   value={form.offer}
                   onChange={(event) => onFormChange("offer", event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                  className={glassInput}
                 />
               </label>
               <label className="space-y-2">
@@ -2232,7 +2235,7 @@ function CampaignsPage({
                 <select
                   value={form.tone}
                   onChange={(event) => onFormChange("tone", event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                  className={glassInput}
                 >
                   <option value="friendly">friendly</option>
                   <option value="professional">professional</option>
@@ -2244,7 +2247,7 @@ function CampaignsPage({
                 <select
                   value={form.channel}
                   onChange={(event) => onFormChange("channel", event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                  className={glassInput}
                 >
                   {channels.map((channelOption) => (
                     <option key={channelOption} value={channelOption}>
@@ -2258,7 +2261,7 @@ function CampaignsPage({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="mt-6 w-full rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700 disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
+              className={`${primaryButton} relative mt-6 w-full px-5 py-3 text-sm`}
             >
               {isSubmitting ? "Saving..." : editingCampaign ? "Update Campaign" : "Create Campaign"}
             </button>
@@ -2293,27 +2296,27 @@ function SettingsPage({
           <p className="text-sm font-medium uppercase tracking-[0.18em] text-sky-600">
             Settings
           </p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-white/90">
             Workspace preferences
           </h1>
         </div>
         <button
           type="button"
           onClick={onReset}
-          className="w-fit rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-100"
+          className={`${glassButton} w-fit px-4 py-2 text-sm`}
         >
           Reset settings
         </button>
       </div>
 
-      <section className="rounded-3xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-900 p-5 shadow-[0_18px_60px_rgba(15,23,42,0.06)] sm:p-6">
-        <div className="divide-y divide-slate-100 dark:divide-slate-800">
+      <section className={`${glassPanel} p-5 sm:p-6`}>
+        <div className="relative divide-y divide-white/10">
           <div className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-sm font-semibold text-slate-950 dark:text-slate-100">
+              <h2 className="text-sm font-semibold text-slate-950 dark:text-white/90">
                 Auto-save generated messages
               </h2>
-              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-sm text-slate-500 dark:text-white/60">
                 Save generated messages automatically after a successful response.
               </p>
             </div>
@@ -2329,7 +2332,7 @@ function SettingsPage({
               <select
                 value={settings.theme}
                 onChange={(event) => onThemeChange(event.target.value as ThemeSetting)}
-                className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-950 dark:focus:border-sky-500 dark:focus:bg-slate-950 dark:focus:ring-sky-950"
+                className={glassInput}
               >
                 <option value="light">Light</option>
                 <option value="dark">Dark</option>
@@ -2342,7 +2345,7 @@ function SettingsPage({
               <select
                 value={settings.defaultTone}
                 onChange={(event) => onDefaultToneChange(event.target.value as ApiTone)}
-                className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                className={glassInput}
               >
                 <option value="friendly">friendly</option>
                 <option value="professional">professional</option>
@@ -2355,7 +2358,7 @@ function SettingsPage({
               <select
                 value={settings.defaultChannel}
                 onChange={(event) => onDefaultChannelChange(event.target.value as Channel)}
-                className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                className={glassInput}
               >
                 {channels.map((channelOption) => (
                   <option key={channelOption} value={channelOption}>
@@ -2370,7 +2373,7 @@ function SettingsPage({
               <select
                 value={settings.defaultLanguage}
                 onChange={(event) => onDefaultLanguageChange(event.target.value as Language)}
-                className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+                className={glassInput}
               >
                 {languages.map((languageOption) => (
                   <option key={languageOption.value} value={languageOption.value}>
@@ -2383,10 +2386,10 @@ function SettingsPage({
 
           <div className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-sm font-semibold text-slate-950 dark:text-slate-100">
+              <h2 className="text-sm font-semibold text-slate-950 dark:text-white/90">
                 Confirm before deleting
               </h2>
-              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-sm text-slate-500 dark:text-white/60">
                 Ask before deleting leads, messages, or campaigns.
               </p>
             </div>
@@ -2398,8 +2401,8 @@ function SettingsPage({
 
           <div className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-sm font-semibold text-slate-950 dark:text-slate-100">Compact mode</h2>
-              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              <h2 className="text-sm font-semibold text-slate-950 dark:text-white/90">Compact mode</h2>
+              <p className="mt-1 text-sm text-slate-500 dark:text-white/60">
                 Use tighter dashboard spacing on supported views.
               </p>
             </div>
@@ -2424,11 +2427,11 @@ function LandingPage({
   const features = ["Bulk message generation", "Follow-ups", "CSV import/export"];
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 px-4 py-8 text-slate-950 dark:text-slate-100">
+    <main className="premium-noise-bg min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.14),transparent_32rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.12),transparent_28rem),linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-4 py-8 text-slate-950 dark:bg-[#0B1220] dark:bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.2),transparent_32rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.16),transparent_28rem),linear-gradient(180deg,#0B1220_0%,#0F172A_100%)] dark:text-white/90">
       <section className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-6xl flex-col">
         <header className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-sm font-semibold text-white shadow-lg shadow-slate-300/70 dark:shadow-black/30">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 text-sm font-semibold text-white shadow-lg shadow-blue-500/20">
               LF
             </div>
             <span className="text-base font-semibold tracking-tight">LeadFlow</span>
@@ -2436,7 +2439,7 @@ function LandingPage({
           <button
             type="button"
             onClick={onLogin}
-            className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-100"
+            className={`${glassButton} px-4 py-2 text-sm`}
           >
             Login
           </button>
@@ -2447,17 +2450,17 @@ function LandingPage({
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600">
               AI outreach workspace
             </p>
-            <h1 className="mt-5 text-4xl font-semibold tracking-tight text-slate-950 dark:text-slate-100 sm:text-6xl lg:text-7xl">
+            <h1 className="mt-5 text-4xl font-semibold tracking-tight text-slate-950 dark:text-white/90 sm:text-6xl lg:text-7xl">
               Get more replies from cold outreach
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-500 dark:text-slate-400 sm:text-lg lg:mx-0">
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-500 dark:text-white/60 sm:text-lg lg:mx-0">
               Generate, follow up, and manage your outreach in one place
             </p>
             <div className="mt-8 flex justify-center lg:justify-start">
               <button
                 type="button"
                 onClick={onStart}
-                className="rounded-2xl bg-blue-600 px-6 py-4 text-base font-semibold text-white shadow-xl shadow-blue-600/25 transition hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-2xl hover:shadow-blue-600/30 active:translate-y-0"
+                className={`${primaryButton} px-6 py-4 text-base`}
               >
                 Start for free
               </button>
@@ -2466,46 +2469,46 @@ function LandingPage({
               {features.map((feature) => (
                 <div
                   key={feature}
-                  className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 text-sm font-semibold text-slate-700 dark:text-slate-200 shadow-[0_14px_42px_rgba(15,23,42,0.05)]"
+                  className="rounded-3xl border border-white/20 bg-white/10 p-4 text-sm font-semibold text-slate-700 shadow-lg shadow-black/10 backdrop-blur-xl dark:border-white/10 dark:bg-white/5 dark:text-white/80 dark:shadow-black/30"
                 >
-                  <div className="mb-3 h-1.5 w-8 rounded-full bg-blue-600" />
+                  <div className="mb-3 h-1.5 w-8 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500" />
                   {feature}
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-[0_28px_90px_rgba(15,23,42,0.12)]">
-            <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 p-4">
+          <div className={`${glassPanel} rounded-[2rem] p-4`}>
+            <div className="relative rounded-3xl border border-white/20 bg-white/10 p-4 backdrop-blur dark:border-white/10 dark:bg-white/5">
               <div className="mb-4 flex items-center justify-between">
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-600">
                     Dashboard
                   </div>
-                  <div className="mt-1 text-lg font-semibold text-slate-950 dark:text-slate-100">Message workflow</div>
+                  <div className="mt-1 text-lg font-semibold text-slate-950 dark:text-white/90">Message workflow</div>
                 </div>
                 <span className="rounded-2xl border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
                   Auto-saved
                 </span>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
-                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm">
-                  <div className="text-xs font-semibold text-slate-400 dark:text-slate-500">Target</div>
-                  <div className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">Founders at SaaS teams</div>
+                <div className="rounded-2xl border border-white/20 bg-white/10 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
+                  <div className="text-xs font-semibold text-slate-400 dark:text-white/40">Target</div>
+                  <div className="mt-2 text-sm font-semibold text-slate-900 dark:text-white/90">Founders at SaaS teams</div>
                 </div>
-                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm">
-                  <div className="text-xs font-semibold text-slate-400 dark:text-slate-500">Channel</div>
-                  <div className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">LinkedIn DM</div>
+                <div className="rounded-2xl border border-white/20 bg-white/10 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
+                  <div className="text-xs font-semibold text-slate-400 dark:text-white/40">Channel</div>
+                  <div className="mt-2 text-sm font-semibold text-slate-900 dark:text-white/90">LinkedIn DM</div>
                 </div>
               </div>
-              <div className="mt-3 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm">
+              <div className="mt-3 rounded-3xl border border-white/20 bg-white/10 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
                 <div className="mb-3 flex items-center justify-between">
-                  <span className="text-sm font-semibold text-slate-950 dark:text-slate-100">Generated message</span>
+                  <span className="text-sm font-semibold text-slate-950 dark:text-white/90">Generated message</span>
                   <span className="rounded-2xl bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
                     Ready
                   </span>
                 </div>
-                <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">
+                <p className="text-sm leading-6 text-slate-600 dark:text-white/70">
                   Hi there, I noticed many SaaS teams spend time testing outreach manually. LeadFlow helps draft and organize short messages faster, without losing the human tone. Open to seeing what it would write for your next campaign?
                 </p>
               </div>
@@ -2668,33 +2671,33 @@ function AuthPage({
   const submitLabel = mode === "login" ? "Login" : "Sign up";
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 py-10 text-slate-950 dark:text-slate-100">
-      <section className="w-full max-w-md rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xl shadow-slate-200/80 dark:shadow-black/30">
-        <div>
+    <main className="premium-noise-bg flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.14),transparent_32rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.12),transparent_28rem),linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-4 py-10 text-slate-950 dark:bg-[#0B1220] dark:bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.2),transparent_32rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.16),transparent_28rem),linear-gradient(180deg,#0B1220_0%,#0F172A_100%)] dark:text-white/90">
+      <section className={`${glassPanel} w-full max-w-md p-6`}>
+        <div className="relative">
           <button
             type="button"
             onClick={onBack}
-            className="mb-5 text-sm font-semibold text-slate-500 dark:text-slate-400 transition hover:text-slate-950 dark:hover:text-slate-100"
+            className="mb-5 text-sm font-semibold text-slate-500 transition hover:text-slate-950 dark:text-white/60 dark:hover:text-white/90"
           >
             Back
           </button>
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-sky-600">
             LeadFlow
           </p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
+          <h1 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950 dark:text-white/90">
             {title}
           </h1>
-          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+          <p className="mt-2 text-sm text-slate-500 dark:text-white/60">
             {description}
           </p>
         </div>
 
-        <div className="mt-6 grid grid-cols-2 rounded-2xl bg-slate-100 dark:bg-slate-800 p-1 text-sm font-semibold">
+        <div className="relative mt-6 grid grid-cols-2 rounded-2xl border border-white/20 bg-white/10 p-1 text-sm font-semibold backdrop-blur dark:border-white/10 dark:bg-white/5">
           <button
             type="button"
             onClick={() => changeMode("login")}
             className={`rounded-xl px-3 py-2 transition ${
-              mode === "login" ? "bg-white dark:bg-slate-900 text-slate-950 dark:text-slate-100 shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
+              mode === "login" ? "bg-white/60 text-slate-950 shadow-sm dark:bg-white/10 dark:text-white/90" : "text-slate-500 hover:text-slate-800 dark:text-white/50 dark:hover:text-white/80"
             }`}
           >
             Login
@@ -2703,26 +2706,26 @@ function AuthPage({
             type="button"
             onClick={() => changeMode("signup")}
             className={`rounded-xl px-3 py-2 transition ${
-              mode === "signup" ? "bg-white dark:bg-slate-900 text-slate-950 dark:text-slate-100 shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
+              mode === "signup" ? "bg-white/60 text-slate-950 shadow-sm dark:bg-white/10 dark:text-white/90" : "text-slate-500 hover:text-slate-800 dark:text-white/50 dark:hover:text-white/80"
             }`}
           >
             Signup
           </button>
         </div>
 
-        <form onSubmit={handleAuth} className="mt-6 space-y-4">
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+        <form onSubmit={handleAuth} className="relative mt-6 space-y-4">
+          <label className="block text-sm font-medium text-slate-700 dark:text-white/70">
             Email
             <input
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               required
-              className="mt-2 w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-950 dark:text-slate-100 outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100 dark:focus:ring-sky-900/40"
+              className={`${glassInput} mt-2`}
               placeholder="you@company.com"
             />
           </label>
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+          <label className="block text-sm font-medium text-slate-700 dark:text-white/70">
             Password
             <input
               type="password"
@@ -2730,25 +2733,25 @@ function AuthPage({
               onChange={(event) => setPassword(event.target.value)}
               required
               minLength={6}
-              className="mt-2 w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-950 dark:text-slate-100 outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100 dark:focus:ring-sky-900/40"
+              className={`${glassInput} mt-2`}
               placeholder="Minimum 6 characters"
             />
           </label>
           {mode === "signup" ? (
-            <label className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+            <label className="block text-sm font-medium text-slate-700 dark:text-white/70">
               Password hint
               <input
                 type="text"
                 value={passwordHint}
                 onChange={(event) => setPasswordHint(event.target.value.slice(0, 120))}
                 maxLength={120}
-                className="mt-2 w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-950 dark:text-slate-100 outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100 dark:focus:ring-sky-900/40"
+                className={`${glassInput} mt-2`}
                 placeholder="e.g. my old laptop name"
               />
-              <p className="mt-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+              <p className="mt-2 text-xs font-medium text-slate-500 dark:text-white/60">
                 Do not write your actual password.
               </p>
-              <p className="mt-1 text-xs font-medium text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-xs font-medium text-slate-500 dark:text-white/60">
                 This is only a hint. Never store your real password here.
               </p>
             </label>
@@ -2768,7 +2771,7 @@ function AuthPage({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full rounded-2xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-xl shadow-blue-600/25 transition hover:-translate-y-0.5 hover:bg-blue-700 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
+            className={`${primaryButton} w-full px-4 py-3 text-sm disabled:opacity-60`}
           >
             {isSubmitting ? "Please wait..." : submitLabel}
           </button>
@@ -2783,11 +2786,11 @@ function AuthPage({
             >
               Show password hint
             </button>
-            <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
+            <p className="text-xs font-medium text-slate-500 dark:text-white/60">
               This is only a hint. Never store your real password here.
             </p>
             {shownPasswordHint ? (
-              <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-700 dark:text-slate-200">
+              <div className="rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm text-slate-700 backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-white/80">
                 {shownPasswordHint}
               </div>
             ) : null}
@@ -4344,7 +4347,7 @@ export default function App() {
                 onClick={() => {
                   void logout();
                 }}
-                className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950 hover:shadow dark:border-white/[0.06] dark:bg-white/[0.04] dark:text-gray-300 dark:shadow-black/20 dark:hover:border-white/10 dark:hover:bg-white/[0.08] dark:hover:text-gray-100"
+                className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white/10 hover:text-slate-950 hover:shadow dark:border-white/[0.06] dark:bg-white/[0.04] dark:text-gray-300 dark:shadow-black/20 dark:hover:border-white/10 dark:hover:bg-white/[0.08] dark:hover:text-gray-100"
               >
                 Logout
               </button>
