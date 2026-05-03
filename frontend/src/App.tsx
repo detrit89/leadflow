@@ -216,10 +216,10 @@ const navIconLabels: Record<NavView, string> = {
 };
 
 const statusBadgeStyles: Record<LeadStatus, string> = {
-  new: "border-sky-100 bg-sky-50 text-sky-700 dark:border-sky-900/60 dark:bg-sky-950/50 dark:text-sky-300",
-  contacted: "border-amber-100 bg-amber-50 text-amber-700 dark:border-amber-900/60 dark:bg-amber-950/50 dark:text-amber-300",
-  replied: "border-emerald-100 bg-emerald-50 text-emerald-700 dark:border-emerald-900/60 dark:bg-emerald-950/50 dark:text-emerald-300",
-  interested: "border-violet-100 bg-violet-50 text-violet-700 dark:border-violet-900/60 dark:bg-violet-950/50 dark:text-violet-300",
+  new: "border-sky-100 bg-sky-50 text-sky-700 dark:border-sky-400/15 dark:bg-sky-400/10 dark:text-sky-300",
+  contacted: "border-amber-100 bg-amber-50 text-amber-700 dark:border-amber-400/15 dark:bg-amber-400/10 dark:text-amber-300",
+  replied: "border-emerald-100 bg-emerald-50 text-emerald-700 dark:border-emerald-400/15 dark:bg-emerald-400/10 dark:text-emerald-300",
+  interested: "border-violet-100 bg-violet-50 text-violet-700 dark:border-violet-400/15 dark:bg-violet-400/10 dark:text-violet-300",
 };
 
 function Spinner() {
@@ -372,15 +372,15 @@ function Sidebar({
   onNavigate: (view: NavView) => void;
 }) {
   return (
-    <aside className="hidden min-h-screen w-72 shrink-0 border-r border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-900/90 px-4 py-5 shadow-[12px_0_40px_rgba(15,23,42,0.03)] backdrop-blur lg:block">
-      <div className="mb-8 rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 p-3">
+    <aside className="hidden min-h-screen w-72 shrink-0 border-r border-slate-200 bg-white px-4 py-5 shadow-[12px_0_40px_rgba(15,23,42,0.03)] backdrop-blur lg:block dark:border-white/[0.06] dark:bg-[#0F172A]/80 dark:shadow-lg dark:shadow-black/30">
+      <div className="mb-8 rounded-3xl border border-slate-200 bg-slate-50 p-3 dark:border-white/[0.06] dark:bg-white/[0.04] dark:bg-gradient-to-b dark:from-white/[0.06] dark:to-transparent">
         <div className="flex items-center gap-3">
         <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-sm font-semibold text-white shadow-lg shadow-slate-300/70 dark:shadow-black/30">
           LF
         </div>
         <div>
-          <div className="text-base font-semibold tracking-tight text-slate-950 dark:text-slate-100">LeadFlow</div>
-          <div className="text-xs text-slate-500 dark:text-slate-400">AI sales workspace</div>
+          <div className="text-base font-semibold tracking-tight text-slate-950 dark:text-gray-200">LeadFlow</div>
+          <div className="text-xs text-slate-500 dark:text-gray-400">AI sales workspace</div>
         </div>
         </div>
       </div>
@@ -392,15 +392,15 @@ function Sidebar({
             onClick={() => onNavigate(item)}
             className={`group flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm font-medium transition duration-200 ${
               item === activeView
-                ? "bg-slate-950 text-white shadow-lg shadow-slate-300/70 dark:shadow-black/30"
-                : "text-slate-600 dark:text-slate-300 hover:bg-slate-100/80 hover:text-slate-950 dark:hover:text-slate-100"
+                ? "bg-slate-950 text-white shadow-lg shadow-slate-300/70 dark:bg-gradient-to-r dark:from-blue-500/90 dark:to-indigo-500/90 dark:shadow-blue-500/20"
+                : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-950 dark:text-gray-400 dark:hover:bg-white/[0.05] dark:hover:text-gray-100"
             }`}
           >
             <span
               className={`flex h-8 w-8 items-center justify-center rounded-xl text-xs font-semibold transition ${
                 item === activeView
                   ? "bg-white/15 text-white"
-                  : "bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 ring-1 ring-slate-200 dark:ring-slate-800 group-hover:text-slate-950 dark:hover:text-slate-100"
+                  : "bg-white text-slate-500 ring-1 ring-slate-200 group-hover:text-slate-950 dark:bg-white/[0.04] dark:text-gray-500 dark:ring-white/[0.06] dark:group-hover:text-gray-100"
               }`}
             >
               {navIconLabels[item]}
@@ -421,12 +421,12 @@ function MobileTopBar({
   onNavigate: (view: NavView) => void;
 }) {
   return (
-    <header className="sticky top-0 z-20 border-b border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-900/90 px-4 py-4 shadow-sm backdrop-blur lg:hidden">
+    <header className="sticky top-0 z-20 border-b border-slate-200 bg-white px-4 py-4 shadow-sm backdrop-blur lg:hidden dark:border-white/[0.06] dark:bg-[#0F172A]/85 dark:shadow-lg dark:shadow-black/30">
       <div className="flex items-center gap-3">
         <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-950 text-xs font-semibold text-white shadow-sm">
           LF
         </div>
-        <div className="text-base font-semibold tracking-tight text-slate-950 dark:text-slate-100">LeadFlow</div>
+        <div className="text-base font-semibold tracking-tight text-slate-950 dark:text-gray-200">LeadFlow</div>
       </div>
       <nav className="mt-4 flex gap-2 overflow-x-auto pb-1">
         {navItems.map((item) => (
@@ -435,8 +435,8 @@ function MobileTopBar({
             onClick={() => onNavigate(item)}
             className={`shrink-0 rounded-2xl px-3 py-2 text-sm font-medium transition ${
               item === activeView
-                ? "bg-slate-950 text-white shadow-sm"
-                : "bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-slate-200/80 hover:text-slate-950 dark:hover:text-slate-100"
+                ? "bg-slate-950 text-white shadow-sm dark:bg-gradient-to-r dark:from-blue-500 dark:to-indigo-500 dark:shadow-blue-500/20"
+                : "bg-slate-100 text-slate-600 hover:bg-slate-200/80 hover:text-slate-950 dark:bg-white/[0.04] dark:text-gray-400 dark:hover:bg-white/[0.08] dark:hover:text-gray-100"
             }`}
           >
             {item}
@@ -449,16 +449,16 @@ function MobileTopBar({
 
 function StatCard({ label, value, trend }: { label: string; value: string; trend: string }) {
   return (
-    <article className="rounded-3xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-900 p-4 shadow-[0_14px_40px_rgba(15,23,42,0.05)] transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
-      <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">{label}</div>
-      <div className="mt-3 text-2xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">{value}</div>
-      <div className="mt-1 text-xs font-medium text-slate-500 dark:text-slate-400">{trend}</div>
+    <article className="rounded-3xl border border-slate-200 bg-white p-4 shadow-[0_14px_40px_rgba(15,23,42,0.05)] transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_20px_60px_rgba(15,23,42,0.08)] dark:border-white/[0.06] dark:bg-[#111827]/80 dark:bg-gradient-to-b dark:from-white/[0.06] dark:to-white/[0.02] dark:shadow-lg dark:shadow-black/30 dark:hover:border-white/10">
+      <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-gray-500">{label}</div>
+      <div className="mt-3 text-2xl font-semibold tracking-tight text-slate-950 dark:text-gray-200">{value}</div>
+      <div className="mt-1 text-xs font-medium text-slate-500 dark:text-gray-400">{trend}</div>
     </article>
   );
 }
 
 function FieldLabel({ children }: { children: string }) {
-  return <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{children}</span>;
+  return <span className="text-sm font-semibold text-slate-700 dark:text-gray-300">{children}</span>;
 }
 
 function ToggleSwitch({
@@ -524,25 +524,25 @@ function Generator({
   }
 
   return (
-    <section className="rounded-3xl border border-sky-200/80 bg-white dark:bg-slate-900 p-5 shadow-[0_26px_90px_rgba(14,165,233,0.16)] ring-1 ring-sky-100/60 transition duration-200 hover:shadow-[0_32px_100px_rgba(14,165,233,0.2)] sm:p-6">
+    <section className="rounded-3xl border border-sky-200/80 bg-white p-5 shadow-[0_26px_90px_rgba(14,165,233,0.16)] ring-1 ring-sky-100/60 transition duration-200 hover:shadow-[0_32px_100px_rgba(14,165,233,0.2)] sm:p-6 dark:border-blue-400/15 dark:bg-[#111827]/85 dark:bg-gradient-to-b dark:from-white/[0.07] dark:to-white/[0.025] dark:shadow-lg dark:shadow-black/30 dark:ring-1 dark:ring-white/[0.04] dark:backdrop-blur-xl dark:hover:border-blue-400/25 dark:hover:shadow-blue-950/20">
       <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <div className="mb-2 w-fit rounded-2xl border border-sky-100 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700 shadow-sm">
+          <div className="mb-2 w-fit rounded-2xl border border-sky-100 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700 shadow-sm dark:border-blue-400/15 dark:bg-blue-400/10 dark:text-blue-300">
             Message generator
           </div>
-          <h2 className="text-2xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
+          <h2 className="text-2xl font-semibold tracking-tight text-slate-950 dark:text-gray-200">
             Campaign Message
           </h2>
-          <p className="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400">
+          <p className="mt-1 text-sm leading-6 text-slate-500 dark:text-gray-400">
             Build a short outbound draft for a specific audience and offer.
           </p>
           {selectedLead ? (
-            <div className="mt-3 w-fit rounded-2xl border border-sky-200 bg-sky-50/80 px-3 py-2 text-xs font-semibold text-sky-800 shadow-sm">
+            <div className="mt-3 w-fit rounded-2xl border border-sky-200 bg-sky-50/80 px-3 py-2 text-xs font-semibold text-sky-800 shadow-sm dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-200">
               Using: {selectedLead.name} / {selectedLead.role} / {selectedLead.company}
             </div>
           ) : null}
         </div>
-        <span className="w-fit rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-1 text-xs font-semibold text-slate-600 dark:text-slate-300 shadow-sm">
+        <span className="w-fit rounded-2xl border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm dark:border-white/[0.06] dark:bg-white/[0.04] dark:text-gray-300">
           {channel} · {language === "russian" ? "Russian" : "English"}
         </span>
       </div>
@@ -555,7 +555,7 @@ function Generator({
               value={target}
               onChange={(event) => onTargetChange(event.target.value)}
               placeholder="e.g. SaaS founders in USA"
-              className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 shadow-sm outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 hover:bg-white focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-gray-200 dark:placeholder:text-gray-500 dark:hover:bg-white/[0.07] dark:focus:border-blue-400/70 dark:focus:bg-white/[0.06] dark:focus:ring-2 dark:focus:ring-blue-500/40"
             />
           </label>
 
@@ -565,7 +565,7 @@ function Generator({
               value={offer}
               onChange={(event) => onOfferChange(event.target.value)}
               placeholder="e.g. Web design services"
-              className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 shadow-sm outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 hover:bg-white focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-gray-200 dark:placeholder:text-gray-500 dark:hover:bg-white/[0.07] dark:focus:border-blue-400/70 dark:focus:bg-white/[0.06] dark:focus:ring-2 dark:focus:ring-blue-500/40"
             />
           </label>
         </div>
@@ -576,7 +576,7 @@ function Generator({
             <select
               value={tone}
               onChange={(event) => onToneChange(event.target.value as Tone)}
-              className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 shadow-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition hover:bg-white focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-gray-200 dark:hover:bg-white/[0.07] dark:focus:border-blue-400/70 dark:focus:bg-white/[0.06] dark:focus:ring-2 dark:focus:ring-blue-500/40"
             >
               {tones.map((toneOption) => (
                 <option key={toneOption}>{toneOption}</option>
@@ -589,7 +589,7 @@ function Generator({
             <select
               value={channel}
               onChange={(event) => onChannelChange(event.target.value as Channel)}
-              className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 shadow-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition hover:bg-white focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-gray-200 dark:hover:bg-white/[0.07] dark:focus:border-blue-400/70 dark:focus:bg-white/[0.06] dark:focus:ring-2 dark:focus:ring-blue-500/40"
             >
               {channels.map((channelOption) => (
                 <option key={channelOption}>{channelOption}</option>
@@ -602,7 +602,7 @@ function Generator({
             <select
               value={language}
               onChange={(event) => onLanguageChange(event.target.value as Language)}
-              className="w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 px-4 py-3 text-sm text-slate-900 dark:text-slate-100 shadow-sm outline-none transition hover:bg-white dark:hover:bg-slate-950 focus:border-sky-400 focus:bg-white dark:focus:bg-slate-950 focus:ring-4 focus:ring-sky-100"
+              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition hover:bg-white focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-gray-200 dark:hover:bg-white/[0.07] dark:focus:border-blue-400/70 dark:focus:bg-white/[0.06] dark:focus:ring-2 dark:focus:ring-blue-500/40"
             >
               {languages.map((languageOption) => (
                 <option key={languageOption.value} value={languageOption.value}>
@@ -616,7 +616,7 @@ function Generator({
         <button
           type="submit"
           disabled={!canGenerate}
-          className="flex w-full items-center justify-center gap-3 rounded-2xl bg-blue-600 px-6 py-4 text-base font-semibold text-white shadow-xl shadow-blue-600/25 transition duration-200 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-2xl hover:shadow-blue-600/30 active:translate-y-0 active:scale-[0.99] focus:outline-none focus:ring-4 focus:ring-blue-100 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
+          className="flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4 text-base font-semibold text-white shadow-xl shadow-blue-600/25 transition duration-200 hover:-translate-y-0.5 hover:from-blue-500 hover:to-indigo-500 hover:shadow-2xl hover:shadow-blue-600/30 active:translate-y-0 active:scale-[0.99] active:from-blue-700 active:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-blue-100 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:from-slate-300 disabled:to-slate-300 disabled:shadow-none dark:from-blue-500 dark:to-indigo-500 dark:shadow-lg dark:shadow-blue-500/20 dark:hover:from-blue-400 dark:hover:to-indigo-400 dark:hover:shadow-blue-500/30 dark:focus:ring-2 dark:focus:ring-blue-500/40 dark:disabled:from-slate-700 dark:disabled:to-slate-700"
         >
           {isLoading ? (
             <>
@@ -686,16 +686,16 @@ function MessagePanel({
 
   return (
     <section
-      className={`rounded-3xl border bg-white dark:bg-slate-900 p-5 shadow-[0_20px_70px_rgba(15,23,42,0.07)] transition duration-200 sm:p-6 ${
+      className={`rounded-3xl border bg-white p-5 shadow-[0_20px_70px_rgba(15,23,42,0.07)] transition duration-200 sm:p-6 dark:bg-[#111827]/85 dark:bg-gradient-to-b dark:from-white/[0.06] dark:to-white/[0.02] dark:shadow-lg dark:shadow-black/30 dark:backdrop-blur-xl ${
         hasGeneratedMessage
-          ? "border-emerald-200 shadow-[0_26px_90px_rgba(16,185,129,0.16)] ring-1 ring-emerald-100"
-          : "border-slate-200 dark:border-slate-800/80 hover:border-slate-300"
+          ? "border-emerald-200 shadow-[0_26px_90px_rgba(16,185,129,0.16)] ring-1 ring-emerald-100 dark:border-emerald-400/20 dark:ring-emerald-400/10 dark:shadow-emerald-950/20"
+          : "border-slate-200 hover:border-slate-300 dark:border-white/[0.06] dark:hover:border-white/10"
       }`}
     >
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="flex flex-wrap items-center gap-2">
-            <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
+            <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-gray-200">
               Generated Message
             </h2>
             {hasGeneratedMessage ? (
@@ -719,9 +719,9 @@ function MessagePanel({
               </span>
             ) : null}
           </div>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Review, copy, or save the latest draft.</p>
+          <p className="mt-1 text-sm text-slate-500 dark:text-gray-400">Review, copy, or save the latest draft.</p>
           {selectedLead ? (
-            <p className="mt-2 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+            <p className="mt-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 dark:border-white/[0.06] dark:bg-white/[0.04] dark:text-gray-300">
               Generated for: {selectedLead.name} · {selectedLead.role} at{" "}
               {selectedLead.company}
             </p>
@@ -732,7 +732,7 @@ function MessagePanel({
             type="button"
             onClick={onCopy}
             disabled={!message || isLoading}
-            className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-100 disabled:translate-y-0 disabled:cursor-not-allowed disabled:text-slate-300"
+            className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950 disabled:translate-y-0 disabled:cursor-not-allowed disabled:text-slate-300 dark:border-white/[0.06] dark:bg-white/[0.04] dark:text-gray-300 dark:shadow-black/20 dark:hover:border-white/10 dark:hover:bg-white/[0.08] dark:hover:text-gray-100"
           >
             Copy
           </button>
@@ -740,7 +740,7 @@ function MessagePanel({
             type="button"
             onClick={onRegenerate}
             disabled={!message || isLoading}
-            className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-100 disabled:translate-y-0 disabled:cursor-not-allowed disabled:text-slate-300"
+            className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950 disabled:translate-y-0 disabled:cursor-not-allowed disabled:text-slate-300 dark:border-white/[0.06] dark:bg-white/[0.04] dark:text-gray-300 dark:shadow-black/20 dark:hover:border-white/10 dark:hover:bg-white/[0.08] dark:hover:text-gray-100"
           >
             Regenerate
           </button>
@@ -748,7 +748,7 @@ function MessagePanel({
             type="button"
             onClick={onSave}
             disabled={!message || isLoading || isSaving || isCurrentMessageSaved}
-            className="rounded-2xl bg-slate-950 px-3 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-300/70 dark:shadow-black/30 transition hover:-translate-y-0.5 hover:bg-slate-800 disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
+            className="rounded-2xl bg-slate-950 px-3 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-300/70 transition hover:-translate-y-0.5 hover:bg-slate-800 disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none dark:bg-gradient-to-r dark:from-blue-500 dark:to-indigo-500 dark:shadow-blue-500/20 dark:hover:from-blue-400 dark:hover:to-indigo-400 dark:hover:shadow-blue-500/30 dark:disabled:from-slate-700 dark:disabled:to-slate-700"
           >
             {isCurrentMessageSaved ? "Saved" : isSaving ? "Saving..." : "Save Message"}
           </button>
@@ -762,9 +762,9 @@ function MessagePanel({
           visibleMessage ||
           "Your generated message will appear here after you add a target audience and offer."
         }
-        className="min-h-56 w-full resize-none overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/70 p-5 text-sm leading-6 text-slate-900 dark:text-slate-100 shadow-inner outline-none transition"
+        className="min-h-56 w-full resize-none overflow-hidden rounded-3xl border border-slate-200 bg-slate-50 p-5 text-sm leading-6 text-slate-900 shadow-inner outline-none transition dark:border-white/[0.08] dark:bg-[#0B1220]/70 dark:text-gray-200 dark:shadow-inner dark:shadow-black/30"
       />
-      <div className="mt-3 text-right text-xs font-medium text-slate-500 dark:text-slate-400">
+      <div className="mt-3 text-right text-xs font-medium text-slate-500 dark:text-gray-500">
         {visibleMessage.length} characters
       </div>
       {saveError ? (
@@ -796,10 +796,10 @@ function DashboardLeadsTable({
   onGenerateForLead: (lead: SupabaseLead) => void;
 }) {
   return (
-    <section className="rounded-3xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-900 p-5 shadow-[0_18px_60px_rgba(15,23,42,0.06)] sm:p-6">
+    <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_18px_60px_rgba(15,23,42,0.06)] sm:p-6 dark:border-white/[0.06] dark:bg-[#111827]/80 dark:bg-gradient-to-b dark:from-white/[0.05] dark:to-white/[0.02] dark:shadow-lg dark:shadow-black/30 dark:backdrop-blur-xl">
       <div className="mb-5">
-        <h2 className="text-lg font-semibold tracking-tight text-slate-950 dark:text-slate-100">Leads</h2>
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Real Supabase leads ready for message generation.</p>
+        <h2 className="text-lg font-semibold tracking-tight text-slate-950 dark:text-gray-200">Leads</h2>
+        <p className="mt-1 text-sm text-slate-500 dark:text-gray-400">Real Supabase leads ready for message generation.</p>
       </div>
 
       {leadsError ? (
@@ -811,9 +811,9 @@ function DashboardLeadsTable({
       <div className="overflow-x-auto">
         <table className="w-full min-w-[720px] border-separate border-spacing-0 text-left text-sm">
           <thead>
-            <tr className="bg-slate-50 dark:bg-slate-900/80 text-slate-500 dark:text-slate-400">
+            <tr className="bg-slate-50 text-slate-500 dark:bg-white/[0.035] dark:text-gray-400">
               {["Name", "Company", "Role", "Website", "Status", "Action"].map((heading) => (
-                <th key={heading} className="border-y border-slate-200 dark:border-slate-800 px-4 py-3 font-semibold first:rounded-l-2xl first:border-l last:rounded-r-2xl last:border-r">
+                <th key={heading} className="border-y border-slate-200 px-4 py-3 font-semibold first:rounded-l-2xl first:border-l last:rounded-r-2xl last:border-r dark:border-white/[0.06]">
                   {heading}
                 </th>
               ))}
@@ -838,8 +838,8 @@ function DashboardLeadsTable({
               const isSelected = selectedLeadId === lead.id;
               const cellClass = `border-b px-4 py-4 transition ${
                 isSelected
-                  ? "border-sky-100 bg-sky-50"
-                  : "border-slate-100 dark:border-slate-800 group-hover:bg-slate-50 dark:hover:bg-slate-800/80"
+                  ? "border-sky-100 bg-sky-50 dark:border-blue-400/20 dark:bg-blue-400/10"
+                  : "border-slate-100 group-hover:bg-slate-50 dark:border-white/[0.04] dark:group-hover:bg-white/[0.045]"
               }`;
 
               return (
@@ -848,10 +848,10 @@ function DashboardLeadsTable({
                   onClick={() => onSelectLead(lead)}
                   className="group cursor-pointer"
                 >
-                  <td className={`${cellClass} font-medium text-slate-950 dark:text-slate-100`}>{lead.name}</td>
-                  <td className={`${cellClass} text-slate-700 dark:text-slate-200`}>{lead.company}</td>
-                  <td className={`${cellClass} text-slate-600 dark:text-slate-300`}>{lead.role}</td>
-                  <td className={`${cellClass} text-slate-600 dark:text-slate-300`}>{lead.website}</td>
+                  <td className={`${cellClass} font-medium text-slate-950 dark:text-gray-200`}>{lead.name}</td>
+                  <td className={`${cellClass} text-slate-700 dark:text-gray-300`}>{lead.company}</td>
+                  <td className={`${cellClass} text-slate-600 dark:text-gray-400`}>{lead.role}</td>
+                  <td className={`${cellClass} text-slate-600 dark:text-gray-400`}>{lead.website}</td>
                   <td className={cellClass}>
                     <span
                       className={`rounded-2xl border px-3 py-1 text-xs font-semibold ${
@@ -869,7 +869,7 @@ function DashboardLeadsTable({
                         event.stopPropagation();
                         onGenerateForLead(lead);
                       }}
-                      className="rounded-2xl bg-slate-950 px-3 py-2 text-xs font-semibold text-white shadow-lg shadow-slate-300/60 dark:shadow-black/30 transition hover:-translate-y-0.5 hover:bg-blue-700 active:translate-y-0 disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
+                      className="rounded-2xl bg-slate-950 px-3 py-2 text-xs font-semibold text-white shadow-lg shadow-slate-300/60 transition hover:-translate-y-0.5 hover:bg-blue-700 active:translate-y-0 disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none dark:bg-gradient-to-r dark:from-blue-500 dark:to-indigo-500 dark:shadow-blue-500/20 dark:hover:from-blue-400 dark:hover:to-indigo-400 dark:hover:shadow-blue-500/30 dark:disabled:from-slate-700 dark:disabled:to-slate-700"
                     >
                       Generate for this lead
                     </button>
@@ -4174,7 +4174,7 @@ export default function App() {
     <>
       <AppLoadingScreen isReady={isAppStartupReady} />
       {isAppStartupReady ? (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-950 dark:text-slate-100 antialiased">
+    <div className="premium-noise-bg min-h-screen bg-slate-50 bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.08),transparent_30rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.06),transparent_28rem),linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] text-slate-950 antialiased dark:bg-[#0B1220] dark:bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.16),transparent_32rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.12),transparent_28rem),linear-gradient(180deg,#0B1220_0%,#0F172A_100%)] dark:text-gray-200">
       <MobileTopBar activeView={activeView} onNavigate={setActiveView} />
       <div className="flex min-h-screen">
         <Sidebar activeView={activeView} onNavigate={setActiveView} />
@@ -4182,7 +4182,7 @@ export default function App() {
         <main className="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
 	          <div className={`mx-auto max-w-7xl ${settings.compactMode ? "space-y-4" : "space-y-6"}`}>
             <div className="flex items-center justify-end gap-3">
-              <span className="hidden max-w-xs truncate rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-sm font-medium text-slate-500 dark:text-slate-400 shadow-sm sm:block">
+              <span className="hidden max-w-xs truncate rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-500 shadow-sm sm:block dark:border-white/[0.06] dark:bg-white/[0.04] dark:text-gray-400 dark:shadow-black/20">
                 {currentUser.email}
               </span>
               <button
@@ -4190,7 +4190,7 @@ export default function App() {
                 onClick={() => {
                   void logout();
                 }}
-                className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-100 hover:shadow"
+                className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950 hover:shadow dark:border-white/[0.06] dark:bg-white/[0.04] dark:text-gray-300 dark:shadow-black/20 dark:hover:border-white/10 dark:hover:bg-white/[0.08] dark:hover:text-gray-100"
               >
                 Logout
               </button>
@@ -4199,22 +4199,22 @@ export default function App() {
               <>
                 <header className="hidden items-center justify-between lg:flex">
                   <div>
-                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600">
+                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600 dark:text-blue-400">
                       Dashboard
                     </p>
-                    <h1 className="mt-2 text-4xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
+                    <h1 className="mt-2 text-4xl font-semibold tracking-tight text-slate-950 dark:text-gray-200">
                       Sales message workspace
                     </h1>
                   </div>
-                  <span className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-2 text-sm font-semibold text-slate-500 dark:text-slate-400 shadow-sm">
+                  <span className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-500 shadow-sm dark:border-white/[0.06] dark:bg-white/[0.04] dark:text-gray-400">
                     Private workspace
                   </span>
                 </header>
                 <section className="lg:hidden">
-                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600">
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600 dark:text-blue-400">
                     Dashboard
                   </p>
-                  <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
+                  <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 dark:text-gray-200">
                     Sales message workspace
                   </h1>
                 </section>
