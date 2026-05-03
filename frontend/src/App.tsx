@@ -1938,6 +1938,20 @@ function EmailServiceModal({
 }) {
   const email = message?.leads?.email?.trim();
 
+  useEffect(() => {
+    if (!message || !email) return;
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") onClose();
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [email, message, onClose]);
+
   if (!message || !email) return null;
 
   const services: { id: EmailService; title: string; description: string }[] = [
@@ -1959,24 +1973,32 @@ function EmailServiceModal({
   ];
 
   return (
-    <div className="fixed inset-0 z-40 flex items-center justify-center bg-[#020617]/60 px-4 backdrop-blur-2xl">
-      <section className={`${glassPanel} w-full max-w-lg p-6`}>
-        <div className="relative mb-5 flex items-start justify-between gap-4">
+    <div
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 px-4 backdrop-blur-xl"
+      onClick={onClose}
+    >
+      <section
+        className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/15 bg-white/10 p-6 shadow-2xl shadow-black/50 backdrop-blur-2xl dark:bg-white/10"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/20 to-transparent" />
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute right-4 top-4 z-10 rounded-2xl border border-white/10 bg-white/10 px-3 py-2 text-sm font-semibold text-white/80 shadow-lg shadow-black/20 backdrop-blur-2xl transition-all duration-200 hover:scale-[1.02] hover:bg-white/15 hover:text-white"
+        >
+          Close
+        </button>
+
+        <div className="relative mb-6 pr-20">
           <div>
-            <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-white/90">
+            <h2 className="text-xl font-semibold tracking-tight text-white/90">
               Choose email service
             </h2>
-            <p className="mt-1 text-sm text-slate-500 dark:text-white/60">
+            <p className="mt-1 text-sm text-white/60">
               Send to {email}
             </p>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className={`${glassButton} px-3 py-2 text-sm`}
-          >
-            Close
-          </button>
         </div>
 
         <div className="relative grid gap-3">
@@ -1985,12 +2007,12 @@ function EmailServiceModal({
               key={service.id}
               type="button"
               onClick={() => onChoose(service.id)}
-              className="rounded-3xl border border-white/20 bg-white/10 px-4 py-4 text-left shadow-sm backdrop-blur-2xl transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-300/40 hover:bg-white/20 hover:shadow-lg hover:shadow-blue-600/10 dark:border-white/10 dark:bg-white/5 dark:hover:border-blue-400/30 dark:hover:bg-white/10 dark:hover:shadow-blue-500/10"
+              className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-left shadow-lg shadow-black/20 backdrop-blur-2xl transition-all duration-200 hover:scale-[1.01] hover:bg-white/10 hover:shadow-blue-500/10"
             >
-              <div className="text-sm font-semibold text-slate-950 dark:text-white/90">
+              <div className="text-sm font-semibold text-white/90">
                 {service.title}
               </div>
-              <div className="mt-1 text-sm text-slate-500 dark:text-white/60">
+              <div className="mt-1 text-sm text-white/60">
                 {service.description}
               </div>
             </button>
@@ -2523,23 +2545,27 @@ function LandingPage({
 function AppLoadingScreen({ isReady }: { isReady: boolean }) {
   return (
     <main
-      className={`fixed inset-0 z-50 flex min-h-screen items-center justify-center bg-gradient-to-br from-[#0B1220] via-[#0F172A] to-[#020617] px-6 text-white transition-opacity duration-500 ${
+      className={`premium-noise-bg fixed inset-0 z-[99999] flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-[#020617] via-[#0B1220] to-[#111827] px-6 text-white transition-opacity duration-700 ${
         isReady ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >
-      <section className="text-center">
-        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl border border-white/10 bg-white/10 text-2xl font-semibold shadow-2xl shadow-blue-950/50 backdrop-blur-2xl">
+      <div className="absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/20 blur-3xl" />
+      <div className="absolute left-[55%] top-[42%] h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/20 blur-3xl" />
+      <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/10 to-transparent" />
+
+      <section className="relative text-center">
+        <div className="mx-auto flex h-24 w-24 animate-pulse items-center justify-center rounded-[2rem] border border-white/15 bg-white/10 text-3xl font-semibold text-white/90 shadow-2xl shadow-blue-500/30 backdrop-blur-2xl">
           LF
         </div>
-        <h1 className="mt-6 text-3xl font-semibold tracking-tight">LeadFlow</h1>
-        <p className="mt-2 text-sm font-medium text-slate-400">Preparing your workspace</p>
-        <div className="mx-auto mt-8 h-1.5 w-56 overflow-hidden rounded-full bg-white/10">
-          <div className="h-full w-1/2 animate-pulse rounded-full bg-blue-500 shadow-[0_0_28px_rgba(59,130,246,0.8)]" />
+        <h1 className="mt-7 text-4xl font-semibold tracking-tight text-white/90">LeadFlow</h1>
+        <p className="mt-2 text-sm font-medium tracking-wide text-white/55">Preparing your workspace</p>
+        <div className="mx-auto mt-8 h-2 w-64 overflow-hidden rounded-full border border-white/10 bg-white/10 shadow-inner shadow-black/40 backdrop-blur-2xl">
+          <div className="h-full w-2/3 animate-[pulse_1.4s_ease-in-out_infinite] rounded-full bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 shadow-[0_0_32px_rgba(59,130,246,0.9)]" />
         </div>
-        <div className="mt-5 flex justify-center gap-2">
-          <span className="h-2 w-2 animate-bounce rounded-full bg-blue-400" />
-          <span className="h-2 w-2 animate-bounce rounded-full bg-blue-400 [animation-delay:120ms]" />
-          <span className="h-2 w-2 animate-bounce rounded-full bg-blue-400 [animation-delay:240ms]" />
+        <div className="mt-6 flex justify-center gap-2">
+          <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-blue-300 shadow-lg shadow-blue-500/50" />
+          <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-cyan-300 shadow-lg shadow-cyan-500/50 [animation-delay:120ms]" />
+          <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-indigo-300 shadow-lg shadow-indigo-500/50 [animation-delay:240ms]" />
         </div>
       </section>
     </main>
@@ -2961,10 +2987,10 @@ export default function App() {
   useEffect(() => {
     const minimumTimeoutId = window.setTimeout(() => {
       setHasMinimumStartupElapsed(true);
-    }, 5000);
+    }, 3000);
     const safetyTimeoutId = window.setTimeout(() => {
       setHasStartupTimedOut(true);
-    }, 7000);
+    }, 4000);
 
     return () => {
       window.clearTimeout(minimumTimeoutId);
