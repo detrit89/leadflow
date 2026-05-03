@@ -141,6 +141,7 @@ type SaveGeneratedMessageInput = {
 type AutoSaveStatus = "idle" | "saving" | "saved" | "failed";
 type ThemeSetting = "light" | "dark" | "system";
 type AuthMode = "login" | "signup";
+type EmailService = "gmail" | "outlook" | "default";
 
 type AppSettings = {
   autoSave: boolean;
@@ -1892,6 +1893,80 @@ function MessagesPage({
   );
 }
 
+function EmailServiceModal({
+  message,
+  onClose,
+  onChoose,
+}: {
+  message: SupabaseMessage | null;
+  onClose: () => void;
+  onChoose: (service: EmailService) => void;
+}) {
+  const email = message?.leads?.email?.trim();
+
+  if (!message || !email) return null;
+
+  const services: { id: EmailService; title: string; description: string }[] = [
+    {
+      id: "gmail",
+      title: "Gmail",
+      description: "Open a Gmail compose window.",
+    },
+    {
+      id: "outlook",
+      title: "Outlook",
+      description: "Open an Outlook compose window.",
+    },
+    {
+      id: "default",
+      title: "Default mail app",
+      description: "Use the mail app configured on this device.",
+    },
+  ];
+
+  return (
+    <div className="fixed inset-0 z-40 flex items-center justify-center bg-slate-950/40 px-4 backdrop-blur-sm">
+      <section className="w-full max-w-lg rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/15 dark:border-white/[0.08] dark:bg-[#111827]/95 dark:bg-gradient-to-b dark:from-white/[0.07] dark:to-white/[0.03] dark:shadow-black/40">
+        <div className="mb-5 flex items-start justify-between gap-4">
+          <div>
+            <h2 className="text-xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
+              Choose email service
+            </h2>
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              Send to {email}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 hover:text-slate-950 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-slate-100"
+          >
+            Close
+          </button>
+        </div>
+
+        <div className="grid gap-3">
+          {services.map((service) => (
+            <button
+              key={service.id}
+              type="button"
+              onClick={() => onChoose(service.id)}
+              className="rounded-3xl border border-slate-200 bg-slate-50 px-4 py-4 text-left transition hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50 hover:shadow-lg hover:shadow-blue-600/10 dark:border-white/[0.08] dark:bg-white/[0.04] dark:hover:border-blue-400/30 dark:hover:bg-white/[0.08] dark:hover:shadow-blue-500/10"
+            >
+              <div className="text-sm font-semibold text-slate-950 dark:text-slate-100">
+                {service.title}
+              </div>
+              <div className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                {service.description}
+              </div>
+            </button>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function CampaignsPage({
   campaigns,
   isLoading,
@@ -2783,6 +2858,7 @@ export default function App() {
   const [isFollowUpOpen, setIsFollowUpOpen] = useState(false);
   const [isGeneratingFollowUp, setIsGeneratingFollowUp] = useState(false);
   const [followUpError, setFollowUpError] = useState("");
+  const [emailServiceMessage, setEmailServiceMessage] = useState<SupabaseMessage | null>(null);
   const [highlightedLeadId, setHighlightedLeadId] = useState<string | null>(null);
   const [campaigns, setCampaigns] = useState<SupabaseCampaign[]>([]);
   const [isCampaignsLoading, setIsCampaignsLoading] = useState(false);
@@ -3791,13 +3867,32 @@ export default function App() {
     }
   }
 
-  async function sendMessageEmail(message: SupabaseMessage) {
+  function sendMessageEmail(message: SupabaseMessage) {
     const email = message.leads?.email?.trim();
     if (!email) return;
 
-    const mailtoUrl = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(
-      "Quick question",
-    )}&body=${encodeURIComponent(message.content)}`;
+    setEmailServiceMessage(message);
+  }
+
+  async function openSelectedEmailService(service: EmailService) {
+    const message = emailServiceMessage;
+    const email = message?.leads?.email?.trim();
+
+    if (!message || !email) return;
+
+    const subject = "Quick question";
+    const encodedEmail = encodeURIComponent(email);
+    const encodedSubject = encodeURIComponent(subject);
+    const encodedBody = encodeURIComponent(message.content);
+    const url =
+      service === "gmail"
+        ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodedEmail}&su=${encodedSubject}&body=${encodedBody}`
+        : service === "outlook"
+          ? `https://outlook.live.com/mail/0/deeplink/compose?to=${encodedEmail}&subject=${encodedSubject}&body=${encodedBody}`
+          : `mailto:${encodedEmail}?subject=${encodedSubject}&body=${encodedBody}`;
+
+    window.open(url, "_blank", "noopener,noreferrer");
+    setEmailServiceMessage(null);
 
     try {
       if (message.lead_id) {
@@ -3807,8 +3902,6 @@ export default function App() {
     } catch (error) {
       console.error("Failed to update lead status after email action:", error);
       setMessagesError(getErrorMessage(error));
-    } finally {
-      window.location.href = mailtoUrl;
     }
   }
 
@@ -4201,6 +4294,13 @@ export default function App() {
       <AppLoadingScreen isReady={isAppStartupReady} />
       {isAppStartupReady ? (
     <div className="premium-noise-bg min-h-screen bg-slate-50 bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.08),transparent_30rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.06),transparent_28rem),linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] text-slate-950 antialiased dark:bg-[#0B1220] dark:bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.16),transparent_32rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.12),transparent_28rem),linear-gradient(180deg,#0B1220_0%,#0F172A_100%)] dark:text-gray-200">
+      <EmailServiceModal
+        message={emailServiceMessage}
+        onClose={() => setEmailServiceMessage(null)}
+        onChoose={(service) => {
+          void openSelectedEmailService(service);
+        }}
+      />
       <MobileTopBar activeView={activeView} onNavigate={setActiveView} />
       <div className="flex min-h-screen">
         <Sidebar activeView={activeView} onNavigate={setActiveView} />
