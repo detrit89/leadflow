@@ -217,20 +217,20 @@ const navIconLabels: Record<NavView, string> = {
 };
 
 const statusBadgeStyles: Record<LeadStatus, string> = {
-  new: "border-sky-100 bg-sky-50 text-sky-700 dark:border-sky-400/15 dark:bg-sky-400/10 dark:text-sky-300",
-  contacted: "border-amber-100 bg-amber-50 text-amber-700 dark:border-amber-400/15 dark:bg-amber-400/10 dark:text-amber-300",
-  replied: "border-emerald-100 bg-emerald-50 text-emerald-700 dark:border-emerald-400/15 dark:bg-emerald-400/10 dark:text-emerald-300",
+  new: "border-blue-400/20 bg-blue-500/10 text-sky-700 dark:text-blue-300 dark:border-sky-400/15 dark:bg-sky-400/10 dark:text-sky-300",
+  contacted: "border-amber-100 bg-amber-500/10 text-amber-700 dark:border-amber-400/15 dark:bg-amber-400/10 dark:text-amber-300",
+  replied: "border-emerald-400/20 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 dark:border-emerald-400/15 dark:bg-emerald-400/10 dark:text-emerald-300",
   interested: "border-violet-100 bg-violet-50 text-violet-700 dark:border-violet-400/15 dark:bg-violet-400/10 dark:text-violet-300",
 };
 
 const glassPanel =
-  "relative overflow-hidden rounded-2xl border border-white/20 bg-white/10 shadow-lg shadow-black/30 backdrop-blur-xl before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-20 before:bg-gradient-to-b before:from-white/20 before:to-transparent dark:border-white/10 dark:bg-white/5";
+  "relative overflow-hidden rounded-2xl border border-white/15 bg-white/10 shadow-xl shadow-black/30 backdrop-blur-2xl before:pointer-events-none before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-b before:from-white/20 before:to-transparent dark:border-white/10 dark:bg-white/5 dark:shadow-black/40";
 const glassButton =
-  "rounded-2xl border border-white/20 bg-white/10 px-4 py-2 font-semibold text-slate-700 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20 hover:text-slate-950 dark:border-white/10 dark:bg-white/5 dark:text-white/80 dark:hover:bg-white/10 dark:hover:text-white/90";
+  "rounded-2xl border border-white/15 bg-white/10 px-4 py-2 font-semibold text-slate-700 shadow-lg shadow-black/10 backdrop-blur-2xl transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-white/15 hover:brightness-110 hover:text-slate-950 dark:border-white/10 dark:bg-white/5 dark:text-white/80 dark:shadow-black/30 dark:hover:bg-white/15 dark:hover:text-white/90";
 const glassInput =
-  "w-full rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm text-slate-900 shadow-sm outline-none backdrop-blur transition placeholder:text-slate-500 hover:bg-white/20 focus:border-blue-400/60 focus:bg-white/20 focus:ring-2 focus:ring-blue-400/40 dark:border-white/10 dark:bg-white/5 dark:text-white/90 dark:placeholder:text-white/35 dark:hover:bg-white/10 dark:focus:bg-white/10";
+  "w-full rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm text-slate-900 shadow-inner shadow-black/5 outline-none backdrop-blur-2xl transition-all duration-200 placeholder:text-slate-500 hover:bg-white/15 focus:border-blue-400/60 focus:bg-white/15 focus:ring-2 focus:ring-blue-400/40 dark:border-white/10 dark:bg-white/5 dark:text-white/90 dark:placeholder:text-white/35 dark:shadow-black/20 dark:hover:bg-white/10 dark:focus:bg-white/10";
 const primaryButton =
-  "rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:-translate-y-0.5 hover:from-blue-400 hover:to-indigo-400 hover:shadow-blue-500/30 active:translate-y-0 disabled:translate-y-0 disabled:cursor-not-allowed disabled:from-slate-400 disabled:to-slate-400 disabled:shadow-none dark:disabled:from-slate-700 dark:disabled:to-slate-700";
+  "rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 font-semibold text-white shadow-lg shadow-blue-500/30 transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.02] hover:from-blue-400 hover:to-indigo-400 hover:brightness-110 hover:shadow-blue-500/50 active:translate-y-0 active:scale-[0.99] disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:from-slate-400 disabled:to-slate-400 disabled:shadow-none dark:disabled:from-slate-700 dark:disabled:to-slate-700";
 
 function Spinner() {
   return (
@@ -382,15 +382,15 @@ function Sidebar({
   onNavigate: (view: NavView) => void;
 }) {
   return (
-    <aside className="hidden min-h-screen w-72 shrink-0 border-r border-white/20 bg-white/20 px-4 py-5 shadow-lg shadow-black/10 backdrop-blur-xl lg:block dark:border-white/10 dark:bg-white/5 dark:shadow-black/30">
-      <div className="mb-8 rounded-3xl border border-white/20 bg-white/10 p-3 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5 dark:bg-gradient-to-b dark:from-white/10 dark:to-transparent">
+    <aside className="hidden min-h-screen w-72 shrink-0 border-r border-white/20 bg-white/20 px-4 py-5 shadow-lg shadow-black/10 backdrop-blur-2xl lg:block dark:border-white/10 dark:bg-white/5 dark:shadow-black/30">
+      <div className="mb-8 rounded-3xl border border-white/20 bg-white/10 p-3 shadow-sm backdrop-blur-2xl dark:border-white/10 dark:bg-white/5 dark:bg-gradient-to-b dark:from-white/10 dark:to-transparent">
         <div className="flex items-center gap-3">
         <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 text-sm font-semibold text-white shadow-lg shadow-blue-500/20">
           LF
         </div>
         <div>
-          <div className="text-base font-semibold tracking-tight text-slate-950 dark:text-gray-200">LeadFlow</div>
-          <div className="text-xs text-slate-500 dark:text-gray-400">AI sales workspace</div>
+          <div className="text-base font-semibold tracking-tight text-slate-950 dark:text-white/90">LeadFlow</div>
+          <div className="text-xs text-slate-500 dark:text-white/60">AI sales workspace</div>
         </div>
         </div>
       </div>
@@ -400,14 +400,14 @@ function Sidebar({
           <button
             key={item}
             onClick={() => onNavigate(item)}
-            className={`group flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm font-medium transition duration-200 ${
+            className={`group flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm font-medium transition-all duration-200 ${
               item === activeView
                 ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-500/20"
                 : "text-slate-600 hover:bg-white/20 hover:text-slate-950 dark:text-white/60 dark:hover:bg-white/10 dark:hover:text-white/90"
             }`}
           >
             <span
-              className={`flex h-8 w-8 items-center justify-center rounded-xl text-xs font-semibold transition ${
+              className={`flex h-8 w-8 items-center justify-center rounded-xl text-xs font-semibold transition-all duration-200 ${
                 item === activeView
                   ? "bg-white/15 text-white"
                   : "bg-white/20 text-slate-500 ring-1 ring-white/20 group-hover:text-slate-950 dark:bg-white/5 dark:text-white/40 dark:ring-white/10 dark:group-hover:text-white/90"
@@ -431,19 +431,19 @@ function MobileTopBar({
   onNavigate: (view: NavView) => void;
 }) {
   return (
-    <header className="sticky top-0 z-20 border-b border-white/20 bg-white/20 px-4 py-4 shadow-lg shadow-black/10 backdrop-blur-xl lg:hidden dark:border-white/10 dark:bg-white/5 dark:shadow-black/30">
+    <header className="sticky top-0 z-20 border-b border-white/20 bg-white/20 px-4 py-4 shadow-lg shadow-black/10 backdrop-blur-2xl lg:hidden dark:border-white/10 dark:bg-white/5 dark:shadow-black/30">
       <div className="flex items-center gap-3">
         <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 text-xs font-semibold text-white shadow-sm shadow-blue-500/20">
           LF
         </div>
-        <div className="text-base font-semibold tracking-tight text-slate-950 dark:text-gray-200">LeadFlow</div>
+        <div className="text-base font-semibold tracking-tight text-slate-950 dark:text-white/90">LeadFlow</div>
       </div>
       <nav className="mt-4 flex gap-2 overflow-x-auto pb-1">
         {navItems.map((item) => (
           <button
             key={item}
             onClick={() => onNavigate(item)}
-            className={`shrink-0 rounded-2xl px-3 py-2 text-sm font-medium transition ${
+            className={`shrink-0 rounded-2xl px-3 py-2 text-sm font-medium transition-all duration-200 ${
               item === activeView
                 ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-sm shadow-blue-500/20"
                 : "bg-white/10 text-slate-600 hover:bg-white/20 hover:text-slate-950 dark:bg-white/5 dark:text-white/60 dark:hover:bg-white/10 dark:hover:text-white/90"
@@ -459,7 +459,7 @@ function MobileTopBar({
 
 function StatCard({ label, value, trend }: { label: string; value: string; trend: string }) {
   return (
-    <article className={`${glassPanel} p-4 transition duration-200 hover:-translate-y-0.5 hover:bg-white/20 dark:hover:bg-white/10`}>
+    <article className={`${glassPanel} p-4 transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/20 dark:hover:bg-white/10`}>
       <div className="relative text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-white/50">{label}</div>
       <div className="relative mt-3 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white/90">{value}</div>
       <div className="relative mt-1 text-xs font-medium text-slate-500 dark:text-white/60">{trend}</div>
@@ -484,12 +484,12 @@ function ToggleSwitch({
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className={`relative h-7 w-12 rounded-full shadow-inner outline-none transition focus:ring-4 focus:ring-sky-100 ${
-        checked ? "bg-blue-600" : "bg-slate-200 dark:bg-slate-700"
+      className={`relative h-7 w-12 rounded-full shadow-inner outline-none transition-all duration-200 focus:ring-4 focus:ring-sky-100 ${
+        checked ? "bg-gradient-to-r from-blue-500 to-indigo-500 shadow-lg shadow-blue-500/30" : "bg-white/20 dark:bg-white/10"
       }`}
     >
       <span
-        className={`absolute top-1 h-5 w-5 rounded-full bg-white dark:bg-slate-900 shadow-sm transition ${
+        className={`absolute top-1 h-5 w-5 rounded-full bg-white/90 shadow-sm shadow-black/20 transition-all duration-200 dark:bg-white/80 ${
           checked ? "left-6" : "left-1"
         }`}
       />
@@ -534,10 +534,10 @@ function Generator({
   }
 
   return (
-    <section className={`${glassPanel} p-5 transition duration-200 hover:bg-white/20 sm:p-6 dark:hover:bg-white/10`}>
+    <section className={`${glassPanel} p-5 transition-all duration-200 hover:bg-white/20 sm:p-6 dark:hover:bg-white/10`}>
       <div className="relative mb-6 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <div className="mb-2 w-fit rounded-2xl border border-sky-100 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700 shadow-sm dark:border-blue-400/15 dark:bg-blue-400/10 dark:text-blue-300">
+          <div className="mb-2 w-fit rounded-2xl border border-blue-400/20 bg-blue-500/10 px-3 py-1 text-xs font-semibold text-sky-700 dark:text-blue-300 shadow-sm dark:border-blue-400/15 dark:bg-blue-400/10 dark:text-blue-300">
             Message generator
           </div>
           <h2 className="text-2xl font-semibold tracking-tight text-slate-950 dark:text-white/90">
@@ -547,12 +547,12 @@ function Generator({
             Build a short outbound draft for a specific audience and offer.
           </p>
           {selectedLead ? (
-            <div className="mt-3 w-fit rounded-2xl border border-sky-200 bg-sky-50/80 px-3 py-2 text-xs font-semibold text-sky-800 shadow-sm dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-200">
+            <div className="mt-3 w-fit rounded-2xl border border-blue-400/20 bg-blue-500/10 px-3 py-2 text-xs font-semibold text-sky-800 dark:text-blue-200 shadow-sm dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-200">
               Using: {selectedLead.name} / {selectedLead.role} / {selectedLead.company}
             </div>
           ) : null}
         </div>
-        <span className="w-fit rounded-2xl border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-white/70">
+        <span className="w-fit rounded-2xl border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm backdrop-blur-2xl dark:border-white/10 dark:bg-white/5 dark:text-white/70">
           {channel} · {language === "russian" ? "Russian" : "English"}
         </span>
       </div>
@@ -696,7 +696,7 @@ function MessagePanel({
 
   return (
     <section
-      className={`${glassPanel} p-5 transition duration-200 sm:p-6 ${
+      className={`${glassPanel} p-5 transition-all duration-200 sm:p-6 ${
         hasGeneratedMessage
           ? "border-emerald-300/40 ring-1 ring-emerald-300/20 dark:border-emerald-300/20 dark:ring-emerald-300/10"
           : "hover:bg-white/20 dark:hover:bg-white/10"
@@ -709,29 +709,29 @@ function MessagePanel({
               Generated Message
             </h2>
             {hasGeneratedMessage ? (
-              <span className="rounded-2xl bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
+              <span className="rounded-2xl bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-300">
                 Generated just now
               </span>
             ) : null}
             {isSaving ? (
-              <span className="rounded-2xl bg-sky-50 px-3 py-1 text-xs font-medium text-sky-700">
+              <span className="rounded-2xl bg-blue-500/10 px-3 py-1 text-xs font-medium text-sky-700 dark:text-blue-300">
                 Saving...
               </span>
             ) : null}
             {autoSaveStatus === "saved" ? (
-              <span className="rounded-2xl bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
+              <span className="rounded-2xl bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-300">
                 Saved automatically
               </span>
             ) : null}
             {autoSaveStatus === "failed" ? (
-              <span className="rounded-2xl bg-red-50 px-3 py-1 text-xs font-medium text-red-700">
+              <span className="rounded-2xl bg-red-500/10 px-3 py-1 text-xs font-medium text-red-700 dark:text-red-300">
                 Auto-save failed
               </span>
             ) : null}
           </div>
           <p className="mt-1 text-sm text-slate-500 dark:text-white/60">Review, copy, or save the latest draft.</p>
           {selectedLead ? (
-            <p className="mt-2 rounded-2xl border border-white/20 bg-white/10 px-3 py-2 text-sm font-semibold text-slate-700 backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-white/70">
+            <p className="mt-2 rounded-2xl border border-white/20 bg-white/10 px-3 py-2 text-sm font-semibold text-slate-700 backdrop-blur-2xl dark:border-white/10 dark:bg-white/5 dark:text-white/70">
               Generated for: {selectedLead.name} · {selectedLead.role} at{" "}
               {selectedLead.company}
             </p>
@@ -772,13 +772,13 @@ function MessagePanel({
           visibleMessage ||
           "Your generated message will appear here after you add a target audience and offer."
         }
-        className="relative min-h-56 w-full resize-none overflow-hidden rounded-2xl border border-white/20 bg-white/10 p-5 text-sm leading-6 text-slate-900 shadow-inner outline-none backdrop-blur transition dark:border-white/10 dark:bg-white/5 dark:text-white/90"
+        className="relative min-h-56 w-full resize-none overflow-hidden rounded-2xl border border-white/20 bg-white/10 p-5 text-sm leading-6 text-slate-900 shadow-inner outline-none backdrop-blur-2xl transition-all duration-200 dark:border-white/10 dark:bg-white/5 dark:text-white/90"
       />
-      <div className="mt-3 text-right text-xs font-medium text-slate-500 dark:text-gray-500">
+      <div className="mt-3 text-right text-xs font-medium text-slate-500 dark:text-white/40">
         {visibleMessage.length} characters
       </div>
       {saveError ? (
-        <div className="mt-3 rounded-2xl border border-red-100 bg-red-50 px-3 py-2 text-sm text-red-700">
+        <div className="mt-3 rounded-2xl border border-red-400/20 bg-red-500/10 px-3 py-2 text-sm text-red-700 dark:text-red-300">
           {saveError}
         </div>
       ) : null}
@@ -813,7 +813,7 @@ function DashboardLeadsTable({
       </div>
 
       {leadsError ? (
-        <div className="mb-4 rounded-2xl border border-red-100 bg-red-50 px-3 py-2 text-sm text-red-700">
+        <div className="mb-4 rounded-2xl border border-red-400/20 bg-red-500/10 px-3 py-2 text-sm text-red-700 dark:text-red-300">
           {leadsError}
         </div>
       ) : null}
@@ -821,9 +821,9 @@ function DashboardLeadsTable({
       <div className="relative overflow-x-auto">
         <table className="w-full min-w-[720px] border-separate border-spacing-0 text-left text-sm">
           <thead>
-            <tr className="bg-white/10 text-slate-500 backdrop-blur dark:bg-white/5 dark:text-white/60">
+            <tr className="bg-transparent text-slate-500 dark:text-white/60">
               {["Name", "Company", "Role", "Website", "Status", "Action"].map((heading) => (
-                <th key={heading} className="border-y border-slate-200 px-4 py-3 font-semibold first:rounded-l-2xl first:border-l last:rounded-r-2xl last:border-r dark:border-slate-800">
+                <th key={heading} className="border-y border-white/10 px-4 py-3 font-semibold first:rounded-l-2xl first:border-l last:rounded-r-2xl last:border-r dark:border-white/10">
                   {heading}
                 </th>
               ))}
@@ -846,9 +846,9 @@ function DashboardLeadsTable({
             ) : null}
             {!isLeadsLoading && leads.map((lead) => {
               const isSelected = selectedLeadId === lead.id;
-              const cellClass = `border-b px-4 py-4 transition ${
+              const cellClass = `border-b px-4 py-4 transition-all duration-200 ${
                 isSelected
-                  ? "border-sky-100 bg-sky-50 dark:border-blue-400/20 dark:bg-blue-500/10"
+                  ? "border-blue-400/20 bg-blue-500/10 dark:border-blue-400/20 dark:bg-blue-500/10"
                   : "border-white/10 bg-transparent group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:group-hover:bg-white/5 dark:group-hover:text-white/90"
               }`;
 
@@ -879,7 +879,7 @@ function DashboardLeadsTable({
                         event.stopPropagation();
                         onGenerateForLead(lead);
                       }}
-                      className="rounded-2xl bg-slate-950 px-3 py-2 text-xs font-semibold text-white shadow-lg shadow-slate-300/60 transition hover:-translate-y-0.5 hover:bg-blue-700 active:translate-y-0 disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none dark:bg-gradient-to-r dark:from-blue-500 dark:to-indigo-500 dark:shadow-blue-500/20 dark:hover:from-blue-400 dark:hover:to-indigo-400 dark:hover:shadow-blue-500/30 dark:disabled:from-slate-700 dark:disabled:to-slate-700"
+                      className={`${primaryButton} px-3 py-2 text-xs`}
                     >
                       Generate for this lead
                     </button>
@@ -1046,7 +1046,7 @@ function LeadsPage({
             <button
               type="button"
               onClick={exportSelectedLeads}
-              className="w-fit rounded-2xl border border-blue-300/30 bg-blue-500/10 px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:bg-blue-500/20 hover:text-blue-800 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-300 dark:hover:bg-blue-500/20 dark:hover:text-blue-200"
+              className="w-fit rounded-2xl border border-blue-300/30 bg-blue-500/10 px-4 py-2 text-sm font-semibold text-blue-700 dark:text-blue-300 shadow-sm backdrop-blur-2xl transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-500/20 hover:text-blue-800 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-300 dark:hover:bg-blue-500/20 dark:hover:text-blue-200"
             >
               Export selected
             </button>
@@ -1062,17 +1062,17 @@ function LeadsPage({
       </div>
 
       {error ? (
-        <div className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div className="rounded-2xl border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
           {error}
         </div>
       ) : null}
       {importSuccess ? (
-        <div className="rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+        <div className="rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 dark:text-emerald-300">
           {importSuccess}
         </div>
       ) : null}
       {bulkSuccess ? (
-        <div className="rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+        <div className="rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 dark:text-emerald-300">
           {bulkSuccess}
         </div>
       ) : null}
@@ -1104,13 +1104,13 @@ function LeadsPage({
           <div className="relative overflow-x-auto">
             <table className="w-full min-w-[980px] border-separate border-spacing-0 text-left text-sm">
               <thead>
-                <tr className="bg-white/10 text-slate-500 backdrop-blur dark:bg-white/5 dark:text-white/60">
+                <tr className="bg-transparent text-slate-500 dark:text-white/60">
                   <th className="border-y border-l border-white/20 px-4 py-3 font-semibold first:rounded-l-2xl dark:border-white/10">
                     <input
                       type="checkbox"
                       checked={allVisibleSelected}
                       onChange={onToggleAllVisible}
-                      className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:checked:border-blue-500 dark:checked:bg-blue-500"
+                      className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 dark:border-white/20 dark:bg-white/5 dark:checked:border-blue-500 dark:checked:bg-blue-500"
                     />
                   </th>
                   {["Name", "Company", "Role", "Website", "Email", "Status", "Created At", "Actions"].map(
@@ -1128,9 +1128,9 @@ function LeadsPage({
               <tbody>
                 {leads.map((lead) => {
                   const isHighlighted = highlightedLeadId === lead.id;
-                  const cellClass = `border-b px-4 py-4 transition ${
+                  const cellClass = `border-b px-4 py-4 transition-all duration-200 ${
                     isHighlighted
-                      ? "border-sky-100 bg-sky-50 dark:border-blue-400/20 dark:bg-blue-500/10"
+                      ? "border-blue-400/20 bg-blue-500/10 dark:border-blue-400/20 dark:bg-blue-500/10"
                       : "border-white/10 bg-transparent group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:group-hover:bg-white/5 dark:group-hover:text-white/90"
                   }`;
 
@@ -1141,7 +1141,7 @@ function LeadsPage({
                           type="checkbox"
                           checked={selectedLeadIdSet.has(lead.id)}
                           onChange={() => onToggleLeadSelection(lead.id)}
-                          className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:checked:border-blue-500 dark:checked:bg-blue-500"
+                          className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 dark:border-white/20 dark:bg-white/5 dark:checked:border-blue-500 dark:checked:bg-blue-500"
                         />
                       </td>
                       <td className={`${cellClass} font-medium text-slate-950 dark:text-white/90`}>
@@ -1157,7 +1157,7 @@ function LeadsPage({
                           onChange={(event) =>
                             onStatusChange(lead.id, event.target.value as LeadStatus)
                           }
-                          className={`rounded-2xl border px-3 py-2 text-xs font-semibold outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-100 ${statusBadgeStyles[lead.status]} dark:border-slate-700 dark:bg-slate-900 dark:text-white/90 dark:focus:border-blue-400 dark:focus:ring-blue-500/30`}
+                          className={`rounded-2xl border px-3 py-2 text-xs font-semibold outline-none transition-all duration-200 focus:border-sky-400 focus:ring-4 focus:ring-sky-100 ${statusBadgeStyles[lead.status]} dark:border-white/10 dark:bg-white/5 dark:text-white/90 dark:focus:border-blue-400 dark:focus:ring-blue-500/30`}
                         >
                           {leadStatuses.map((status) => (
                             <option key={status} value={status}>
@@ -1173,7 +1173,7 @@ function LeadsPage({
                         <button
                           type="button"
                           onClick={() => onDelete(lead.id)}
-                          className="rounded-2xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 transition hover:-translate-y-0.5 hover:border-red-300 hover:bg-red-100 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300 dark:hover:bg-red-500/20"
+                          className="rounded-2xl border border-red-400/20 bg-red-500/10 px-3 py-2 text-xs font-semibold text-red-700 dark:text-red-300 transition-all duration-200 hover:-translate-y-0.5 hover:border-red-400/30 hover:bg-red-500/20 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300 dark:hover:bg-red-500/20"
                         >
                           Delete
                         </button>
@@ -1188,7 +1188,7 @@ function LeadsPage({
       </section>
 
       {isFormOpen ? (
-        <div className="fixed inset-0 z-30 flex items-center justify-center bg-slate-950/30 px-4 backdrop-blur-sm">
+        <div className="fixed inset-0 z-30 flex items-center justify-center bg-[#020617]/50 px-4 backdrop-blur-2xl">
           <form onSubmit={onSubmit} className={`${glassPanel} w-full max-w-xl p-6`}>
             <div className="relative mb-5 flex items-start justify-between gap-4">
               <div>
@@ -1274,7 +1274,7 @@ function LeadsPage({
       ) : null}
 
       {isImportOpen ? (
-        <div className="fixed inset-0 z-30 flex items-center justify-center bg-slate-950/30 px-4 backdrop-blur-sm">
+        <div className="fixed inset-0 z-30 flex items-center justify-center bg-[#020617]/50 px-4 backdrop-blur-2xl">
           <div className={`${glassPanel} w-full max-w-2xl p-6`}>
             <div className="relative mb-5 flex items-start justify-between gap-4">
               <div>
@@ -1300,12 +1300,12 @@ function LeadsPage({
                 type="file"
                 accept=".csv,text/csv"
                 onChange={onCsvFileChange}
-                className="w-full rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm text-slate-700 shadow-sm outline-none backdrop-blur transition file:mr-4 file:rounded-2xl file:border-0 file:bg-gradient-to-r file:from-blue-500 file:to-indigo-500 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:bg-white/20 hover:file:from-blue-400 hover:file:to-indigo-400 focus:border-blue-400/60 focus:ring-2 focus:ring-blue-400/40 dark:border-white/10 dark:bg-white/5 dark:text-white/80 dark:hover:bg-white/10"
+                className="w-full rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm text-slate-700 shadow-sm outline-none backdrop-blur-2xl transition-all duration-200 file:mr-4 file:rounded-2xl file:border-0 file:bg-gradient-to-r file:from-blue-500 file:to-indigo-500 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:bg-white/20 hover:file:from-blue-400 hover:file:to-indigo-400 focus:border-blue-400/60 focus:ring-2 focus:ring-blue-400/40 dark:border-white/10 dark:bg-white/5 dark:text-white/80 dark:hover:bg-white/10"
               />
             </label>
 
             {importError ? (
-              <div className="mt-4 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">
+              <div className="mt-4 rounded-2xl border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
                 {importError}
               </div>
             ) : null}
@@ -1313,19 +1313,19 @@ function LeadsPage({
             {importPreview ? (
               <div className="relative mt-5 space-y-4">
                 <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-3xl border border-white/20 bg-white/10 p-4 backdrop-blur dark:border-white/10 dark:bg-white/5">
+                  <div className="rounded-3xl border border-white/20 bg-white/10 p-4 backdrop-blur-2xl dark:border-white/10 dark:bg-white/5">
                     <div className="text-xs font-medium uppercase text-slate-400 dark:text-white/40">File</div>
                     <div className="mt-1 truncate text-sm font-semibold text-slate-900 dark:text-white/90">
                       {importPreview.fileName}
                     </div>
                   </div>
-                  <div className="rounded-3xl border border-emerald-300/30 bg-emerald-400/10 p-4 shadow-sm backdrop-blur">
+                  <div className="rounded-3xl border border-emerald-300/30 bg-emerald-400/10 p-4 shadow-sm backdrop-blur-2xl">
                     <div className="text-xs font-medium uppercase text-emerald-600 dark:text-emerald-300">Valid rows</div>
                     <div className="mt-1 text-2xl font-semibold text-emerald-700 dark:text-emerald-200">
                       {importPreview.validRows.length}
                     </div>
                   </div>
-                  <div className="rounded-3xl border border-amber-300/30 bg-amber-400/10 p-4 shadow-sm backdrop-blur">
+                  <div className="rounded-3xl border border-amber-300/30 bg-amber-400/10 p-4 shadow-sm backdrop-blur-2xl">
                     <div className="text-xs font-medium uppercase text-amber-600 dark:text-amber-300">Skipped rows</div>
                     <div className="mt-1 text-2xl font-semibold text-amber-700 dark:text-amber-200">
                       {importPreview.skippedRows}
@@ -1333,9 +1333,9 @@ function LeadsPage({
                   </div>
                 </div>
 
-                <div className="overflow-x-auto rounded-2xl border border-white/20 bg-white/5 backdrop-blur dark:border-white/10">
+                <div className="overflow-x-auto rounded-2xl border border-white/10 bg-transparent backdrop-blur-2xl">
                   <table className="w-full min-w-[620px] text-left text-sm">
-                    <thead className="bg-white/10 text-slate-500 dark:bg-white/5 dark:text-white/60">
+                    <thead className="bg-transparent text-slate-500 dark:text-white/60">
                       <tr>
                         {["Name", "Company", "Role", "Website", "Email", "Status"].map((heading) => (
                           <th key={heading} className="px-4 py-3 font-medium">
@@ -1346,7 +1346,7 @@ function LeadsPage({
                     </thead>
                     <tbody>
                       {importPreview.validRows.slice(0, 5).map((row, index) => (
-                        <tr key={`${row.name}-${row.company}-${index}`} className="border-t border-white/10 bg-transparent transition hover:bg-white/10 dark:hover:bg-white/5 dark:hover:text-white/90">
+                        <tr key={`${row.name}-${row.company}-${index}`} className="border-t border-white/10 bg-transparent transition-all duration-200 hover:bg-white/10 dark:hover:bg-white/5 dark:hover:text-white/90">
                           <td className="px-4 py-3 font-medium text-slate-950 dark:text-white/90">{row.name}</td>
                           <td className="px-4 py-3 text-slate-700 dark:text-slate-200">{row.company}</td>
                           <td className="px-4 py-3 text-slate-600 dark:text-white/70">{row.role || "-"}</td>
@@ -1374,7 +1374,7 @@ function LeadsPage({
       ) : null}
 
       {isBulkGenerateOpen ? (
-        <div className="fixed inset-0 z-30 flex items-center justify-center bg-slate-950/30 px-4 backdrop-blur-sm">
+        <div className="fixed inset-0 z-30 flex items-center justify-center bg-[#020617]/50 px-4 backdrop-blur-2xl">
           <div className={`${glassPanel} w-full max-w-xl p-6`}>
             <div className="relative mb-5 flex items-start justify-between gap-4">
               <div>
@@ -1454,13 +1454,13 @@ function LeadsPage({
             </div>
 
             {bulkError ? (
-              <div className="mt-4 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">
+              <div className="mt-4 rounded-2xl border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
                 {bulkError}
               </div>
             ) : null}
 
             {isBulkGenerating || bulkProgress.total > 0 ? (
-              <div className="mt-5 rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur dark:border-white/10 dark:bg-white/5">
+              <div className="mt-5 rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur-2xl dark:border-white/10 dark:bg-white/5">
                 <div className="text-sm font-semibold text-slate-950 dark:text-white/90">
                   Generating {bulkProgress.completed} / {bulkProgress.total}
                 </div>
@@ -1670,7 +1670,7 @@ function MessagesPage({
         </div>
 
         {error ? (
-          <div className="mb-4 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">
+          <div className="mb-4 rounded-2xl border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
             {error}
           </div>
         ) : null}
@@ -1695,7 +1695,7 @@ function MessagesPage({
               return (
               <article
                 key={message.id}
-                className={`${glassPanel} p-4 transition duration-200 hover:-translate-y-0.5 hover:bg-white/20 dark:hover:bg-white/10`}
+                className={`${glassPanel} p-4 transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/20 dark:hover:bg-white/10`}
               >
                 <div className="mb-3 flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                   <div>
@@ -1712,7 +1712,7 @@ function MessagesPage({
                               event.target.value as LeadStatus,
                             )
                           }
-                          className={`rounded-2xl border px-2.5 py-1 text-xs font-semibold outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-100 ${statusBadgeStyles[message.leads.status]} dark:border-slate-700 dark:bg-slate-900 dark:text-white/90 dark:focus:border-blue-400 dark:focus:ring-blue-500/30`}
+                          className={`rounded-2xl border px-2.5 py-1 text-xs font-semibold outline-none transition-all duration-200 focus:border-sky-400 focus:ring-4 focus:ring-sky-100 ${statusBadgeStyles[message.leads.status]} dark:border-white/10 dark:bg-white/5 dark:text-white/90 dark:focus:border-blue-400 dark:focus:ring-blue-500/30`}
                         >
                           {leadStatuses.map((status) => (
                             <option key={status} value={status}>
@@ -1731,11 +1731,11 @@ function MessagesPage({
                   <div className="text-sm text-slate-500 dark:text-white/60">{formatDate(message.created_at)}</div>
                 </div>
 
-                <p className="whitespace-pre-wrap rounded-2xl border border-white/20 bg-white/10 p-4 text-sm leading-6 text-slate-800 backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-white/80">
+                <p className="whitespace-pre-wrap rounded-2xl border border-white/20 bg-white/10 p-4 text-sm leading-6 text-slate-800 backdrop-blur-2xl dark:border-white/10 dark:bg-white/5 dark:text-white/80">
                   {message.content}
                 </p>
 
-                <div className="mt-3 flex flex-col gap-3 border-t border-white/10 dark:border-slate-800 pt-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="mt-3 flex flex-col gap-3 border-t border-white/10 pt-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="text-sm text-slate-500 dark:text-white/60">
                     {message.campaigns
                       ? `${message.campaigns.channel} · ${message.campaigns.target} · ${message.campaigns.offer}`
@@ -1746,7 +1746,7 @@ function MessagesPage({
                       <button
 	                        type="button"
 	                        onClick={() => onOpenLead(message)}
-	                        className="rounded-2xl border border-sky-100 bg-sky-50 px-3 py-2 text-xs font-semibold text-sky-700 transition hover:-translate-y-0.5 hover:border-sky-200 hover:bg-sky-100"
+	                        className={`${glassButton} px-3 py-2 text-xs`}
                       >
 	                        Open lead
 	                      </button>
@@ -1754,7 +1754,7 @@ function MessagesPage({
                     <button
                       type="button"
                       onClick={() => onOpenFollowUp(message)}
-                      className="rounded-2xl border border-blue-100 bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-700 transition hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-100"
+                      className={`${glassButton} px-3 py-2 text-xs`}
                     >
                       Generate follow-up
                     </button>
@@ -1764,7 +1764,7 @@ function MessagesPage({
                         onClick={() => onSendEmail(message)}
                         disabled={!message.leads.email}
                         title={message.leads.email ? "Open email draft" : "No email"}
-                        className="rounded-2xl border border-emerald-100 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700 transition hover:-translate-y-0.5 hover:border-emerald-200 hover:bg-emerald-100 disabled:translate-y-0 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-slate-50 disabled:text-slate-400"
+                        className="rounded-2xl border border-emerald-300/30 bg-emerald-400/10 px-3 py-2 text-xs font-semibold text-emerald-700 dark:text-emerald-300 shadow-lg shadow-black/10 backdrop-blur-2xl transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.02] hover:bg-emerald-400/20 dark:text-emerald-300 disabled:translate-y-0 disabled:scale-100 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/5 disabled:text-slate-400"
                       >
                         {message.leads.email ? "Send Email" : "No email"}
                       </button>
@@ -1779,7 +1779,7 @@ function MessagesPage({
                     <button
                       type="button"
                       onClick={() => onDelete(message.id)}
-                      className="rounded-2xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 transition hover:-translate-y-0.5 hover:border-red-300 hover:bg-red-100 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300 dark:hover:bg-red-500/20"
+                      className="rounded-2xl border border-red-400/20 bg-red-500/10 px-3 py-2 text-xs font-semibold text-red-700 dark:text-red-300 transition-all duration-200 hover:-translate-y-0.5 hover:border-red-400/30 hover:bg-red-500/20 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300 dark:hover:bg-red-500/20"
                     >
                       Delete
                     </button>
@@ -1791,7 +1791,7 @@ function MessagesPage({
                     {followUps.map((followUp, index) => (
                       <div
                         key={followUp.id}
-                        className="rounded-3xl border border-white/20 bg-white/10 p-4 backdrop-blur dark:border-white/10 dark:bg-white/5"
+                        className="rounded-3xl border border-white/20 bg-white/10 p-4 backdrop-blur-2xl dark:border-white/10 dark:bg-white/5"
                       >
                         <div className="mb-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                           <div className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-white/60">
@@ -1811,7 +1811,7 @@ function MessagesPage({
                               onClick={() => onSendEmail(followUp)}
                               disabled={!followUp.leads.email}
                               title={followUp.leads.email ? "Open email draft" : "No email"}
-                              className="rounded-2xl border border-emerald-300/30 bg-emerald-400/10 px-3 py-2 text-xs font-semibold text-emerald-700 backdrop-blur transition hover:-translate-y-0.5 hover:bg-emerald-400/20 disabled:translate-y-0 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/5 disabled:text-slate-400 dark:text-emerald-300"
+                              className="rounded-2xl border border-emerald-300/30 bg-emerald-400/10 px-3 py-2 text-xs font-semibold text-emerald-700 dark:text-emerald-300 backdrop-blur-2xl transition-all duration-200 hover:-translate-y-0.5 hover:bg-emerald-400/20 disabled:translate-y-0 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/5 disabled:text-slate-400 dark:text-emerald-300"
                             >
                               {followUp.leads.email ? "Send Email" : "No email"}
                             </button>
@@ -1836,7 +1836,7 @@ function MessagesPage({
       </section>
 
       {isFollowUpOpen && followUpMessage ? (
-        <div className="fixed inset-0 z-30 flex items-center justify-center bg-slate-950/30 px-4 backdrop-blur-sm">
+        <div className="fixed inset-0 z-30 flex items-center justify-center bg-[#020617]/50 px-4 backdrop-blur-2xl">
           <div className={`${glassPanel} w-full max-w-xl p-6`}>
             <div className="relative mb-5 flex items-start justify-between gap-4">
               <div>
@@ -1902,12 +1902,12 @@ function MessagesPage({
               </label>
             </div>
 
-            <div className="relative mt-4 rounded-3xl border border-white/20 bg-white/10 p-4 text-sm leading-6 text-slate-700 backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-white/80">
+            <div className="relative mt-4 rounded-3xl border border-white/20 bg-white/10 p-4 text-sm leading-6 text-slate-700 backdrop-blur-2xl dark:border-white/10 dark:bg-white/5 dark:text-white/80">
               {followUpMessage.content}
             </div>
 
             {followUpError ? (
-              <div className="mt-4 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">
+              <div className="mt-4 rounded-2xl border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
                 {followUpError}
               </div>
             ) : null}
@@ -1959,7 +1959,7 @@ function EmailServiceModal({
   ];
 
   return (
-    <div className="fixed inset-0 z-40 flex items-center justify-center bg-slate-950/40 px-4 backdrop-blur-sm">
+    <div className="fixed inset-0 z-40 flex items-center justify-center bg-[#020617]/60 px-4 backdrop-blur-2xl">
       <section className={`${glassPanel} w-full max-w-lg p-6`}>
         <div className="relative mb-5 flex items-start justify-between gap-4">
           <div>
@@ -1985,7 +1985,7 @@ function EmailServiceModal({
               key={service.id}
               type="button"
               onClick={() => onChoose(service.id)}
-              className="rounded-3xl border border-white/20 bg-white/10 px-4 py-4 text-left shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-blue-300/40 hover:bg-white/20 hover:shadow-lg hover:shadow-blue-600/10 dark:border-white/10 dark:bg-white/5 dark:hover:border-blue-400/30 dark:hover:bg-white/10 dark:hover:shadow-blue-500/10"
+              className="rounded-3xl border border-white/20 bg-white/10 px-4 py-4 text-left shadow-sm backdrop-blur-2xl transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-300/40 hover:bg-white/20 hover:shadow-lg hover:shadow-blue-600/10 dark:border-white/10 dark:bg-white/5 dark:hover:border-blue-400/30 dark:hover:bg-white/10 dark:hover:shadow-blue-500/10"
             >
               <div className="text-sm font-semibold text-slate-950 dark:text-white/90">
                 {service.title}
@@ -2066,7 +2066,7 @@ function CampaignsPage({
       </div>
 
       {error ? (
-        <div className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div className="rounded-2xl border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
           {error}
         </div>
       ) : null}
@@ -2097,7 +2097,7 @@ function CampaignsPage({
           <div className="relative overflow-x-auto">
             <table className="w-full min-w-[1080px] border-separate border-spacing-0 text-left text-sm">
               <thead>
-                <tr className="bg-white/10 text-slate-500 backdrop-blur dark:bg-white/5 dark:text-white/60">
+                <tr className="bg-transparent text-slate-500 dark:text-white/60">
                   {[
                     "Name",
                     "Target",
@@ -2126,31 +2126,31 @@ function CampaignsPage({
 
                   return (
                     <tr key={campaign.id} className="group">
-                      <td className="border-b border-white/10 bg-transparent px-4 py-4 font-medium text-slate-950 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/90 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 font-medium text-slate-950 transition-all duration-200 group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/90 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         {campaign.name}
                       </td>
-                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-700 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/70 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-700 transition-all duration-200 group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/70 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         {campaign.target}
                       </td>
-                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-700 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/70 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-700 transition-all duration-200 group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/70 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         {campaign.offer}
                       </td>
-                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-600 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/60 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-600 transition-all duration-200 group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/60 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         {campaign.tone}
                       </td>
-                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-600 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/60 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-600 transition-all duration-200 group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/60 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         {campaign.channel}
                       </td>
-                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-600 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/60 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-600 transition-all duration-200 group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/60 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         {formatDate(campaign.created_at)}
                       </td>
-                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-700 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/70 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-700 transition-all duration-200 group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/70 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         {messageCount}
                       </td>
-                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-700 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/70 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 text-slate-700 transition-all duration-200 group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:text-white/70 dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         {leadCount}
                       </td>
-                      <td className="border-b border-white/10 bg-transparent px-4 py-4 transition group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
+                      <td className="border-b border-white/10 bg-transparent px-4 py-4 transition-all duration-200 group-hover:bg-white/10 dark:border-white/10 dark:bg-transparent dark:group-hover:bg-white/5 dark:group-hover:text-white/90">
                         <div className="flex flex-wrap gap-2">
                           <button
                             type="button"
@@ -2169,7 +2169,7 @@ function CampaignsPage({
                           <button
                             type="button"
                             onClick={() => onDelete(campaign.id)}
-                            className="rounded-2xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 transition hover:-translate-y-0.5 hover:border-red-300 hover:bg-red-100 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300 dark:hover:bg-red-500/20"
+                            className="rounded-2xl border border-red-400/20 bg-red-500/10 px-3 py-2 text-xs font-semibold text-red-700 dark:text-red-300 transition-all duration-200 hover:-translate-y-0.5 hover:border-red-400/30 hover:bg-red-500/20 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300 dark:hover:bg-red-500/20"
                           >
                             Delete
                           </button>
@@ -2185,7 +2185,7 @@ function CampaignsPage({
       </section>
 
       {isFormOpen ? (
-        <div className="fixed inset-0 z-30 flex items-center justify-center bg-slate-950/30 px-4 backdrop-blur-sm">
+        <div className="fixed inset-0 z-30 flex items-center justify-center bg-[#020617]/50 px-4 backdrop-blur-2xl">
           <form onSubmit={onSubmit} className={`${glassPanel} w-full max-w-xl p-6`}>
             <div className="relative mb-5 flex items-start justify-between gap-4">
               <div>
@@ -2427,7 +2427,7 @@ function LandingPage({
   const features = ["Bulk message generation", "Follow-ups", "CSV import/export"];
 
   return (
-    <main className="premium-noise-bg min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.14),transparent_32rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.12),transparent_28rem),linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-4 py-8 text-slate-950 dark:bg-[#0B1220] dark:bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.2),transparent_32rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.16),transparent_28rem),linear-gradient(180deg,#0B1220_0%,#0F172A_100%)] dark:text-white/90">
+    <main className="premium-noise-bg min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.14),transparent_32rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.12),transparent_28rem),linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-4 py-8 text-slate-950 dark:bg-gradient-to-br dark:from-[#0B1220] dark:via-[#0F172A] dark:to-[#020617] dark:text-white/90">
       <section className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-6xl flex-col">
         <header className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -2469,7 +2469,7 @@ function LandingPage({
               {features.map((feature) => (
                 <div
                   key={feature}
-                  className="rounded-3xl border border-white/20 bg-white/10 p-4 text-sm font-semibold text-slate-700 shadow-lg shadow-black/10 backdrop-blur-xl dark:border-white/10 dark:bg-white/5 dark:text-white/80 dark:shadow-black/30"
+                  className="rounded-3xl border border-white/20 bg-white/10 p-4 text-sm font-semibold text-slate-700 shadow-lg shadow-black/10 backdrop-blur-2xl dark:border-white/10 dark:bg-white/5 dark:text-white/80 dark:shadow-black/30"
                 >
                   <div className="mb-3 h-1.5 w-8 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500" />
                   {feature}
@@ -2479,7 +2479,7 @@ function LandingPage({
           </div>
 
           <div className={`${glassPanel} rounded-[2rem] p-4`}>
-            <div className="relative rounded-3xl border border-white/20 bg-white/10 p-4 backdrop-blur dark:border-white/10 dark:bg-white/5">
+            <div className="relative rounded-3xl border border-white/20 bg-white/10 p-4 backdrop-blur-2xl dark:border-white/10 dark:bg-white/5">
               <div className="mb-4 flex items-center justify-between">
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-600">
@@ -2487,24 +2487,24 @@ function LandingPage({
                   </div>
                   <div className="mt-1 text-lg font-semibold text-slate-950 dark:text-white/90">Message workflow</div>
                 </div>
-                <span className="rounded-2xl border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                <span className="rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
                   Auto-saved
                 </span>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
-                <div className="rounded-2xl border border-white/20 bg-white/10 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
+                <div className="rounded-2xl border border-white/20 bg-white/10 p-4 shadow-sm backdrop-blur-2xl dark:border-white/10 dark:bg-white/5">
                   <div className="text-xs font-semibold text-slate-400 dark:text-white/40">Target</div>
                   <div className="mt-2 text-sm font-semibold text-slate-900 dark:text-white/90">Founders at SaaS teams</div>
                 </div>
-                <div className="rounded-2xl border border-white/20 bg-white/10 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
+                <div className="rounded-2xl border border-white/20 bg-white/10 p-4 shadow-sm backdrop-blur-2xl dark:border-white/10 dark:bg-white/5">
                   <div className="text-xs font-semibold text-slate-400 dark:text-white/40">Channel</div>
                   <div className="mt-2 text-sm font-semibold text-slate-900 dark:text-white/90">LinkedIn DM</div>
                 </div>
               </div>
-              <div className="mt-3 rounded-3xl border border-white/20 bg-white/10 p-4 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
+              <div className="mt-3 rounded-3xl border border-white/20 bg-white/10 p-4 shadow-sm backdrop-blur-2xl dark:border-white/10 dark:bg-white/5">
                 <div className="mb-3 flex items-center justify-between">
                   <span className="text-sm font-semibold text-slate-950 dark:text-white/90">Generated message</span>
-                  <span className="rounded-2xl bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+                  <span className="rounded-2xl bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300">
                     Ready
                   </span>
                 </div>
@@ -2523,12 +2523,12 @@ function LandingPage({
 function AppLoadingScreen({ isReady }: { isReady: boolean }) {
   return (
     <main
-      className={`fixed inset-0 z-50 flex min-h-screen items-center justify-center bg-slate-950 px-6 text-white transition-opacity duration-500 dark:bg-slate-950 ${
+      className={`fixed inset-0 z-50 flex min-h-screen items-center justify-center bg-gradient-to-br from-[#0B1220] via-[#0F172A] to-[#020617] px-6 text-white transition-opacity duration-500 ${
         isReady ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >
       <section className="text-center">
-        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl border border-white/10 bg-white/10 text-2xl font-semibold shadow-2xl shadow-blue-950/50 backdrop-blur">
+        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl border border-white/10 bg-white/10 text-2xl font-semibold shadow-2xl shadow-blue-950/50 backdrop-blur-2xl">
           LF
         </div>
         <h1 className="mt-6 text-3xl font-semibold tracking-tight">LeadFlow</h1>
@@ -2671,13 +2671,13 @@ function AuthPage({
   const submitLabel = mode === "login" ? "Login" : "Sign up";
 
   return (
-    <main className="premium-noise-bg flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.14),transparent_32rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.12),transparent_28rem),linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-4 py-10 text-slate-950 dark:bg-[#0B1220] dark:bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.2),transparent_32rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.16),transparent_28rem),linear-gradient(180deg,#0B1220_0%,#0F172A_100%)] dark:text-white/90">
+    <main className="premium-noise-bg flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.14),transparent_32rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.12),transparent_28rem),linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-4 py-10 text-slate-950 dark:bg-gradient-to-br dark:from-[#0B1220] dark:via-[#0F172A] dark:to-[#020617] dark:text-white/90">
       <section className={`${glassPanel} w-full max-w-md p-6`}>
         <div className="relative">
           <button
             type="button"
             onClick={onBack}
-            className="mb-5 text-sm font-semibold text-slate-500 transition hover:text-slate-950 dark:text-white/60 dark:hover:text-white/90"
+            className="mb-5 text-sm font-semibold text-slate-500 transition-all duration-200 hover:text-slate-950 dark:text-white/60 dark:hover:text-white/90"
           >
             Back
           </button>
@@ -2692,11 +2692,11 @@ function AuthPage({
           </p>
         </div>
 
-        <div className="relative mt-6 grid grid-cols-2 rounded-2xl border border-white/20 bg-white/10 p-1 text-sm font-semibold backdrop-blur dark:border-white/10 dark:bg-white/5">
+        <div className="relative mt-6 grid grid-cols-2 rounded-2xl border border-white/20 bg-white/10 p-1 text-sm font-semibold backdrop-blur-2xl dark:border-white/10 dark:bg-white/5">
           <button
             type="button"
             onClick={() => changeMode("login")}
-            className={`rounded-xl px-3 py-2 transition ${
+            className={`rounded-xl px-3 py-2 transition-all duration-200 ${
               mode === "login" ? "bg-white/60 text-slate-950 shadow-sm dark:bg-white/10 dark:text-white/90" : "text-slate-500 hover:text-slate-800 dark:text-white/50 dark:hover:text-white/80"
             }`}
           >
@@ -2705,7 +2705,7 @@ function AuthPage({
           <button
             type="button"
             onClick={() => changeMode("signup")}
-            className={`rounded-xl px-3 py-2 transition ${
+            className={`rounded-xl px-3 py-2 transition-all duration-200 ${
               mode === "signup" ? "bg-white/60 text-slate-950 shadow-sm dark:bg-white/10 dark:text-white/90" : "text-slate-500 hover:text-slate-800 dark:text-white/50 dark:hover:text-white/80"
             }`}
           >
@@ -2758,12 +2758,12 @@ function AuthPage({
           ) : null}
 
           {authError ? (
-            <div className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">
+            <div className="rounded-2xl border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
               {authError}
             </div>
           ) : null}
           {authSuccess ? (
-            <div className="rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+            <div className="rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 dark:text-emerald-300">
               {authSuccess}
             </div>
           ) : null}
@@ -2782,7 +2782,7 @@ function AuthPage({
             <button
               type="button"
               onClick={() => void showPasswordHint()}
-              className="text-sm font-semibold text-blue-600 transition hover:text-blue-700"
+              className="text-sm font-semibold text-blue-600 transition-all duration-200 hover:text-blue-700 dark:text-blue-300"
             >
               Show password hint
             </button>
@@ -2790,7 +2790,7 @@ function AuthPage({
               This is only a hint. Never store your real password here.
             </p>
             {shownPasswordHint ? (
-              <div className="rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm text-slate-700 backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-white/80">
+              <div className="rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm text-slate-700 backdrop-blur-2xl dark:border-white/10 dark:bg-white/5 dark:text-white/80">
                 {shownPasswordHint}
               </div>
             ) : null}
@@ -2804,7 +2804,7 @@ function AuthPage({
               changeMode("login");
               setEmail(signupEmail);
             }}
-            className="mt-4 text-sm font-semibold text-blue-600 transition hover:text-blue-700"
+            className="mt-4 text-sm font-semibold text-blue-600 transition-all duration-200 hover:text-blue-700 dark:text-blue-300"
           >
             Back to login
           </button>
@@ -4294,7 +4294,7 @@ export default function App() {
       </section>
 
       {generationError ? (
-        <div className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div className="rounded-2xl border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
           {generationError}
         </div>
       ) : null}
@@ -4324,7 +4324,7 @@ export default function App() {
     <>
       <AppLoadingScreen isReady={isAppStartupReady} />
       {isAppStartupReady ? (
-    <div className="premium-noise-bg min-h-screen bg-slate-50 bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.08),transparent_30rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.06),transparent_28rem),linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] text-slate-950 antialiased dark:bg-[#0B1220] dark:bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.16),transparent_32rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.12),transparent_28rem),linear-gradient(180deg,#0B1220_0%,#0F172A_100%)] dark:text-gray-200">
+    <div className="premium-noise-bg min-h-screen bg-slate-50 bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.08),transparent_30rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.06),transparent_28rem),linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] text-slate-950 antialiased dark:bg-gradient-to-br dark:from-[#0B1220] dark:via-[#0F172A] dark:to-[#020617] dark:text-white/90">
       <EmailServiceModal
         message={emailServiceMessage}
         onClose={() => setEmailServiceMessage(null)}
@@ -4339,7 +4339,7 @@ export default function App() {
         <main className="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
 	          <div className={`mx-auto max-w-7xl ${settings.compactMode ? "space-y-4" : "space-y-6"}`}>
             <div className="flex items-center justify-end gap-3">
-              <span className="hidden max-w-xs truncate rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-500 shadow-sm sm:block dark:border-white/[0.06] dark:bg-white/[0.04] dark:text-gray-400 dark:shadow-black/20">
+              <span className="hidden max-w-xs truncate rounded-2xl border border-white/15 bg-white/10 px-3 py-2 text-sm font-medium text-slate-500 shadow-lg shadow-black/10 backdrop-blur-2xl sm:block dark:border-white/10 dark:bg-white/5 dark:text-white/60 dark:shadow-black/30">
                 {currentUser.email}
               </span>
               <button
@@ -4347,7 +4347,7 @@ export default function App() {
                 onClick={() => {
                   void logout();
                 }}
-                className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white/10 hover:text-slate-950 hover:shadow dark:border-white/[0.06] dark:bg-white/[0.04] dark:text-gray-300 dark:shadow-black/20 dark:hover:border-white/10 dark:hover:bg-white/[0.08] dark:hover:text-gray-100"
+                className={`${glassButton} px-4 py-2 text-sm`}
               >
                 Logout
               </button>
@@ -4359,11 +4359,11 @@ export default function App() {
                     <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600 dark:text-blue-400">
                       Dashboard
                     </p>
-                    <h1 className="mt-2 text-4xl font-semibold tracking-tight text-slate-950 dark:text-gray-200">
+                    <h1 className="mt-2 text-4xl font-semibold tracking-tight text-slate-950 dark:text-white/90">
                       Sales message workspace
                     </h1>
                   </div>
-                  <span className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-500 shadow-sm dark:border-white/[0.06] dark:bg-white/[0.04] dark:text-gray-400">
+                  <span className="rounded-2xl border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-slate-500 shadow-lg shadow-black/10 backdrop-blur-2xl dark:border-white/10 dark:bg-white/5 dark:text-white/60 dark:shadow-black/30">
                     Private workspace
                   </span>
                 </header>
@@ -4371,7 +4371,7 @@ export default function App() {
                   <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600 dark:text-blue-400">
                     Dashboard
                   </p>
-                  <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 dark:text-gray-200">
+                  <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white/90">
                     Sales message workspace
                   </h1>
                 </section>
