@@ -1985,8 +1985,10 @@ function EmailServiceModal({
 }) {
   const email = message?.leads?.email?.trim();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!message || !email) return;
+
+    document.body.style.overflow = "hidden";
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") onClose();
@@ -1996,6 +1998,7 @@ function EmailServiceModal({
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
     };
   }, [email, message, onClose]);
 
@@ -2020,12 +2023,13 @@ function EmailServiceModal({
   ];
 
   return (
-    <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 px-4 backdrop-blur-xl"
-      onClick={onClose}
-    >
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+      <div
+        className="absolute inset-0 bg-black/50 backdrop-blur-xl"
+        onClick={onClose}
+      />
       <section
-        className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/15 bg-white/10 p-6 shadow-2xl shadow-black/50 backdrop-blur-2xl dark:bg-white/10"
+        className="relative z-10 mx-4 w-full max-w-md overflow-hidden rounded-3xl border border-white/15 bg-white/10 p-6 shadow-2xl shadow-black/50 backdrop-blur-2xl dark:bg-white/10"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/20 to-transparent" />
@@ -4464,14 +4468,15 @@ export default function App() {
     <>
       <AppLoadingScreen isReady={isAppStartupReady} />
       {isAppStartupReady ? (
+        <>
+          <EmailServiceModal
+            message={emailServiceMessage}
+            onClose={() => setEmailServiceMessage(null)}
+            onChoose={(service) => {
+              void openSelectedEmailService(service);
+            }}
+          />
     <div className="premium-noise-bg min-h-screen bg-slate-50 bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.08),transparent_30rem),radial-gradient(circle_at_top_right,rgba(99,102,241,0.06),transparent_28rem),linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] text-slate-950 antialiased dark:bg-gradient-to-br dark:from-[#0B1220] dark:via-[#0F172A] dark:to-[#020617] dark:text-white/90">
-      <EmailServiceModal
-        message={emailServiceMessage}
-        onClose={() => setEmailServiceMessage(null)}
-        onChoose={(service) => {
-          void openSelectedEmailService(service);
-        }}
-      />
       <MobileTopBar activeView={activeView} onNavigate={setActiveView} />
       <div className="flex min-h-screen">
         <Sidebar activeView={activeView} onNavigate={setActiveView} />
@@ -4673,6 +4678,7 @@ export default function App() {
         </main>
       </div>
     </div>
+        </>
       ) : null}
     </>
   );
