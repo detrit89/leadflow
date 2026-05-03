@@ -13,6 +13,9 @@ type LeadStatus = "new" | "contacted" | "replied" | "interested";
 type GenerateMessageResponse = {
   message?: string;
   messages?: string[];
+  direct?: string;
+  soft?: string;
+  curiosity?: string;
 };
 
 type SelectedLead = {
@@ -312,6 +315,15 @@ function formatGeneratedVariants(messages: string[]): string {
 }
 
 function getGeneratedContent(data: GenerateMessageResponse): string {
+  const keyedMessages = [data.direct, data.soft, data.curiosity]
+    .filter((message): message is string => typeof message === "string")
+    .map((message) => message.trim())
+    .filter(Boolean);
+
+  if (keyedMessages.length === 3) {
+    return formatGeneratedVariants(keyedMessages);
+  }
+
   if (Array.isArray(data.messages) && data.messages.length > 0) {
     return formatGeneratedVariants(data.messages);
   }
