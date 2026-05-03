@@ -11,7 +11,8 @@ type Language = "english" | "russian";
 type LeadStatus = "new" | "contacted" | "replied" | "interested";
 
 type GenerateMessageResponse = {
-  message: string;
+  message?: string;
+  messages?: string[];
 };
 
 type SelectedLead = {
@@ -302,6 +303,22 @@ function downloadCsv(filename: string, rows: Record<string, string>[]) {
   URL.revokeObjectURL(url);
 }
 
+function formatGeneratedVariants(messages: string[]): string {
+  const labels = ["Direct", "Soft", "Curiosity-based"];
+
+  return messages
+    .map((message, index) => `${labels[index] ?? `Variant ${index + 1}`}:\n${message}`)
+    .join("\n\n");
+}
+
+function getGeneratedContent(data: GenerateMessageResponse): string {
+  if (Array.isArray(data.messages) && data.messages.length > 0) {
+    return formatGeneratedVariants(data.messages);
+  }
+
+  return data.message ?? "";
+}
+
 function toDashboardTone(value: string): Tone {
   if (value === "professional") return "Professional";
   if (value === "direct") return "Direct";
@@ -499,6 +516,8 @@ function ToggleSwitch({
 
 function Generator({
   target,
+  situation,
+  hypothesis,
   offer,
   tone,
   channel,
@@ -506,6 +525,8 @@ function Generator({
   selectedLead,
   isLoading,
   onTargetChange,
+  onSituationChange,
+  onHypothesisChange,
   onOfferChange,
   onToneChange,
   onChannelChange,
@@ -513,6 +534,8 @@ function Generator({
   onGenerate,
 }: {
   target: string;
+  situation: string;
+  hypothesis: string;
   offer: string;
   tone: Tone;
   channel: Channel;
@@ -520,6 +543,8 @@ function Generator({
   selectedLead: SelectedLead | null;
   isLoading: boolean;
   onTargetChange: (value: string) => void;
+  onSituationChange: (value: string) => void;
+  onHypothesisChange: (value: string) => void;
   onOfferChange: (value: string) => void;
   onToneChange: (value: Tone) => void;
   onChannelChange: (value: Channel) => void;
@@ -544,7 +569,7 @@ function Generator({
             Campaign Message
           </h2>
           <p className="mt-1 text-sm leading-6 text-slate-500 dark:text-white/60">
-            Build a short outbound draft for a specific audience and offer.
+            Build three outreach variants from real lead context.
           </p>
           {selectedLead ? (
             <div className="mt-3 w-fit rounded-2xl border border-blue-400/20 bg-blue-500/10 px-3 py-2 text-xs font-semibold text-sky-800 dark:text-blue-200 shadow-sm dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-200">
@@ -560,11 +585,11 @@ function Generator({
       <form onSubmit={handleSubmit} className="relative space-y-5">
         <div className="grid gap-4 xl:grid-cols-2">
           <label className="space-y-2">
-            <FieldLabel>Target Audience</FieldLabel>
+            <FieldLabel>Segment</FieldLabel>
             <input
               value={target}
               onChange={(event) => onTargetChange(event.target.value)}
-              placeholder="e.g. SaaS founders in USA"
+              placeholder="e.g. early-stage SaaS founders"
               className={glassInput}
             />
           </label>
@@ -575,6 +600,28 @@ function Generator({
               value={offer}
               onChange={(event) => onOfferChange(event.target.value)}
               placeholder="e.g. Web design services"
+              className={glassInput}
+            />
+          </label>
+        </div>
+
+        <div className="grid gap-4 xl:grid-cols-2">
+          <label className="space-y-2">
+            <FieldLabel>Situation</FieldLabel>
+            <input
+              value={situation}
+              onChange={(event) => onSituationChange(event.target.value)}
+              placeholder="e.g. landing page leads with features before the pain"
+              className={glassInput}
+            />
+          </label>
+
+          <label className="space-y-2">
+            <FieldLabel>Hypothesis</FieldLabel>
+            <input
+              value={hypothesis}
+              onChange={(event) => onHypothesisChange(event.target.value)}
+              placeholder="e.g. visitors do not understand the offer fast enough"
               className={glassInput}
             />
           </label>
@@ -634,7 +681,7 @@ function Generator({
               Generating...
             </>
           ) : (
-            "Generate Message"
+            "Generate 3 Messages"
           )}
         </button>
       </form>
@@ -2855,6 +2902,8 @@ export default function App() {
   const [settings, setSettings] = useState<AppSettings>(() => readStoredSettings());
   const [activeView, setActiveView] = useState<NavView>("Dashboard");
   const [target, setTarget] = useState("");
+  const [situation, setSituation] = useState("");
+  const [hypothesis, setHypothesis] = useState("");
   const [offer, setOffer] = useState("");
   const [tone, setTone] = useState<Tone>(() => toDashboardTone(readStoredSettings().defaultTone));
   const [channel, setChannel] = useState<Channel>(() => readStoredSettings().defaultChannel);
@@ -2974,6 +3023,8 @@ export default function App() {
     setSelectedLeadWebsite("");
     setSelectedLeadEmail("");
     setGeneratedMessage("");
+    setSituation("");
+    setHypothesis("");
     setSavedMessageId(null);
     setSavedMessageContent("");
     setAutoSaveStatus("idle");
@@ -3362,8 +3413,12 @@ export default function App() {
     channelValue: Channel = channel,
     languageValue: Language = language,
     leadValue: SelectedLead | null = selectedLead,
+    situationValue: string = situation,
+    hypothesisValue: string = hypothesis,
   ) {
     const safeTarget = String(targetValue ?? "").trim();
+    const safeSituation = String(situationValue ?? "").trim();
+    const safeHypothesis = String(hypothesisValue ?? "").trim();
     const safeOffer = String(offerValue ?? "").trim();
     const safeTone = toneApiValues[toneValue] ?? toneApiValues.Friendly;
     const requestId = generationRequestIdRef.current + 1;
@@ -3384,7 +3439,10 @@ export default function App() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          segment: safeTarget,
           target: safeTarget,
+          situation: safeSituation,
+          hypothesis: safeHypothesis,
           offer: safeOffer,
           tone: safeTone,
           channel: channelValue,
@@ -3398,7 +3456,13 @@ export default function App() {
 
       if (generationRequestIdRef.current !== requestId) return;
 
-      setGeneratedMessage(data.message);
+      const generatedContent = getGeneratedContent(data);
+
+      if (!generatedContent) {
+        throw new Error("Generation returned an empty message.");
+      }
+
+      setGeneratedMessage(generatedContent);
 
       if (!settings.autoSave) {
         setAutoSaveStatus("idle");
@@ -3409,7 +3473,7 @@ export default function App() {
 
       try {
         const messageId = await saveGeneratedMessage({
-          content: data.message,
+          content: generatedContent,
           target: safeTarget,
           offer: safeOffer,
           tone: safeTone,
@@ -3419,7 +3483,7 @@ export default function App() {
         if (generationRequestIdRef.current !== requestId) return;
 
         setSavedMessageId(messageId);
-        setSavedMessageContent(data.message);
+        setSavedMessageContent(generatedContent);
         setAutoSaveStatus("saved");
       } catch {
         if (generationRequestIdRef.current === requestId) {
@@ -3473,11 +3537,15 @@ export default function App() {
     setSelectedLeadWebsite(nextSelectedLead.website);
     setSelectedLeadEmail(nextSelectedLead.email ?? "");
     setTarget(getLeadTarget(lead));
+    setSituation(`${lead.company} has ${lead.role || "a decision maker"} evaluating outreach`);
+    setHypothesis("the message may not feel specific enough to earn a reply");
   }
 
   function generateForLead(lead: SupabaseLead) {
     const nextSelectedLead = toSelectedLead(lead);
     const leadTarget = getLeadTarget(lead);
+    const leadSituation = `${lead.company} has ${lead.role || "a decision maker"} evaluating outreach`;
+    const leadHypothesis = "the message may not feel specific enough to earn a reply";
 
     setSelectedLeadId(nextSelectedLead.id);
     setSelectedLeadName(nextSelectedLead.name);
@@ -3486,7 +3554,18 @@ export default function App() {
     setSelectedLeadWebsite(nextSelectedLead.website);
     setSelectedLeadEmail(nextSelectedLead.email ?? "");
     setTarget(leadTarget);
-    void handleGenerateMessage(leadTarget, offer, tone, channel, language, nextSelectedLead);
+    setSituation(leadSituation);
+    setHypothesis(leadHypothesis);
+    void handleGenerateMessage(
+      leadTarget,
+      offer,
+      tone,
+      channel,
+      language,
+      nextSelectedLead,
+      leadSituation,
+      leadHypothesis,
+    );
   }
 
   function toggleLeadSelection(leadId: string) {
@@ -3565,7 +3644,10 @@ export default function App() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            segment: leadTarget,
             target: leadTarget,
+            situation: `${lead.company} has ${lead.role || "a decision maker"} evaluating outreach`,
+            hypothesis: "the message may not feel specific enough to earn a reply",
             offer: safeOffer,
             tone: bulkGenerateForm.tone,
             channel: bulkGenerateForm.channel,
@@ -3587,10 +3669,15 @@ export default function App() {
         }
 
         const data = (await res.json()) as GenerateMessageResponse;
+        const generatedContent = getGeneratedContent(data);
+
+        if (!generatedContent) {
+          throw new Error("Generation returned an empty message.");
+        }
 
         await saveGeneratedMessage(
           {
-            content: data.message,
+            content: generatedContent,
             target: leadTarget,
             offer: safeOffer,
             tone: bulkGenerateForm.tone,
@@ -4033,6 +4120,12 @@ export default function App() {
       }
 
       const data = (await res.json()) as GenerateMessageResponse;
+      const generatedContent = getGeneratedContent(data);
+
+      if (!generatedContent) {
+        throw new Error("Generation returned an empty message.");
+      }
+
       const { data: existingFollowUps, error: followUpsError } = await supabase
         .from("messages")
         .select("id")
@@ -4043,7 +4136,7 @@ export default function App() {
 
       await saveGeneratedMessage(
         {
-          content: data.message,
+          content: generatedContent,
           target: followUpTarget,
           offer: followUpOffer,
           tone: followUpForm.tone,
@@ -4194,6 +4287,8 @@ export default function App() {
   function useCampaign(campaign: SupabaseCampaign) {
     setTarget(campaign.target);
     setOffer(campaign.offer);
+    setSituation("");
+    setHypothesis("");
     setTone(toDashboardTone(campaign.tone));
     setChannel(toDashboardChannel(campaign.channel));
     setSelectedLeadId(null);
@@ -4302,6 +4397,8 @@ export default function App() {
       <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(360px,0.78fr)]">
         <Generator
           target={target}
+          situation={situation}
+          hypothesis={hypothesis}
           offer={offer}
           tone={tone}
           channel={channel}
@@ -4309,6 +4406,8 @@ export default function App() {
           selectedLead={selectedLead}
           isLoading={isLoading}
           onTargetChange={setTarget}
+          onSituationChange={setSituation}
+          onHypothesisChange={setHypothesis}
           onOfferChange={setOffer}
           onToneChange={setTone}
           onChannelChange={setChannel}

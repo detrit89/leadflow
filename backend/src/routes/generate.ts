@@ -4,6 +4,9 @@ import Groq from "groq-sdk";
 
 type GenerateMessageRequest = {
   target?: string;
+  segment?: string;
+  situation?: string;
+  hypothesis?: string;
   offer?: string;
   tone?: string;
   channel?: string;
@@ -14,6 +17,7 @@ type GenerateMessageRequest = {
 
 type GenerateMessageResponse = {
   message: string;
+  messages?: string[];
 };
 
 type ErrorResponse = {
@@ -24,6 +28,8 @@ const router = Router();
 
 type BuildSalesPromptInput = {
   target: string;
+  situation?: string;
+  hypothesis?: string;
   offer: string;
   tone: string;
   channel: string;
@@ -90,6 +96,8 @@ function isGeminiBusyError(error: unknown): boolean {
 
 function buildSalesPrompt({
   target,
+  situation,
+  hypothesis,
   offer,
   tone,
   channel,
@@ -328,131 +336,96 @@ Rules:
 - Return only the final message.`;
   }
 
-  return `Write one finished cold outreach message for LeadFlow.
+  return `Generate 3 finished cold outreach messages based on real context, not templates.
 
 Inputs:
-Target audience, meaning who we are writing to: ${target}
-Offer, meaning exactly what the sender sells: ${offer}
+Segment, meaning who the lead is: ${target}
+Situation, meaning what they currently have: ${situation || "Not specified. Infer a realistic current situation from the segment."}
+Hypothesis, meaning what might be wrong: ${hypothesis || "Not specified. Infer one realistic issue from the situation and segment."}
+Offer, meaning exactly what the sender does: ${offer}
 Tone: ${tone}
 Channel: ${channel}
 
 Core task:
-- Hard limit: maximum 60 words. Never exceed this.
-- Maximum 3 to 4 sentences.
-- Each sentence should be 5 to 12 words when possible.
-- The message must connect the target audience and offer directly.
+- Generate exactly 3 variants: direct, soft, curiosity-based.
+- Each variant must be 2 to 4 lines maximum.
+- Each variant must feel based on the actual segment, situation, hypothesis, and offer.
 - Treat the offer as the sender's actual product or service.
 - Do not sell anything except the offer.
-- If the target or offer is vague, make the best realistic interpretation, but never drift away from the offer.
+- If inputs are vague, make the best realistic interpretation, but never drift away from the offer.
 
 Required structure:
-- Sentence 1: greeting plus a specific, non-obvious observation that explicitly mentions the target.
-- Sentence 2: short impact line showing the consequence.
-- Sentence 3: concrete problem plus offer in simple terms.
-- Sentence 4: simple, low-friction CTA.
+- Line 1: personal observation.
+- Line 2: implication, why it matters.
+- Line 3: soft bridge to the offer.
+- Line 4: low-pressure CTA.
 
 Opening hook rules:
-- The first sentence must feel like a real observation.
-- Keep the first sentence under 12 words when possible.
-- Describe a specific situation, not an obvious fact.
-- Avoid definitions and generic industry statements.
-- Good patterns: "I've noticed...", "A lot of...", "Most...", "Often..."
-- Bad: "SaaS founders launch sites"
-- Bad: "Businesses need websites"
-- Good: "A lot of SaaS sites don’t explain the product fast enough"
-- Good: "Most landing pages lose people before the value clicks"
-
-Impact line rules:
-- Sentence 2 must be 3 to 7 words.
-- Sentence 2 must show business or emotional consequence.
-- Sentence 2 must be punchy.
-- Sentence 2 must not use commas.
-- Examples: "People leave before they get it."
-- Examples: "That usually kills conversions."
-- Examples: "Most visitors drop off there."
-- Examples: "Signups never happen."
+- Every variant must start with exactly one of these:
+  - "Noticed..."
+  - "Looks like..."
+  - "Saw that..."
+- Do not start with "Hi there".
+- Line 1 must reference the situation or hypothesis directly.
+- Line 1 must feel like a real observation, not a generic industry statement.
 
 Tone guidance:
-- friendly = casual, warm, confident, and sharp.
-- professional = clear, but still slightly informal.
-- direct = short, specific, no fluff.
-- Overall tone = like a founder texting another founder, not a marketing agency.
+- Human, slightly informal, not corporate, not pushy.
+- direct = shortest and clearest.
+- soft = warm but still specific.
+- curiosity-based = creates a concrete question without sounding clickbait.
+- Overall tone = like a founder texting another founder.
 
 CTA examples:
 - Want me to show you?
 - Open to a quick look?
 - Should I send a couple examples?
+- Worth checking?
+- Want a quick teardown?
 
 Strict rules:
-- If your draft is over 80 words, rewrite it internally before answering.
-- Mention the target explicitly.
-- Connect directly to the offer.
-- Use concrete wording; no abstract benefits.
-- Mention a real behavior or situation the target would recognize.
-- Name the practical problem in physical or observable terms when possible.
-- Make the opening hook an insight, not a definition.
-- Replace vague phrases with specific outcomes:
-  - Bad: "helps protect devices"
-  - Good: "improves grip so the phone doesn't slip from your hands"
-  - Bad: "improve experience"
-  - Good: "cuts the steps between landing on the page and booking a demo"
+- Must reference the situation or hypothesis directly.
+- Avoid obvious sales language.
+- Avoid generic phrases.
+- No "we help businesses grow".
+- No "we build websites".
+- No "enhance", "optimize", "drive growth", "online presence", "user engagement", "solutions".
+- No "let's discuss how we can help".
+- Use concrete wording and real context.
+- Mention observable behavior or a specific business problem.
 - Do not invent unrelated products.
 - Do not invent unrelated industries.
 - Do not assume the sender sells something different from the offer.
-- Remove long intros, storytelling, generic phrases, and filler words.
 - Use simple English.
 - Sound like a real person wrote it.
 - Use everyday words.
-- Let the phrasing be slightly imperfect and human.
-- Avoid overly polished structure.
-- Avoid corporate tone, AI tone, and all buzzwords.
-- Do not use these phrases: "you pour immense effort", "visually communicate value", "showcase", "guides visitors", "help protect", "helps protect", "improve experience", "enhance", "optimize", "drive growth", "online presence", "user engagement", "solutions", "let's discuss how we can help".
-- Do not use generic claims like "many companies struggle with user engagement".
 - Do not use placeholders or square brackets.
 - Do not include [Name], [Company], [Target Audience], [Offer], or [Benefit].
 - Do not use emojis.
 - Do not use bullet points.
 - Do not explain your reasoning.
-- Return only the final message.
-
-Few-shot examples:
-Example bad:
-Target: teenagers who use iPhones
-Offer: soft
-Bad output: Hi there, I noticed teens using iPhones are always looking for better drinks. Our soft drink helps them stay refreshed throughout the day. Want to try it?
-Why bad: it invented an unrelated product and guessed an unrelated industry instead of staying grounded in the offer.
-
-Example bad:
-Target: iPhone users
-Offer: phone cases
-Bad output: Hi there, iPhone users need products that help protect devices and improve the experience. My cases are great solutions for daily use. Want to see them?
-Why bad: it uses vague phrases instead of real behavior and concrete problems.
-
-Example bad:
-Target: SaaS founders
-Offer: landing page design
-Bad output: Hi there, you pour immense effort into your product, but your site may not visually communicate value or guide visitors clearly.
-Why bad: it sounds like AI marketing copy, not a person.
-
-Example bad:
-Target: SaaS founders
-Offer: landing page design
-Bad output: Hi there, SaaS founders launch sites to sell products.
-Why bad: it states an obvious definition, not an observation.
+- Return only valid JSON.
+- JSON shape must be exactly:
+{
+  "messages": [
+    "direct variant",
+    "soft variant",
+    "curiosity-based variant"
+  ]
+}
 
 Example good:
-Target: iPhone users
-Offer: grippy phone cases
-Good output:
-Hi there, iPhone users pull their phone out everywhere. Drops happen fast. I sell grippy cases that make the phone easier to hold. Want me to send a couple examples?
+Segment: early-stage SaaS founders
+Situation: landing page explains features before the core pain
+Hypothesis: visitors do not understand the product fast enough
+Offer: conversion-focused landing page redesign
+Good direct variant:
+Noticed your page gets into features before the problem is clear.
+That can lose people before the product clicks.
+I tighten SaaS landing pages so the value lands faster.
+Open to a quick look?
 
-Example good:
-Target: early-stage SaaS founders
-Offer: conversion-focused web design
-Good output:
-Hi there, a lot of SaaS sites explain the product too late. People leave before they get it. I design pages that make the offer clear faster. Open to a quick look?
-
-Do not copy the example. Do not use placeholders. Do not explain. Return only the final message.`;
+Do not copy the example. Return only valid JSON.`;
 }
 
 async function generateWithGemini(prompt: string): Promise<string> {
@@ -506,6 +479,64 @@ async function generateWithGroq(prompt: string): Promise<string> {
   return message;
 }
 
+function parseGeneratedMessages(text: string): string[] {
+  const trimmedText = text.trim();
+
+  try {
+    const parsed = JSON.parse(trimmedText) as { messages?: unknown };
+
+    if (Array.isArray(parsed.messages)) {
+      const messages = parsed.messages
+        .filter((message): message is string => typeof message === "string")
+        .map((message) => message.trim())
+        .filter(Boolean);
+
+      if (messages.length >= 3) return messages.slice(0, 3);
+    }
+  } catch {
+    // Fall back to text parsing below when a provider returns prose.
+  }
+
+  const stripped = trimmedText
+    .replace(/^```json\s*/i, "")
+    .replace(/^```\s*/i, "")
+    .replace(/```$/i, "")
+    .trim();
+
+  try {
+    const parsed = JSON.parse(stripped) as { messages?: unknown };
+
+    if (Array.isArray(parsed.messages)) {
+      const messages = parsed.messages
+        .filter((message): message is string => typeof message === "string")
+        .map((message) => message.trim())
+        .filter(Boolean);
+
+      if (messages.length >= 3) return messages.slice(0, 3);
+    }
+  } catch {
+    // Continue with loose parsing.
+  }
+
+  const messages = stripped
+    .split(/\n\s*(?:---+|\d+[.)]|direct:|soft:|curiosity(?:-based)?:)\s*/i)
+    .map((message) => message.trim())
+    .filter(Boolean);
+
+  if (messages.length >= 3) return messages.slice(0, 3);
+
+  return [stripped].filter(Boolean);
+}
+
+function formatGeneratedMessages(messages: string[]): string {
+  return messages
+    .map((message, index) => {
+      const labels = ["Direct", "Soft", "Curiosity-based"];
+      return `${labels[index] ?? `Variant ${index + 1}`}:\n${message}`;
+    })
+    .join("\n\n");
+}
+
 function createMockMessage(
   target: string,
   offer: string,
@@ -513,6 +544,8 @@ function createMockMessage(
   language: "english" | "russian",
   previousMessage?: string,
   followUpType?: string,
+  situation?: string,
+  hypothesis?: string,
 ): string {
   if (language === "russian") {
     if (previousMessage || followUpType) {
@@ -534,18 +567,36 @@ I wanted to add one practical thought to my earlier note. For ${target}, ${offer
 Would it be worth taking a quick look?`;
   }
 
-  const directEnding =
-    tone === "direct"
-      ? "Open to a quick look this week?"
-      : "Would you be open to a quick look this week?";
+  const context = situation || hypothesis || `${target} may be losing interest before the offer is clear`;
 
-  return `Hi there,
+  return `Noticed ${context}.
+That can make people leave before they act.
+I use ${offer} to make that next step clearer.
+Open to a quick look?`;
+}
 
-I noticed ${target} often need to explain their value clearly before prospects take the next step. That can be hard when the offer is strong but the message feels too broad.
+function createMockMessages(
+  target: string,
+  offer: string,
+  situation?: string,
+  hypothesis?: string,
+): string[] {
+  const context = situation || hypothesis || `${target} may not be clear enough at first glance`;
 
-I help with ${offer} so the pitch feels sharper and easier to act on.
-
-${directEnding}`;
+  return [
+    `Noticed ${context}.
+That can cost attention pretty fast.
+I can use ${offer} to tighten the path.
+Open to a quick look?`,
+    `Looks like ${context}.
+Some good leads might not get the point quickly.
+I work on ${offer} for exactly that gap.
+Want me to send a couple ideas?`,
+    `Saw that ${context}.
+Might be worth checking before sending more traffic there.
+${offer} could make the next step easier.
+Worth a quick teardown?`,
+  ];
 }
 
 router.post(
@@ -554,24 +605,38 @@ router.post(
     req: Request<object, GenerateMessageResponse | ErrorResponse, GenerateMessageRequest>,
     res: Response<GenerateMessageResponse | ErrorResponse>,
   ) => {
-    const { target, offer, tone, channel, language, previousMessage, followUpType } = req.body;
+    const {
+      target,
+      segment,
+      situation,
+      hypothesis,
+      offer,
+      tone,
+      channel,
+      language,
+      previousMessage,
+      followUpType,
+    } = req.body;
+    const targetInput = typeof segment === "string" && segment.trim() ? segment : target;
 
-    if (!target || !offer || !tone) {
+    if (!targetInput || !offer || !tone) {
       return res.status(400).json({ error: "Missing required fields." });
     }
 
     if (
-      typeof target !== "string" ||
+      typeof targetInput !== "string" ||
       typeof offer !== "string" ||
       typeof tone !== "string" ||
-      !target.trim() ||
+      !targetInput.trim() ||
       !offer.trim() ||
       !tone.trim()
     ) {
       return res.status(400).json({ error: "Missing required fields." });
     }
 
-    const trimmedTarget = target.trim();
+    const trimmedTarget = targetInput.trim();
+    const trimmedSituation = typeof situation === "string" ? situation.trim() : undefined;
+    const trimmedHypothesis = typeof hypothesis === "string" ? hypothesis.trim() : undefined;
     const trimmedOffer = offer.trim();
     const trimmedTone = tone.trim();
     const trimmedChannel =
@@ -585,8 +650,23 @@ router.post(
     const trimmedFollowUpType =
       typeof followUpType === "string" ? followUpType.trim() : undefined;
     const useMockAi = process.env.USE_MOCK_AI === "true";
+    const shouldGenerateVariants = !trimmedPreviousMessage && !trimmedFollowUpType;
 
     if (useMockAi) {
+      if (shouldGenerateVariants) {
+        const messages = createMockMessages(
+          trimmedTarget,
+          trimmedOffer,
+          trimmedSituation,
+          trimmedHypothesis,
+        );
+
+        return res.json({
+          message: formatGeneratedMessages(messages),
+          messages,
+        });
+      }
+
       return res.json({
         message: createMockMessage(
           trimmedTarget,
@@ -595,12 +675,16 @@ router.post(
           normalizedLanguage,
           trimmedPreviousMessage,
           trimmedFollowUpType,
+          trimmedSituation,
+          trimmedHypothesis,
         ),
       });
     }
 
     const prompt = buildSalesPrompt({
       target: trimmedTarget,
+      situation: trimmedSituation,
+      hypothesis: trimmedHypothesis,
       offer: trimmedOffer,
       tone: trimmedTone,
       channel: trimmedChannel,
@@ -611,6 +695,14 @@ router.post(
 
     try {
       const message = await generateWithGemini(prompt);
+      if (shouldGenerateVariants) {
+        const messages = parseGeneratedMessages(message);
+        return res.json({
+          message: formatGeneratedMessages(messages),
+          messages,
+        });
+      }
+
       return res.json({ message });
     } catch (error) {
       console.error("Gemini failed:", getErrorMessage(error));
@@ -624,6 +716,14 @@ router.post(
 
         try {
           const message = await generateWithGroq(prompt);
+          if (shouldGenerateVariants) {
+            const messages = parseGeneratedMessages(message);
+            return res.json({
+              message: formatGeneratedMessages(messages),
+              messages,
+            });
+          }
+
           return res.json({ message });
         } catch (groqError) {
           console.error("Groq failed:", getErrorMessage(groqError));
