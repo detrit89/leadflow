@@ -811,9 +811,9 @@ function DashboardLeadsTable({
       <div className="overflow-x-auto">
         <table className="w-full min-w-[720px] border-separate border-spacing-0 text-left text-sm">
           <thead>
-            <tr className="bg-slate-50 text-slate-500 dark:bg-white/[0.035] dark:text-gray-400">
+            <tr className="bg-slate-50 text-slate-500 dark:bg-slate-950/40 dark:text-slate-400">
               {["Name", "Company", "Role", "Website", "Status", "Action"].map((heading) => (
-                <th key={heading} className="border-y border-slate-200 px-4 py-3 font-semibold first:rounded-l-2xl first:border-l last:rounded-r-2xl last:border-r dark:border-white/[0.06]">
+                <th key={heading} className="border-y border-slate-200 px-4 py-3 font-semibold first:rounded-l-2xl first:border-l last:rounded-r-2xl last:border-r dark:border-slate-800">
                   {heading}
                 </th>
               ))}
@@ -838,8 +838,8 @@ function DashboardLeadsTable({
               const isSelected = selectedLeadId === lead.id;
               const cellClass = `border-b px-4 py-4 transition ${
                 isSelected
-                  ? "border-sky-100 bg-sky-50 dark:border-blue-400/20 dark:bg-blue-400/10"
-                  : "border-slate-100 group-hover:bg-slate-50 dark:border-white/[0.04] dark:group-hover:bg-white/[0.045]"
+                  ? "border-sky-100 bg-sky-50 dark:border-blue-400/20 dark:bg-blue-500/10"
+                  : "border-slate-100 bg-transparent group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:group-hover:bg-white/5 dark:group-hover:text-slate-100"
               }`;
 
               return (
@@ -848,10 +848,10 @@ function DashboardLeadsTable({
                   onClick={() => onSelectLead(lead)}
                   className="group cursor-pointer"
                 >
-                  <td className={`${cellClass} font-medium text-slate-950 dark:text-gray-200`}>{lead.name}</td>
-                  <td className={`${cellClass} text-slate-700 dark:text-gray-300`}>{lead.company}</td>
-                  <td className={`${cellClass} text-slate-600 dark:text-gray-400`}>{lead.role}</td>
-                  <td className={`${cellClass} text-slate-600 dark:text-gray-400`}>{lead.website}</td>
+                  <td className={`${cellClass} font-medium text-slate-950 dark:text-slate-100`}>{lead.name}</td>
+                  <td className={`${cellClass} text-slate-700 dark:text-slate-300`}>{lead.company}</td>
+                  <td className={`${cellClass} text-slate-600 dark:text-slate-400`}>{lead.role}</td>
+                  <td className={`${cellClass} text-slate-600 dark:text-slate-400`}>{lead.website}</td>
                   <td className={cellClass}>
                     <span
                       className={`rounded-2xl border px-3 py-1 text-xs font-semibold ${
@@ -1040,13 +1040,13 @@ function LeadsPage({
           <div className="overflow-x-auto">
             <table className="w-full min-w-[980px] border-separate border-spacing-0 text-left text-sm">
               <thead>
-                <tr className="bg-slate-50 dark:bg-slate-900/80 text-slate-500 dark:text-slate-400">
+                <tr className="bg-slate-50 text-slate-500 dark:bg-slate-950/40 dark:text-slate-400">
                   <th className="border-y border-l border-slate-200 dark:border-slate-800 px-4 py-3 font-semibold first:rounded-l-2xl">
                     <input
                       type="checkbox"
                       checked={allVisibleSelected}
                       onChange={onToggleAllVisible}
-                      className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                      className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:checked:border-blue-500 dark:checked:bg-blue-500"
                     />
                   </th>
                   {["Name", "Company", "Role", "Website", "Email", "Status", "Created At", "Actions"].map(
@@ -1066,8 +1066,8 @@ function LeadsPage({
                   const isHighlighted = highlightedLeadId === lead.id;
                   const cellClass = `border-b px-4 py-4 transition ${
                     isHighlighted
-                      ? "border-sky-100 bg-sky-50"
-                      : "border-slate-100 dark:border-slate-800 group-hover:bg-slate-50 dark:hover:bg-slate-800/80"
+                      ? "border-sky-100 bg-sky-50 dark:border-blue-400/20 dark:bg-blue-500/10"
+                      : "border-slate-100 bg-transparent group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:group-hover:bg-white/5 dark:group-hover:text-slate-100"
                   }`;
 
                   return (
@@ -1077,23 +1077,23 @@ function LeadsPage({
                           type="checkbox"
                           checked={selectedLeadIdSet.has(lead.id)}
                           onChange={() => onToggleLeadSelection(lead.id)}
-                          className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                          className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:checked:border-blue-500 dark:checked:bg-blue-500"
                         />
                       </td>
                       <td className={`${cellClass} font-medium text-slate-950 dark:text-slate-100`}>
                         {lead.name}
                       </td>
-                      <td className={`${cellClass} text-slate-700 dark:text-slate-200`}>{lead.company}</td>
-                      <td className={`${cellClass} text-slate-600 dark:text-slate-300`}>{lead.role}</td>
-                      <td className={`${cellClass} text-slate-600 dark:text-slate-300`}>{lead.website}</td>
-                      <td className={`${cellClass} text-slate-600 dark:text-slate-300`}>{lead.email || "-"}</td>
+                      <td className={`${cellClass} text-slate-700 dark:text-slate-300`}>{lead.company}</td>
+                      <td className={`${cellClass} text-slate-600 dark:text-slate-400`}>{lead.role}</td>
+                      <td className={`${cellClass} text-slate-600 dark:text-slate-400`}>{lead.website}</td>
+                      <td className={`${cellClass} text-slate-600 dark:text-slate-400`}>{lead.email || "-"}</td>
                       <td className={cellClass}>
                         <select
                           value={lead.status}
                           onChange={(event) =>
                             onStatusChange(lead.id, event.target.value as LeadStatus)
                           }
-                          className={`rounded-2xl border px-3 py-2 text-xs font-semibold outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-100 ${statusBadgeStyles[lead.status]}`}
+                          className={`rounded-2xl border px-3 py-2 text-xs font-semibold outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-100 ${statusBadgeStyles[lead.status]} dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-blue-400 dark:focus:ring-blue-500/30`}
                         >
                           {leadStatuses.map((status) => (
                             <option key={status} value={status}>
@@ -1102,14 +1102,14 @@ function LeadsPage({
                           ))}
                         </select>
                       </td>
-                      <td className={`${cellClass} text-slate-600 dark:text-slate-300`}>
+                      <td className={`${cellClass} text-slate-600 dark:text-slate-400`}>
                         {formatDate(lead.created_at)}
                       </td>
                       <td className={cellClass}>
                         <button
                           type="button"
                           onClick={() => onDelete(lead.id)}
-                          className="rounded-2xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 transition hover:-translate-y-0.5 hover:border-red-300 hover:bg-red-100"
+                          className="rounded-2xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 transition hover:-translate-y-0.5 hover:border-red-300 hover:bg-red-100 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300 dark:hover:bg-red-500/20"
                         >
                           Delete
                         </button>
@@ -1274,7 +1274,7 @@ function LeadsPage({
 
                 <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
                   <table className="w-full min-w-[620px] text-left text-sm">
-                    <thead className="bg-slate-50 dark:bg-slate-950 text-slate-500 dark:text-slate-400">
+                    <thead className="bg-slate-50 text-slate-500 dark:bg-slate-950/40 dark:text-slate-400">
                       <tr>
                         {["Name", "Company", "Role", "Website", "Email", "Status"].map((heading) => (
                           <th key={heading} className="px-4 py-3 font-medium">
@@ -1285,7 +1285,7 @@ function LeadsPage({
                     </thead>
                     <tbody>
                       {importPreview.validRows.slice(0, 5).map((row, index) => (
-                        <tr key={`${row.name}-${row.company}-${index}`} className="border-t border-slate-100 dark:border-slate-800">
+                        <tr key={`${row.name}-${row.company}-${index}`} className="border-t border-slate-100 bg-transparent transition hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:hover:bg-white/5 dark:hover:text-slate-100">
                           <td className="px-4 py-3 font-medium text-slate-950 dark:text-slate-100">{row.name}</td>
                           <td className="px-4 py-3 text-slate-700 dark:text-slate-200">{row.company}</td>
                           <td className="px-4 py-3 text-slate-600 dark:text-slate-300">{row.role || "-"}</td>
@@ -1651,7 +1651,7 @@ function MessagesPage({
                               event.target.value as LeadStatus,
                             )
                           }
-                          className={`rounded-2xl border px-2.5 py-1 text-xs font-semibold outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-100 ${statusBadgeStyles[message.leads.status]}`}
+                          className={`rounded-2xl border px-2.5 py-1 text-xs font-semibold outline-none transition focus:border-sky-400 focus:ring-4 focus:ring-sky-100 ${statusBadgeStyles[message.leads.status]} dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-blue-400 dark:focus:ring-blue-500/30`}
                         >
                           {leadStatuses.map((status) => (
                             <option key={status} value={status}>
@@ -1718,7 +1718,7 @@ function MessagesPage({
                     <button
                       type="button"
                       onClick={() => onDelete(message.id)}
-                      className="rounded-2xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 transition hover:-translate-y-0.5 hover:border-red-300 hover:bg-red-100"
+                      className="rounded-2xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 transition hover:-translate-y-0.5 hover:border-red-300 hover:bg-red-100 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300 dark:hover:bg-red-500/20"
                     >
                       Delete
                     </button>
@@ -1962,7 +1962,7 @@ function CampaignsPage({
           <div className="overflow-x-auto">
             <table className="w-full min-w-[1080px] border-separate border-spacing-0 text-left text-sm">
               <thead>
-                <tr className="bg-slate-50 dark:bg-slate-900/80 text-slate-500 dark:text-slate-400">
+                <tr className="bg-slate-50 text-slate-500 dark:bg-slate-950/40 dark:text-slate-400">
                   {[
                     "Name",
                     "Target",
@@ -1991,31 +1991,31 @@ function CampaignsPage({
 
                   return (
                     <tr key={campaign.id} className="group">
-                      <td className="border-b border-slate-100 dark:border-slate-800 px-4 py-4 font-medium text-slate-950 dark:text-slate-100 transition group-hover:bg-slate-50 dark:hover:bg-slate-800/80">
+                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 font-medium text-slate-950 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:text-slate-100 dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
                         {campaign.name}
                       </td>
-                      <td className="border-b border-slate-100 dark:border-slate-800 px-4 py-4 text-slate-700 dark:text-slate-200 transition group-hover:bg-slate-50 dark:hover:bg-slate-800/80">
+                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 text-slate-700 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:text-slate-300 dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
                         {campaign.target}
                       </td>
-                      <td className="border-b border-slate-100 dark:border-slate-800 px-4 py-4 text-slate-700 dark:text-slate-200 transition group-hover:bg-slate-50 dark:hover:bg-slate-800/80">
+                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 text-slate-700 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:text-slate-300 dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
                         {campaign.offer}
                       </td>
-                      <td className="border-b border-slate-100 dark:border-slate-800 px-4 py-4 text-slate-600 dark:text-slate-300 transition group-hover:bg-slate-50 dark:hover:bg-slate-800/80">
+                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 text-slate-600 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:text-slate-400 dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
                         {campaign.tone}
                       </td>
-                      <td className="border-b border-slate-100 dark:border-slate-800 px-4 py-4 text-slate-600 dark:text-slate-300 transition group-hover:bg-slate-50 dark:hover:bg-slate-800/80">
+                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 text-slate-600 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:text-slate-400 dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
                         {campaign.channel}
                       </td>
-                      <td className="border-b border-slate-100 dark:border-slate-800 px-4 py-4 text-slate-600 dark:text-slate-300 transition group-hover:bg-slate-50 dark:hover:bg-slate-800/80">
+                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 text-slate-600 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:text-slate-400 dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
                         {formatDate(campaign.created_at)}
                       </td>
-                      <td className="border-b border-slate-100 dark:border-slate-800 px-4 py-4 text-slate-700 dark:text-slate-200 transition group-hover:bg-slate-50 dark:hover:bg-slate-800/80">
+                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 text-slate-700 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:text-slate-300 dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
                         {messageCount}
                       </td>
-                      <td className="border-b border-slate-100 dark:border-slate-800 px-4 py-4 text-slate-700 dark:text-slate-200 transition group-hover:bg-slate-50 dark:hover:bg-slate-800/80">
+                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 text-slate-700 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:text-slate-300 dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
                         {leadCount}
                       </td>
-                      <td className="border-b border-slate-100 dark:border-slate-800 px-4 py-4 transition group-hover:bg-slate-50 dark:hover:bg-slate-800/80">
+                      <td className="border-b border-slate-100 bg-transparent px-4 py-4 transition group-hover:bg-slate-50 dark:border-slate-800/70 dark:bg-transparent dark:group-hover:bg-white/5 dark:group-hover:text-slate-100">
                         <div className="flex flex-wrap gap-2">
                           <button
                             type="button"
@@ -2034,7 +2034,7 @@ function CampaignsPage({
                           <button
                             type="button"
                             onClick={() => onDelete(campaign.id)}
-                            className="rounded-2xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 transition hover:-translate-y-0.5 hover:border-red-300 hover:bg-red-100"
+                            className="rounded-2xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 transition hover:-translate-y-0.5 hover:border-red-300 hover:bg-red-100 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300 dark:hover:bg-red-500/20"
                           >
                             Delete
                           </button>
