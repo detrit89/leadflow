@@ -1,6 +1,6 @@
 import Papa from "papaparse";
 import { type User } from "@supabase/supabase-js";
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { supabase } from "./lib/supabase";
 
 type NavView = "Dashboard" | "Campaigns" | "Leads" | "Messages" | "Settings";
@@ -2591,8 +2591,8 @@ function LandingPage({
 
 function AppLoadingScreen({ isReady }: { isReady: boolean }) {
   return (
-    <main
-      className={`premium-noise-bg fixed inset-0 z-[99999] flex h-dvh w-screen items-center justify-center overflow-hidden bg-gradient-to-br from-[#020617] via-[#0B1220] to-[#111827] text-white transition-opacity duration-500 ${
+    <div
+      className={`fixed inset-0 z-[99999] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#020617] via-[#0B1220] to-[#111827] text-white transition-opacity duration-500 ${
         isReady ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >
@@ -2617,7 +2617,7 @@ function AppLoadingScreen({ isReady }: { isReady: boolean }) {
           <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-indigo-300 shadow-lg shadow-indigo-500/50 [animation-delay:240ms]" />
         </div>
       </section>
-    </main>
+    </div>
   );
 }
 
@@ -4342,7 +4342,7 @@ export default function App() {
     hasStartupTimedOut ||
     (hasMinimumStartupElapsed && isThemeReady && !isAuthLoading && isInitialDataReady);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isAppStartupReady) {
       document.body.style.overflow = "hidden";
 
