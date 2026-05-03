@@ -2545,7 +2545,7 @@ function LandingPage({
 function AppLoadingScreen({ isReady }: { isReady: boolean }) {
   return (
     <main
-      className={`premium-noise-bg fixed inset-0 z-[99999] flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-[#020617] via-[#0B1220] to-[#111827] px-6 text-white transition-opacity duration-700 ${
+      className={`premium-noise-bg fixed inset-0 z-[99999] flex h-dvh w-screen items-center justify-center overflow-hidden bg-gradient-to-br from-[#020617] via-[#0B1220] to-[#111827] text-white transition-opacity duration-500 ${
         isReady ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >
@@ -2553,16 +2553,18 @@ function AppLoadingScreen({ isReady }: { isReady: boolean }) {
       <div className="absolute left-[55%] top-[42%] h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/20 blur-3xl" />
       <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/10 to-transparent" />
 
-      <section className="relative text-center">
-        <div className="mx-auto flex h-24 w-24 animate-pulse items-center justify-center rounded-[2rem] border border-white/15 bg-white/10 text-3xl font-semibold text-white/90 shadow-2xl shadow-blue-500/30 backdrop-blur-2xl">
+      <section className="relative flex flex-col items-center justify-center gap-5 text-center">
+        <div className="flex h-24 w-24 animate-pulse items-center justify-center rounded-[2rem] border border-white/15 bg-white/10 text-3xl font-semibold text-white/90 shadow-2xl shadow-blue-500/30 backdrop-blur-2xl">
           LF
         </div>
-        <h1 className="mt-7 text-4xl font-semibold tracking-tight text-white/90">LeadFlow</h1>
-        <p className="mt-2 text-sm font-medium tracking-wide text-white/55">Preparing your workspace</p>
-        <div className="mx-auto mt-8 h-2 w-64 overflow-hidden rounded-full border border-white/10 bg-white/10 shadow-inner shadow-black/40 backdrop-blur-2xl">
+        <div className="flex flex-col items-center gap-2">
+          <h1 className="text-4xl font-semibold tracking-tight text-white/90">LeadFlow</h1>
+          <p className="text-sm font-medium tracking-wide text-white/55">Preparing your workspace</p>
+        </div>
+        <div className="h-2 w-64 overflow-hidden rounded-full border border-white/10 bg-white/10 shadow-inner shadow-black/40 backdrop-blur-2xl">
           <div className="h-full w-2/3 animate-[pulse_1.4s_ease-in-out_infinite] rounded-full bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 shadow-[0_0_32px_rgba(59,130,246,0.9)]" />
         </div>
-        <div className="mt-6 flex justify-center gap-2">
+        <div className="flex justify-center gap-2">
           <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-blue-300 shadow-lg shadow-blue-500/50" />
           <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-cyan-300 shadow-lg shadow-cyan-500/50 [animation-delay:120ms]" />
           <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-indigo-300 shadow-lg shadow-indigo-500/50 [animation-delay:240ms]" />
@@ -4244,6 +4246,19 @@ export default function App() {
   const isAppStartupReady =
     hasStartupTimedOut ||
     (hasMinimumStartupElapsed && isThemeReady && !isAuthLoading && isInitialDataReady);
+
+  useEffect(() => {
+    if (!isAppStartupReady) {
+      document.body.style.overflow = "hidden";
+
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }
+
+    document.body.style.overflow = "";
+    window.scrollTo(0, 0);
+  }, [isAppStartupReady]);
 
   if (!currentUser) {
     if (showAuthPage) {
