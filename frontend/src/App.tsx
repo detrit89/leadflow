@@ -981,6 +981,25 @@ function LeadsPage({
     );
   }
 
+  function exportSelectedLeads() {
+    if (!hasSelectedLeads) return;
+
+    downloadCsv(
+      "leadflow_selected_leads_export.csv",
+      leads
+        .filter((lead) => selectedLeadIdSet.has(lead.id))
+        .map((lead) => ({
+          name: lead.name,
+          company: lead.company,
+          role: lead.role,
+          website: lead.website,
+          email: lead.email ?? "",
+          status: lead.status,
+          created_at: lead.created_at,
+        })),
+    );
+  }
+
   return (
     <section className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -1014,6 +1033,15 @@ function LeadsPage({
           >
             Export CSV
           </button>
+          {hasSelectedLeads ? (
+            <button
+              type="button"
+              onClick={exportSelectedLeads}
+              className="w-fit rounded-2xl border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-100 hover:text-blue-800 dark:border-blue-400/20 dark:bg-blue-500/10 dark:text-blue-300 dark:hover:border-blue-400/30 dark:hover:bg-blue-500/20 dark:hover:text-blue-200"
+            >
+              Export selected
+            </button>
+          ) : null}
           <button
             type="button"
             onClick={onOpenForm}
